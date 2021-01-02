@@ -1,6 +1,6 @@
  <template>
   <v-app-bar app>
-    <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+    <v-app-bar-nav-icon @click="onClickDrawer"></v-app-bar-nav-icon>
     <v-img
       lazy-src="https://picsum.photos/id/11/10/6"
       max-height="57"
@@ -17,10 +17,10 @@
       flat
       hide-no-data
       hide-details
-      label="Digite o nome de um artigo"
+      label="Procure um artigo"
       solo-inverted
     ></v-autocomplete>
-    <div v-if="login">
+    <div v-if="isLogin">
       <v-btn depressed>
         <v-icon> mdi-account </v-icon>
       </v-btn>
@@ -29,7 +29,7 @@
       </v-btn>
     </div>
     <div v-else>
-      <v-btn depressed>
+      <v-btn depressed @click="onClickLoginButton">
         <v-icon> mdi-login </v-icon>
       </v-btn>
       <v-btn depressed> Registar </v-btn>
@@ -42,8 +42,14 @@
 
 <script>
 export default {
+  
+  props:{
+  onClickDrawer: { type: Function },
+  onClickLoginButton: { type: Function },
+  isLogin :{type: Boolean}
+    },   
   data: function () {
-    return {
+  return {
       login: false,
     };
   },

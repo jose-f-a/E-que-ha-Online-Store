@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire">
-    <app-bar>
+    <app-bar :isLogin="this.login" :onClickDrawer="this.onClickDrawer" :onClickLoginButton="this.onClickLogin">
     </app-bar>
      <v-navigation-drawer
       v-model="drawer"
@@ -10,6 +10,8 @@
     </v-navigation-drawer> 
     <v-main class="grey lighten-2">
       <v-container>
+        <login :showDialog="this.loginDialog">
+        </login>
         <v-row>
           <template v-for="n in 4">
             <v-col
@@ -33,13 +35,25 @@
     </v-main>
   </v-app>
 </template>
-
 <script>
-    import AppBar from '@/components/AppBar.vue'
+  import AppBar from '@/components/AppBar.vue'
+  import Login from '@/components/Login.vue'
   export default {
-    data: () => ({ drawer: null }),
+    data: () => ({ 
+        drawer: null, 
+        login : false,
+        loginDialog: null}),
+    methods:{
+        onClickDrawer(){
+            this.drawer = !this.drawer
+        },
+        onClickLogin(){
+          this.loginDialog = !this.loginDialog
+        },
+    },
     components:{
-        'app-bar':AppBar
+        'app-bar':AppBar,
+        'login':Login
     }
   }
 </script>
