@@ -1,29 +1,13 @@
 <template>
   <v-app id="inspire">
-    <v-system-bar app>
-      <v-spacer></v-spacer>
-
-      <v-icon>mdi-square</v-icon>
-
-      <v-icon>mdi-circle</v-icon>
-
-      <v-icon>mdi-triangle</v-icon>
-    </v-system-bar>
-
-    <v-app-bar app>
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-
-      <v-toolbar-title>Application</v-toolbar-title>
-    </v-app-bar>
-
-    <v-navigation-drawer
+    <app-bar>
+    </app-bar>
+     <v-navigation-drawer
       v-model="drawer"
       fixed
       temporary
     >
-      <!--  -->
-    </v-navigation-drawer>
-
+    </v-navigation-drawer> 
     <v-main class="grey lighten-2">
       <v-container>
         <v-row>
@@ -35,7 +19,6 @@
             >
               <strong>Category {{ n }}</strong>
             </v-col>
-
             <v-col
               v-for="j in 6"
               :key="`${n}${j}`"
@@ -52,7 +35,11 @@
 </template>
 
 <script>
+    import AppBar from '@/components/AppBar.vue'
   export default {
     data: () => ({ drawer: null }),
+    components:{
+        'app-bar':AppBar
+    }
   }
 </script>
