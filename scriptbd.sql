@@ -63,7 +63,14 @@ create table estadoCompra(
     estadoCompraID serial primary key,
     nome varchar not null
 );
-
+create table transacao(
+    transacaoID serial primary key,
+    criadoEm timestamp not null,
+	metodoPagamentoID int not null,
+	estadoTransacaoID int not null,
+    foreign key(metodoPagamentoID) references metodoPagamento(metodoPagamentoID),
+    foreign key(estadoTransacaoID) references estadoTransacao(estadoTransacaoID)
+);
 create table compra(
    compraID serial primary key,
    desconto decimal,
@@ -89,14 +96,7 @@ create table linhaCompra(
     foreign key (compraID) references compra(compraID),
     foreign key (produtoID) references produto(produtoID)
 );
-create table transacao(
-    transacaoID serial primary key,
-    criadoEm timestamp not null,
-	metodoPagamentoID int not null,
-	estadoTransacaoID int not null,
-    foreign key(metodoPagamentoID) references metodoPagamento(metodoPagamentoID),
-    foreign key(estadoTransacaoID) references estadoTransacao(estadoTransacaoID)
-);
+
 Create table carrinho(
 	carrinhoID serial primary key,
 	descricao varchar not null,
