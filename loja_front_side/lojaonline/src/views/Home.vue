@@ -10,7 +10,7 @@
     </v-navigation-drawer> 
     <v-main class="grey lighten-2">
       <v-container>
-        <login :showDialog="this.loginDialog">
+        <login :showDialog="this.loginDialog" :changeShowDialog="this.onClickLogin" :setLogin="this.setLogin">
         </login>
         <v-row>
           <template v-for="n in 4">
@@ -50,6 +50,9 @@
         onClickLogin(){
           this.loginDialog = !this.loginDialog
         },
+        setLogin(){
+          this.login = true
+        }
     },
     components:{
         'app-bar':AppBar,
