@@ -1,32 +1,27 @@
 <template>
   <v-app id="inspire">
-    <app-bar :isLogin="this.login" :onClickDrawer="this.onClickDrawer" :onClickLoginButton="this.onClickLogin">
-    </app-bar>
-     <v-navigation-drawer
-      v-model="drawer"
-      fixed
-      temporary
+    <app-bar
+      :isLogin="this.login"
+      :onClickDrawer="this.onClickDrawer"
+      :onClickLoginButton="this.changeShowDialog"
     >
-    </v-navigation-drawer> 
+    </app-bar>
+    <v-navigation-drawer v-model="drawer" fixed temporary>
+    </v-navigation-drawer>
     <v-main class="grey lighten-2">
       <v-container>
-        <login :showDialog="this.loginDialog">
+        <login
+          :showDialog="this.loginDialog"
+          @changeShowDialog="this.changeShowDialog"
+          @setLogin="this.setLogin"
+        >
         </login>
         <v-row>
           <template v-for="n in 4">
-            <v-col
-              :key="n"
-              class="mt-2"
-              cols="12"
-            >
+            <v-col :key="n" class="mt-2" cols="12">
               <strong>Category {{ n }}</strong>
             </v-col>
-            <v-col
-              v-for="j in 6"
-              :key="`${n}${j}`"
-              cols="6"
-              md="2"
-            >
+            <v-col v-for="j in 6" :key="`${n}${j}`" cols="6" md="2">
               <v-sheet height="150"></v-sheet>
             </v-col>
           </template>
@@ -36,24 +31,60 @@
   </v-app>
 </template>
 <script>
-  import AppBar from '@/components/AppBar.vue'
-  import Login from '@/components/Login.vue'
-  export default {
-    data: () => ({ 
-        drawer: null, 
-        login : false,
-        loginDialog: null}),
-    methods:{
-        onClickDrawer(){
-            this.drawer = !this.drawer
-        },
-        onClickLogin(){
-          this.loginDialog = !this.loginDialog
-        },
+import AppBar from "@/components/AppBar.vue";
+import Login from "@/components/Login.vue";
+import axios from "axios";
+export default {
+  data: () => ({
+    drawer: null,
+    login: false,
+    loginDialog: null,
+  }),
+  methods: {
+    onClickDrawer() {
+      this.drawer = !this.drawer;
     },
-    components:{
-        'app-bar':AppBar,
-        'login':Login
-    }
-  }
+    setLogin() {
+      this.login = true;
+      /*
+            Colocar o token na local storage
+           */
+    },
+    changeShowDialog() {
+      this.loginDialog = !this.loginDialog;
+    },
+    verifySesion() {
+      if (localStorage.getItem("token")) {
+        const options = {
+          method: "POST",
+          url: "http://localhost:3342/api/sessionValidation",
+          headers: { "Content-Type": "application/json" },
+          data: {
+            token: localStorage.getItem("token"),
+          },
+        };
+
+        axios
+          .request(options)
+          .then(response => {
+            if(response.data.message)
+                this.login=true
+          })
+          .catch(function (error) {
+            this.login=false
+            console.error(error);
+          });
+      }else{
+        this.login=false
+      }
+    },
+  },
+  mounted: function () {
+    this.verifySesion();
+  },
+  components: {
+    "app-bar": AppBar,
+    login: Login,
+  },
+};
 </script>

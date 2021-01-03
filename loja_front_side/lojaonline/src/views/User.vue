@@ -83,6 +83,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
   export default {
     data: () => ({
       links: [
@@ -92,5 +94,34 @@
         'Updates',
       ],
     }),
+    methods:{
+      verifySesion() {
+      if (localStorage.getItem("token")) {
+        const options = {
+          method: "POST",
+          url: "http://localhost:3342/api/sessionValidation",
+          headers: { "Content-Type": "application/json" },
+          data: {
+            token: localStorage.getItem("token"),
+          },
+        };
+        axios
+          .request(options)
+          .then(response => {
+            if(response.data.message)
+                this.login=true
+          })
+          .catch(error=> {
+            this.$router.push('/')
+            console.error(error);
+          });
+      }else{
+       this.$router.push('/')
+      }
+    },
+    },
+    mounted: function (){
+      this.verifySesion();
+    }
   }
 </script>
