@@ -46,7 +46,7 @@ export default {
   props: {
     showDialog: { type: Boolean },
     changeShowDialog: { type: Function },
-    setLogin:{type:Function}
+    setLogin: { type: Function },
   },
   data: () => ({
     show: false,
@@ -55,8 +55,8 @@ export default {
     valid: false,
   }),
   methods: {
-    closeDialog(){
-      this.$emit('changeShowDialog');
+    closeDialog() {
+      this.$emit("changeShowDialog");
     },
     loginValidation() {
       const options = {
@@ -65,21 +65,19 @@ export default {
         headers: { "Content-Type": "application/json" },
         data: { email: this.email, password: this.password },
       };
-      
       axios
         .request(options)
-        .then(response => {
-          if(response.status==200){
-          this.$emit('changeShowDialog');
-          this.$emit('setLogin');
+        .then((response) => {
+          if (response.status == 200) {
+            localStorage.setItem("token", response.data.token);
+            this.$emit("changeShowDialog");
+            this.$emit("setLogin");
           }
-            
         })
         .catch(function (error) {
-          console.log(error)
-          
+          console.log(error);
         });
-    }
+    },
   },
 };
 </script>

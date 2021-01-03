@@ -47,11 +47,6 @@ export default {
   onClickDrawer: { type: Function },
   onClickLoginButton: { type: Function },
   isLogin :{type: Boolean}
-    },   
-  data: function () {
-  return {
-      login: false,
-    };
-  },
+    }, 
 };
 </script>
