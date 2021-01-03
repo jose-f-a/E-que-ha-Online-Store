@@ -21,7 +21,7 @@
       solo-inverted
     ></v-autocomplete>
     <div v-if="isLogin">
-      <v-btn depressed>
+      <v-btn depressed @click="this.clickConta" >
         <v-icon> mdi-account </v-icon>
       </v-btn>
       <v-btn depressed>
@@ -47,6 +47,11 @@ export default {
   onClickDrawer: { type: Function },
   onClickLoginButton: { type: Function },
   isLogin :{type: Boolean}
-    }, 
+    },
+  methods:{
+    clickConta(){
+      this.$router.push('/profile')
+    }
+  }
 };
 </script>
