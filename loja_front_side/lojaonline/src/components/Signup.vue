@@ -1,28 +1,32 @@
 <template>
   <v-dialog v-model="showSignupDialog" temporary max-width="600px">
-    <v-card>
-      <v-card-title>
-        <span class="headline">Registar</span>
+    <v-card class="card">
+      <v-card-title blue>
+        <p class="headline">Registar</p>
       </v-card-title>
 
       <v-card-text>
         <v-container>
           <v-row>
             <v-col cols="12">
-              <v-text-field label="Nome*" required></v-text-field>
+              <v-text-field label="Nome" name="nome" required></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-text-field label="Contacto*" required></v-text-field>
+              <v-text-field
+                label="Contacto"
+                name="contacto"
+                required
+              ></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-text-field label="Email*" required></v-text-field>
+              <v-text-field label="Email" name="email" required></v-text-field>
             </v-col>
             <v-col cols="12">
               <v-text-field
                 :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                 :rules="[rules.required, rules.min]"
                 :type="show ? 'text' : 'password'"
-                name="pass"
+                name="password"
                 label="Password"
                 class="input-group--focused"
                 @click:append="show = !show"
@@ -31,18 +35,23 @@
           </v-row>
         </v-container>
       </v-card-text>
+
       <v-card-actions>
-        <v-btn color="blue darken" text @click="dialog = false"> Fechar </v-btn>
-        <v-btn color="blue" tile @click="dialog = false"> Registar </v-btn>
+        <v-btn color="blue darken" text @click="showSignupDialog = false">
+          Fechar
+        </v-btn>
+        <v-btn color="blue" tile @click="signup"> Registar </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   props: {
-    showSignupDialog:{type: Boolean},
+    showSignupDialog: { type: Boolean },
   },
 
   data() {
@@ -52,9 +61,36 @@ export default {
       rules: {
         required: (value) => !!value || "Required.",
         min: (v) => v.length >= 8 || "Min 8 characters",
-        emailMatch: () => `The email and password you entered don't match`,
       },
     };
   },
+
+  methods: {
+    signup() {
+      const options = {
+        method: "POST",
+        url: "http://localhost:3342/api/signup",
+        headers: { "Content-Type": "application/json" },
+        data: {
+          nome: this.nome,
+          contacto: this.contacto,
+          email: this.email,
+          password: this.password,
+        },
+      };
+      axios
+        .request(options)
+        .then((response) => {
+          if (response.status == 200) {
+            this.$emit("showSignupDialog");
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+  },
 };
 </script>
+
+<style scoped></style>

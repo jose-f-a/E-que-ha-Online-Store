@@ -32,7 +32,7 @@
       <v-btn depressed @click="onClickLoginButton">
         <v-icon> mdi-login </v-icon>
       </v-btn>
-      <v-btn depressed> Registar </v-btn>
+      <v-btn depressed @click="onClickRegistarButton"> Registar </v-btn>
     </div>
     <v-btn depressed>
     <v-icon> mdi-cart-outline </v-icon>
@@ -42,12 +42,13 @@
 
 <script>
 export default {
-  
   props:{
-  onClickDrawer: { type: Function },
-  onClickLoginButton: { type: Function },
-  isLogin :{type: Boolean}
-    },   
+    onClickDrawer: { type: Function },
+    onClickLoginButton: { type: Function },
+    onClickRegistarButton: { type: Function },
+    isLogin :{type: Boolean}
+  },
+
   data: function () {
   return {
       login: false,
