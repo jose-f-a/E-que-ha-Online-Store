@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire">
-    <app-bar :isLogin="this.login" :onClickDrawer="this.onClickDrawer" :onClickLoginButton="this.onClickLogin">
+    <app-bar :isLogin="this.login" :onClickDrawer="this.onClickDrawer" :onClickLoginButton="this.changeShowDialog">
     </app-bar>
      <v-navigation-drawer
       v-model="drawer"
@@ -10,7 +10,7 @@
     </v-navigation-drawer> 
     <v-main class="grey lighten-2">
       <v-container>
-        <login :showDialog="this.loginDialog" :changeShowDialog="this.onClickLogin" :setLogin="this.setLogin">
+        <login :showDialog="this.loginDialog" @changeShowDialog="this.changeShowDialog" @setLogin="this.setLogin">
         </login>
         <v-row>
           <template v-for="n in 4">
@@ -47,11 +47,11 @@
         onClickDrawer(){
             this.drawer = !this.drawer
         },
-        onClickLogin(){
-          this.loginDialog = !this.loginDialog
-        },
         setLogin(){
           this.login = true
+        },
+        changeShowDialog(){
+          this.loginDialog = !this.loginDialog
         }
     },
     components:{

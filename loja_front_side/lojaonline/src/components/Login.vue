@@ -4,7 +4,7 @@
       <v-card-title>
         <span class="headline">Login</span>
       </v-card-title>
-      <v-btn @click="changeShowDialog">
+      <v-btn @click="closeDialog">
         <v-icon> mdi-close </v-icon>
       </v-btn>
       <v-card-text>
@@ -55,6 +55,9 @@ export default {
     valid: false,
   }),
   methods: {
+    closeDialog(){
+      this.$emit('changeShowDialog');
+    },
     loginValidation() {
       const options = {
         method: "POST",
@@ -67,8 +70,8 @@ export default {
         .request(options)
         .then(response => {
           if(response.status==200){
-            this.setLogin
-            this.changeShowDialog
+          this.$emit('changeShowDialog');
+          this.$emit('setLogin');
           }
             
         })
@@ -76,7 +79,7 @@ export default {
           console.log(error)
           
         });
-    },
+    }
   },
 };
 </script>
