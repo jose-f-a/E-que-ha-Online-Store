@@ -50,7 +50,7 @@ export default {
     },
   methods:{
     clickConta(){
-      this.$router.push('/profile')
+      this.$router.push('/perfil')
     }
   }
 };

@@ -39,7 +39,6 @@
     </v-card>
   </v-dialog>
 </template>
-
 <script>
 import axios from "axios";
 export default {

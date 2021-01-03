@@ -8,29 +8,29 @@
     </app-bar>
     <v-navigation-drawer v-model="drawer" fixed temporary>
     </v-navigation-drawer>
-    <v-main class="grey lighten-2">
+    <v-main>
       <v-container>
-        <login
+          <login
           :showDialog="this.loginDialog"
           @changeShowDialog="this.changeShowDialog"
           @setLogin="this.setLogin"
         >
         </login>
         <v-row>
-          <template v-for="n in 4">
-            <v-col :key="n" class="mt-2" cols="12">
-              <strong>Category {{ n }}</strong>
-            </v-col>
-            <v-col v-for="j in 6" :key="`${n}${j}`" cols="6" md="2">
-              <v-sheet height="150"></v-sheet>
-            </v-col>
-          </template>
+          <v-col
+            v-for="n in 24"
+            :key="n"
+            cols="4"
+          >
+            <v-card height="200"></v-card>
+          </v-col>
         </v-row>
       </v-container>
     </v-main>
   </v-app>
 </template>
 <script>
+
 import AppBar from "@/components/AppBar.vue";
 import Login from "@/components/Login.vue";
 import axios from "axios";
@@ -67,7 +67,7 @@ export default {
             if(response.data.message)
                 this.login=true
           })
-          .catch(error =>{
+          .catch(function (error) {
             this.login=false
             console.error(error);
           });
