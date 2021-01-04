@@ -31,7 +31,7 @@ Create table produto(
     preco decimal not null,
     desconto decimal not null,
     stock int not null,
-    imagens varchar not null,
+    imagens varchar,
     descricao varchar not null
 );
 Create table categoriaProduto(
