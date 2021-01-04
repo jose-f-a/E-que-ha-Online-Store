@@ -34,7 +34,7 @@
       </v-btn>
       <v-btn depressed> Registar </v-btn>
     </div>
-    <v-btn depressed>
+    <v-btn depressed  @click="onClickCartButton">
     <v-icon> mdi-cart-outline </v-icon>
     </v-btn>
   </v-app-bar>
@@ -46,6 +46,7 @@ export default {
   props:{
   onClickDrawer: { type: Function },
   onClickLoginButton: { type: Function },
+  onClickCartButton:{type:Function},
   isLogin :{type: Boolean}
     },
   methods:{

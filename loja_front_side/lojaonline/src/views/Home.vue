@@ -2,17 +2,21 @@
   <v-app id="inspire">
     <app-bar
       :isLogin="this.login"
-      :onClickDrawer="this.onClickDrawer"
-      :onClickLoginButton="this.changeShowDialog"
+      :onClickDrawer="this.onClickMenuDrawer"
+      :onClickLoginButton="this.changeShowLoginDialog"
+      :onClickCartButton="this.onClickCarrinho"
     >
     </app-bar>
-    <v-navigation-drawer v-model="drawer" fixed temporary>
-    </v-navigation-drawer>
+    <menu-lateral :open="openMenuLateral" @set="this.setOpenMenuLateral">
+    </menu-lateral>
+    <carrinho :open="openCarrinho" @set="this.setOpenCarrinho">
+    </carrinho>
     <v-main class="grey lighten-2">
       <v-container>
+        
         <login
           :showDialog="this.loginDialog"
-          @changeShowDialog="this.changeShowDialog"
+          @changeShowDialog="this.changeShowLoginDialog"
           @setLogin="this.setLogin"
         >
         </login>
@@ -31,23 +35,40 @@
   </v-app>
 </template>
 <script>
+
 import AppBar from "@/components/AppBar.vue";
 import Login from "@/components/Login.vue";
+import Menu from "@/components/Menu.vue";
+import Carrinho from "@/components/Carrinho.vue";
+
 import axios from "axios";
 export default {
   data: () => ({
-    drawer: null,
+    openMenuLateral: false,
     login: false,
     loginDialog: null,
+    openCarrinho:false,
   }),
   methods: {
-    onClickDrawer() {
-      this.drawer = !this.drawer;
+    setOpenCarrinho(val){
+      this.openCarrinho=val
+    },
+    setOpenMenuLateral(val){
+      this.openMenuLateral=val
+    },
+    handleMenuChange(isOpen){
+      this.openMenuLateral = isOpen
+    },
+    onClickMenuDrawer() {
+      this.openMenuLateral = !this.openMenuLateral;
+    },
+     onClickCarrinho() {
+      this.openCarrinho = !this.openCarrinho;
     },
     setLogin() {
       this.login = true;
     },
-    changeShowDialog() {
+    changeShowLoginDialog() {
       this.loginDialog = !this.loginDialog;
     },
     verifySesion() {
@@ -60,7 +81,6 @@ export default {
             token: localStorage.getItem("token"),
           },
         };
-
         axios
           .request(options)
           .then(response => {
@@ -81,7 +101,9 @@ export default {
   },
   components: {
     "app-bar": AppBar,
-    login: Login,
+    "login": Login,
+    "menu-lateral":Menu,
+    "carrinho": Carrinho
   },
 };
 </script>
