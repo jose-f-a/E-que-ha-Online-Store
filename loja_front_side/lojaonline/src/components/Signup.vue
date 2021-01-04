@@ -60,7 +60,6 @@ export default {
   },
 
   data: () => ({
-    showSignupDialog: false,
     rules: {
       required: (value) => !!value || "Required.",
       min: (v) => v.length >= 8 || "Min 8 characters",
@@ -85,8 +84,6 @@ export default {
         .request(options)
         .then((response) => {
           if (response.status == 200) {
-            this.$emit("changeShowSignupDialog");
-          } else {
             this.$emit("changeShowSignupDialog");
           }
         })

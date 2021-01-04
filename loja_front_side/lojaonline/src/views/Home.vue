@@ -4,6 +4,7 @@
       :isLogin="this.login"
       :onClickDrawer="this.onClickMenuDrawer"
       :onClickLoginButton="this.changeShowLoginDialog"
+      :onClickRegistarButton="this.changeShowSignupDialog"
       :onClickCartButton="this.onClickCarrinho"
     >
     </app-bar>
@@ -13,14 +14,16 @@
     </carrinho>
     <v-main class="grey lighten-2">
       <v-container>
-        
         <login
           :showDialog="this.loginDialog"
           @changeShowDialog="this.changeShowLoginDialog"
           @setLogin="this.setLogin"
         >
         </login>
-        <signup :showSignupDialog="this.signupDialog"></signup>
+        <signup 
+          :showSignupDialog="this.signupDialog"
+          @changeShowSignupDialog="this.changeShowSignupDialog"  
+        ></signup>
         
         <v-row>
           <template v-for="n in 4">
@@ -41,6 +44,7 @@
 
 import AppBar from "@/components/AppBar.vue";
 import Login from "@/components/Login.vue";
+import Signup from "@/components/Signup.vue";
 import Menu from "@/components/Menu.vue";
 import Carrinho from "@/components/Carrinho.vue";
 
@@ -50,6 +54,7 @@ export default {
     openMenuLateral: false,
     login: false,
     loginDialog: null,
+    signupDialog: null,
     openCarrinho:false,
   }),
   methods: {
@@ -73,6 +78,9 @@ export default {
     },
     changeShowLoginDialog() {
       this.loginDialog = !this.loginDialog;
+    },
+    changeShowSignupDialog() {
+      this.signupDialog = !this.signupDialog;
     },
     verifySesion() {
       if (localStorage.getItem("token")) {
@@ -105,6 +113,7 @@ export default {
   components: {
     "app-bar": AppBar,
     "login": Login,
+    "signup": Signup,
     "menu-lateral":Menu,
     "carrinho": Carrinho
   },
