@@ -20,6 +20,8 @@
           @setLogin="this.setLogin"
         >
         </login>
+        <signup :showSignupDialog="this.signupDialog"></signup>
+        
         <v-row>
           <template v-for="n in 4">
             <v-col :key="n" class="mt-2" cols="12">
@@ -34,6 +36,7 @@
     </v-main>
   </v-app>
 </template>
+
 <script>
 
 import AppBar from "@/components/AppBar.vue";
