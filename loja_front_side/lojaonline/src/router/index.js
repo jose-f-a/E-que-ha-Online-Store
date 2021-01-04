@@ -3,6 +3,8 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Admin from "../views/Admin.vue";
 import User from "../views/User.vue";
+import Pesquisa from "../views/Search.vue";
+import Produto from "../views/Product.vue";
 
 Vue.use(VueRouter);
 
@@ -17,9 +19,19 @@ const routes = [{
         component: Admin
     },
     {
-        path: "/profile",
+        path: "/perfil",
         name: "User",
         component: User
+    },
+    {
+        path: "/produto/:id",
+        name: "Produto",
+        component: Produto
+    },
+    {
+        path: "/pesquisa/:query",
+        name: "Pesquisa",
+        component: Pesquisa
     }
 ];
 

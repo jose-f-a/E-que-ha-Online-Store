@@ -21,7 +21,7 @@
       solo-inverted
     ></v-autocomplete>
     <div v-if="isLogin">
-      <v-btn depressed>
+      <v-btn depressed @click="this.clickConta" >
         <v-icon> mdi-account </v-icon>
       </v-btn>
       <v-btn depressed>
@@ -34,7 +34,7 @@
       </v-btn>
       <v-btn depressed @click="onClickRegistarButton"> Registar </v-btn>
     </div>
-    <v-btn depressed>
+    <v-btn depressed  @click="onClickCartButton">
     <v-icon> mdi-cart-outline </v-icon>
     </v-btn>
   </v-app-bar>
@@ -43,16 +43,15 @@
 <script>
 export default {
   props:{
-    onClickDrawer: { type: Function },
-    onClickLoginButton: { type: Function },
-    onClickRegistarButton: { type: Function },
-    isLogin :{type: Boolean}
-  },
-
-  data: function () {
-  return {
-      login: false,
-    };
-  },
+  onClickDrawer: { type: Function },
+  onClickLoginButton: { type: Function },
+  onClickCartButton:{type:Function},
+  isLogin :{type: Boolean}
+    },
+  methods:{
+    clickConta(){
+      this.$router.push('/perfil')
+    }
+  }
 };
 </script>
