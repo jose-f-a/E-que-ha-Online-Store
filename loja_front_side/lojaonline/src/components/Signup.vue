@@ -9,24 +9,28 @@
         <v-container>
           <v-row>
             <v-col cols="12">
-              <v-text-field label="Nome" name="nome" required></v-text-field>
+              <v-text-field label="Nome" v-model="nome" required></v-text-field>
             </v-col>
             <v-col cols="12">
               <v-text-field
                 label="Contacto"
-                name="contacto"
+                v-model="contacto"
                 required
               ></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-text-field label="Email" name="email" required></v-text-field>
+              <v-text-field
+                label="Email"
+                v-model="email"
+                required
+              ></v-text-field>
             </v-col>
             <v-col cols="12">
               <v-text-field
                 :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                 :rules="[rules.required, rules.min]"
                 :type="show ? 'text' : 'password'"
-                name="password"
+                v-model="password"
                 label="Password"
                 class="input-group--focused"
                 @click:append="show = !show"
@@ -52,18 +56,16 @@ import axios from "axios";
 export default {
   props: {
     showSignupDialog: { type: Boolean },
+    changeShowSignupDialog: { type: Function },
   },
 
-  data() {
-    return {
-      show: false,
-      password: "Password",
-      rules: {
-        required: (value) => !!value || "Required.",
-        min: (v) => v.length >= 8 || "Min 8 characters",
-      },
-    };
-  },
+  data: () => ({
+    showSignupDialog: false,
+    rules: {
+      required: (value) => !!value || "Required.",
+      min: (v) => v.length >= 8 || "Min 8 characters",
+    },
+  }),
 
   methods: {
     signup() {
@@ -78,11 +80,14 @@ export default {
           password: this.password,
         },
       };
+
       axios
         .request(options)
         .then((response) => {
           if (response.status == 200) {
-            this.$emit("showSignupDialog");
+            this.$emit("changeShowSignupDialog");
+          } else {
+            this.$emit("changeShowSignupDialog");
           }
         })
         .catch(function (error) {
