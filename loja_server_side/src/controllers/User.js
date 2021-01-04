@@ -1,18 +1,24 @@
-const connection = require('../database');
+const connection = require("../database");
 
 module.exports = {
-    async signup (req, res) {
+  async signup(req, res) {
+    try{
         const { nome, contacto, email, password } = req.body;
-        await connection.query("INSERT INTO user(nome, contacto, email, password) VALUES (:nome, :contacto, :email, :password)", {
+        await connection.query("INSERT INTO utilizador (nome, contacto, email, pass, isAdmin) VALUES (:nome, :contacto, :email, :password, false);",
+            {
             replacements: {
-                nome: nome, 
+                nome: nome,
                 contacto: contacto,
                 email: email,
-                password: password
+                password: password,
+            },
             }
-        }).then(result => {
+        )
+        .then((result) => {
             console.log(result);
-        })
+        });
+    } catch(error) {
+        console.log(error);
     }
-}
-
+    }
+};

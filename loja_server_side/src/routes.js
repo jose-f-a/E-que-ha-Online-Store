@@ -6,6 +6,6 @@ const user = require('./controllers/User')
 const routes = express.Router();
 
 routes.get("/teste", teste.a)
-routes.psot("/api/signup", user.signup)
+routes.post("/api/signup", user.signup)
 
 module.exports = routes;
