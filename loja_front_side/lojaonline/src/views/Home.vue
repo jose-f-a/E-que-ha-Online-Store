@@ -1,30 +1,12 @@
 <template>
   <v-app id="inspire">
-    <app-bar
-      :isLogin="this.login"
-      :onClickDrawer="this.onClickMenuDrawer"
-      :onClickLoginButton="this.changeShowLoginDialog"
-      :onClickRegistarButton="this.changeShowSignupDialog"
-      :onClickCartButton="this.onClickCarrinho"
-    >
-    </app-bar>
-    <menu-lateral :open="openMenuLateral" @set="this.setOpenMenuLateral">
-    </menu-lateral>
-    <carrinho :open="openCarrinho" @set="this.setOpenCarrinho">
-    </carrinho>
+    <app-bar> </app-bar>
+    <menu-lateral> </menu-lateral>
+    <carrinho> </carrinho>
     <v-main class="grey lighten-2">
       <v-container>
-        <login
-          :showDialog="this.loginDialog"
-          @changeShowDialog="this.changeShowLoginDialog"
-          @setLogin="this.setLogin"
-        >
-        </login>
-        <signup 
-          :showSignupDialog="this.signupDialog"
-          @changeShowSignupDialog="this.changeShowSignupDialog"  
-        ></signup>
-        
+        <login> </login>
+        <signup></signup>
         <v-row>
           <template v-for="n in 4">
             <v-col :key="n" class="mt-2" cols="12">
@@ -41,81 +23,20 @@
 </template>
 
 <script>
-
 import AppBar from "@/components/AppBar.vue";
 import Login from "@/components/Login.vue";
 import Signup from "@/components/Signup.vue";
 import Menu from "@/components/Menu.vue";
 import Carrinho from "@/components/Carrinho.vue";
 
-import axios from "axios";
 export default {
-  data: () => ({
-    openMenuLateral: false,
-    login: false,
-    loginDialog: null,
-    signupDialog: null,
-    openCarrinho:false,
-  }),
-  methods: {
-    setOpenCarrinho(val){
-      this.openCarrinho=val
-    },
-    setOpenMenuLateral(val){
-      this.openMenuLateral=val
-    },
-    handleMenuChange(isOpen){
-      this.openMenuLateral = isOpen
-    },
-    onClickMenuDrawer() {
-      this.openMenuLateral = !this.openMenuLateral;
-    },
-     onClickCarrinho() {
-      this.openCarrinho = !this.openCarrinho;
-    },
-    setLogin() {
-      this.login = true;
-    },
-    changeShowLoginDialog() {
-      this.loginDialog = !this.loginDialog;
-    },
-    changeShowSignupDialog() {
-      this.signupDialog = !this.signupDialog;
-    },
-    verifySesion() {
-      if (localStorage.getItem("token")) {
-        const options = {
-          method: "POST",
-          url: "http://localhost:3342/api/sessionValidation",
-          headers: { "Content-Type": "application/json" },
-          data: {
-            token: localStorage.getItem("token"),
-          },
-        };
-        axios
-          .request(options)
-          .then(response => {
-            if(response.data.message)
-                this.login=true
-          })
-          .catch(error =>{
-            this.login=false
-            console.error(error);
-          });
-      }else{
-        this.login=false
-      }
-    },
-  },
-  mounted: function () {
-    this.verifySesion();
-  },
+  data: () => ({}),
   components: {
     "app-bar": AppBar,
-    "login": Login,
-    "signup": Signup,
-    "menu-lateral":Menu,
-    "carrinho": Carrinho
+    login: Login,
+    signup: Signup,
+    "menu-lateral": Menu,
+    carrinho: Carrinho,
   },
 };
 </script>

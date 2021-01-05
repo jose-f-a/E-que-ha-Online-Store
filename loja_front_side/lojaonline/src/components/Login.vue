@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="showDialog" persistent max-width="600px">
+  <v-dialog v-model=" isOpen" persistent max-width="600px">
     <v-card>
       <v-card-title>
         <span class="headline">Login</span>
@@ -42,11 +42,6 @@
 <script>
 import axios from "axios";
 export default {
-  props: {
-    showDialog: { type: Boolean },
-    changeShowDialog: { type: Function },
-    setLogin: { type: Function },
-  },
   data: () => ({
     show: false,
     email: "",
@@ -55,7 +50,7 @@ export default {
   }),
   methods: {
     closeDialog() {
-      this.$emit("changeShowDialog");
+       this.$store.commit("appbar/changeShowLoginDialog")
     },
     loginValidation() {
       const options = {
@@ -69,14 +64,25 @@ export default {
         .then((response) => {
           if (response.status == 200) {
             localStorage.setItem("token", response.data.token);
-            this.$emit("changeShowDialog");
-            this.$emit("setLogin");
+            this.closeDialog()
+            this.$store.commit("appbar/setLogin",true)
           }
         })
-        .catch(function (error) {
+        .catch( error => {
           console.log(error);
         });
     },
   },
+  computed:{
+        isOpen:{
+            get(){
+                return this.$store.getters['appbar/getLoginDialog']
+            },
+            set(val){
+                
+                this.$store.commit("appbar/setShowLoginDialog",val)
+            }
+        }
+    },
 };
 </script>

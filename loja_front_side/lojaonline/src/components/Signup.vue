@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="showSignupDialog" temporary max-width="600px">
+  <v-dialog v-model="isOpen"  persistent max-width="600px">
     <v-card class="card">
       <v-card-title blue>
         <p class="headline">Registar</p>
@@ -41,7 +41,7 @@
       </v-card-text>
 
       <v-card-actions>
-        <v-btn color="blue darken" text @click="showSignupDialog = false">
+        <v-btn color="blue darken" text @click="this.closeDialog">
           Fechar
         </v-btn>
         <v-btn color="blue" tile @click="signup"> Registar </v-btn>
@@ -54,12 +54,12 @@
 import axios from "axios";
 
 export default {
-  props: {
-    showSignupDialog: { type: Boolean },
-    changeShowSignupDialog: { type: Function },
-  },
-
   data: () => ({
+    show:null,
+    email:null,
+    password:null,
+    contacto:null,
+    nome:null,
     rules: {
       required: (value) => !!value || "Required.",
       min: (v) => v.length >= 8 || "Min 8 characters",
@@ -67,6 +67,9 @@ export default {
   }),
 
   methods: {
+    closeDialog() {
+      this.$store.commit("appbar/changeShowSignupDialog")
+    },
     signup() {
       const options = {
         method: "POST",
@@ -84,7 +87,7 @@ export default {
         .request(options)
         .then((response) => {
           if (response.status == 200) {
-            this.$emit("changeShowSignupDialog");
+              this.closeDialog()
           }
         })
         .catch(function (error) {
@@ -92,6 +95,17 @@ export default {
         });
     },
   },
+   computed:{
+        isOpen:{
+            get(){
+                return this.$store.getters['appbar/getSignupDialog']
+            },
+            set(val){
+                
+                this.$store.commit("appbar/setShowSignupDialog",val)
+            }
+        }
+    }
 };
 </script>
 

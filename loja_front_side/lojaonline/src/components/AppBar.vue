@@ -39,19 +39,36 @@
     </v-btn>
   </v-app-bar>
 </template>
-
 <script>
 export default {
   props:{
-  onClickDrawer: { type: Function },
-  onClickLoginButton: { type: Function },
-  onClickCartButton:{type:Function},
-  isLogin :{type: Boolean}
-    },
+  },
   methods:{
     clickConta(){
       this.$router.push('/perfil')
+    },
+    onClickCartButton(){
+      this.$store.commit("appbar/changeOpenCarrinho")
+    },
+    onClickDrawer(){
+      this.$store.commit("appbar/changeOpenMenuLateral")
+    },
+    onClickLoginButton(){
+      this.$store.commit("appbar/changeShowLoginDialog")
+    },
+    onClickRegistarButton(){
+      this.$store.commit("appbar/changeShowSignupDialog")
     }
-  }
+
+  },
+  computed:{
+      isLogin(){
+        return this.$store.getters['appbar/getLogin']
+      }
+  },
+  //Sempre que este comonente é criado corre isto
+  created: function(){
+      this.$store.dispatch("appbar/verifySession")
+  },
 };
 </script>

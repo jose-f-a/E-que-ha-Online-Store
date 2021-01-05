@@ -5,22 +5,13 @@
 
 <script>
 export default {
-    props:{
-        open :{type: Boolean},
-        set: { type: Function },
-    },
-      data: function () {
-        return {
-            
-        }
-    },
     computed:{
         isOpen:{
             get(){
-                return this.open
+                return this.$store.getters['appbar/getOpenCarrinho']
             },
             set(val){
-                this.$emit('set',val)
+                this.$store.commit("appbar/setOpenCarrinho",val)
             }
         }
     },
