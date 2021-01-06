@@ -3,7 +3,7 @@
     <app-bar> </app-bar>
     <menu-lateral> </menu-lateral>
     <carrinho> </carrinho>
-    <v-main class="grey lighten-2">
+    <v-main class="white">
       <v-container>
         <login> </login>
         <signup></signup>
@@ -13,7 +13,8 @@
               <strong>Category {{ n }}</strong>
             </v-col>
             <v-col v-for="j in 6" :key="`${n}${j}`" cols="6" md="2">
-              <v-sheet height="150"></v-sheet>
+              <artigo></artigo>
+              <!-- <v-sheet height="150"></v-sheet> -->
             </v-col>
           </template>
         </v-row>
@@ -28,6 +29,7 @@ import Login from "@/components/Login.vue";
 import Signup from "@/components/Signup.vue";
 import Menu from "@/components/Menu.vue";
 import Carrinho from "@/components/Carrinho.vue";
+import Artigo from "@/components/Artigo.vue";
 
 export default {
   data: () => ({}),
@@ -37,6 +39,7 @@ export default {
     signup: Signup,
     "menu-lateral": Menu,
     carrinho: Carrinho,
+    artigo: Artigo,
   },
 };
 </script>
