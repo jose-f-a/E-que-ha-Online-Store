@@ -17,7 +17,7 @@ module.exports = {
                     token: jwt.sign({
                         name: results[0][0].nome,
                         userid: results[0][0].userid,
-                    }, KEY, { expiresIn: '1h' })
+                    }, KEY)
                 });
             } else {
                 //return forbidden
@@ -44,22 +44,20 @@ module.exports = {
     },
 
     async signup(req, res) {
-        try{
+        try {
             const { nome, contacto, email, password } = req.body;
-            await connection.query("INSERT INTO utilizador (nome, contacto, email, pass, isAdmin) VALUES (:nome, :contacto, :email, :password, false);",
-                {
-                replacements: {
-                    nome: nome,
-                    contacto: contacto,
-                    email: email,
-                    password: password,
-                },
-                }
-            )
-            .then((result) => {
-                console.log(result);
-            });
-        } catch(error) {
+            await connection.query("INSERT INTO utilizador (nome, contacto, email, pass, isAdmin) VALUES (:nome, :contacto, :email, :password, false);", {
+                    replacements: {
+                        nome: nome,
+                        contacto: contacto,
+                        email: email,
+                        password: password,
+                    },
+                })
+                .then((result) => {
+                    console.log(result);
+                });
+        } catch (error) {
             console.log(error);
         }
     },
