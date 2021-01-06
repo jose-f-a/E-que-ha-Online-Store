@@ -5,7 +5,7 @@ import Admin from "../views/Admin.vue";
 import User from "../views/User.vue";
 import Pesquisa from "../views/Search.vue";
 import Produto from "../views/Product.vue";
-
+import Categoria from "../views/CategoriaS.vue"
 Vue.use(VueRouter);
 
 const routes = [{
@@ -27,6 +27,11 @@ const routes = [{
         path: "/produto/:id",
         name: "Produto",
         component: Produto
+    },
+    {
+        path: "/categoria/:id",
+        name: "Categoria",
+        component: Categoria
     },
     {
         path: "/pesquisa/:query",
