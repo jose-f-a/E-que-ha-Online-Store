@@ -7,7 +7,7 @@
       :aspect-ratio="4 / 3"
     >
     </v-img>
-    <v-card-title>Senta</v-card-title>
+    <v-card-title>Limpa</v-card-title>
     <v-card-text>
       <v-row align="center" class="mx-0">
         <v-rating
@@ -30,9 +30,30 @@
 </template>
 
 <script>
-// import axios from 'axios';
+import axios from "axios";
 
-export default {};
+export default {
+  methods: {
+    getInfo() {
+      const options = {
+        method: "GET",
+        url: "http://localhost:3342/api/getArtigo",
+        headers: { "Content-Type": "application/json" },
+      };
+
+      axios
+        .request(options)
+        .then((response) => {
+          if (response.status == 200) {
+            console.log(response.data);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+  },
+};
 </script>
 
 <style scoped>
