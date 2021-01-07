@@ -13,7 +13,7 @@
               <strong>Category {{ n }}</strong>
             </v-col>
             <v-col v-for="j in 6" :key="`${n}${j}`" cols="6" md="2">
-              <artigo></artigo>
+              <artigo v-bind:id="id"></artigo>
               <!-- <v-sheet height="150"></v-sheet> -->
             </v-col>
           </template>
@@ -31,6 +31,8 @@ import Menu from "@/components/Menu.vue";
 import Carrinho from "@/components/Carrinho.vue";
 import Artigo from "@/components/Artigo.vue";
 
+import axios from "axios";
+
 export default {
   data: () => ({}),
   components: {
@@ -40,6 +42,26 @@ export default {
     "menu-lateral": Menu,
     carrinho: Carrinho,
     artigo: Artigo,
+  },
+  created: function () {
+    this.$nextTick(function () {
+      const options = {
+        method: "GET",
+        url: "http://localhost:3342/api/getArtigo",
+        headers: { "Content-Type": "application/json" },
+      };
+
+      axios
+        .request(options)
+        .then((response) => {
+          if (response.status == 200) {
+            console.log(response.data);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    });
   },
 };
 </script>

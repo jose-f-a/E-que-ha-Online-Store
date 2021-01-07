@@ -1,5 +1,5 @@
 <template>
-  <v-card elevation="0" tile class="artigo">
+  <v-card :ripple="false" elevation="0" tile class="artigo">
     <v-img
       src="../../public/imagens/16_1.jpg"
       width="250"
@@ -30,28 +30,14 @@
 </template>
 
 <script>
-import axios from "axios";
-
+// import axios from "axios";
+props: {
+    id: ['id']
+}
 export default {
+  
   methods: {
-    getInfo() {
-      const options = {
-        method: "GET",
-        url: "http://localhost:3342/api/getArtigo",
-        headers: { "Content-Type": "application/json" },
-      };
-
-      axios
-        .request(options)
-        .then((response) => {
-          if (response.status == 200) {
-            console.log(response.data);
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
+    
   },
 };
 </script>
