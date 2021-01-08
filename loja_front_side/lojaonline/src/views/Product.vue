@@ -9,14 +9,14 @@
         <signup></signup>
         <v-card class="produto">
           <div class="imagens">
-            <v-carousel v-model="model">
-              <v-carousel-item v-for="(color, i) in colors" :key="color">
-                <v-sheet :color="color" height="100%" tile>
-                  <v-row class="fill-height" align="center" justify="center">
-                    <div class="display-3">Slide {{ i + 1 }}</div>
-                  </v-row>
-                </v-sheet>
-              </v-carousel-item>
+            <v-carousel>
+              <v-carousel-item
+                v-for="(imagem, i) in imagens"
+                :key="i"
+                :src="imagem"
+                reverse-transition="fade-transition"
+                transition="fade-transition"
+              ></v-carousel-item>
             </v-carousel>
           </div>
           <div class="card-smal-container">
@@ -36,12 +36,15 @@
             <div class="variante">
               <div class="variant-text">Variantes</div>
               <v-row>
-                <v-col v-for="item in variantes" v-bind:key="item.id" cols="4" md="2">
+                <v-col
+                  v-for="item in variantes"
+                  v-bind:key="item.id"
+                  cols="4"
+                  md="3"
+                >
                   <div class="variante-item" @click="clickVariavel(item.id)">
-                    <v-img
-                      :src="imgPath(item.id)"
-                    ></v-img>
-                    <div>{{item.cor}}</div>
+                    <v-img :src="imgPath(item.id)"></v-img>
+                    <div>{{ item.cor }}</div>
                   </div>
                 </v-col>
               </v-row>
@@ -109,8 +112,12 @@ import Carrinho from "@/components/Carrinho.vue";
 export default {
   data: () => ({
     produtoId: null,
-    imagens: [],
-    variantes: [{id:16,cor:"branco"},{id:17,cor:"azul"},{id:18,cor:"preto"}], //Vai ter os ids,depois vai vai se buscar as imagens e mete-se um evento de click
+    imagens:[],
+    variantes: [
+      { id: 16, cor: "branco" },
+      { id: 17, cor: "azul" },
+      { id: 19, cor: "roxo" },
+    ], //Vai ter os ids,depois vai vai se buscar as imagens e mete-se um evento de click
     rating: 4.3,
     reviewNumber: 32,
     quantidade: 1,
@@ -125,7 +132,8 @@ export default {
       this.quantidade = this.quantidade - 1;
     },
     clickVariavel(id) {
-      this.$router.push('/produto/'+id)
+      this.$router.push("/produto/" + id);
+      this.$router.go()
     },
     adicionarCarrinho() {
       alert("dasd");
@@ -137,6 +145,14 @@ export default {
       console.log(id);
       return require("../../public/imagens/" + id + "_1.webp");
     },
+    setImagensProduto() {
+      var i;
+      
+      for (i = 1; i < 4; i++) {
+        this.imagens.push(require("../../public/imagens/" + this.produtoId + "_"+i+".webp"))
+      }
+      
+    },
   },
   components: {
     "app-bar": AppBar,
@@ -145,8 +161,9 @@ export default {
     "menu-lateral": Menu,
     carrinho: Carrinho,
   },
-  created: function () {
+  mounted: function () {
     this.produtoId = this.$route.params.id;
+    this.setImagensProduto()
     //Ir buscar a bd os dados deste produto e as variaveis
     //ir buscar as imagens dos produtos e variaveis
   },
@@ -181,10 +198,10 @@ export default {
   margin-left: 1rem;
 }
 .variant-text {
- 
   text-align: left;
 }
 .variante-item {
+  
   width: 4rem;
   padding: 2px;
 }
