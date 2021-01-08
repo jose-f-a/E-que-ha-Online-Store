@@ -2,7 +2,7 @@
     <v-card class="card" elevation="2" outlined >
         <div class="produto" @click="clickVariavel(item.produtoid)">
             <v-img class="image" src="../../public/imagens/17_1.webp"></v-img>
-            <div>NOMSSSSSSE</div>
+            <div>{{this.artigo.nome}}</div>
         </div>
           <div class="quantidadeC">
               <v-text-field
@@ -35,7 +35,18 @@
 
 <script>
 export default {
-    
+    data: () => ({
+        artigo:{id:1,nome:"aaaaaa"},
+        quantidade:0,    
+    }),
+    methods:{
+        maisQuantidade() {
+            this.quantidade = this.quantidade + 1;
+        },
+        menosQuantidade() {
+            this.quantidade = this.quantidade - 1;
+        },
+    }
 }
 </script>
 
