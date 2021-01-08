@@ -20,12 +20,13 @@
             </v-carousel>
           </div>
           <div class="card-smal-container">
-            <v-card-title class="card-titulo"> NOME DO PRODUTO </v-card-title>
-            <v-card-subtitle class="card-desc"> DESCRIÇÃO </v-card-subtitle>
+            <v-card-title class="card-titulo">{{nome}} </v-card-title>
+            <v-card-subtitle class="card-desc"> {{desc}} </v-card-subtitle>
             <div class="rating">
               <v-rating
                 v-model="this.rating"
                 background-color="indigo lighten-3"
+                half-increments
                 color="indigo"
                 readonly
               ></v-rating>
@@ -37,13 +38,13 @@
               <div class="variant-text">Variantes</div>
               <v-row>
                 <v-col
-                  v-for="item in variantes"
-                  v-bind:key="item.productoid"
+                  v-for="item in this.variantes"
+                  v-bind:key="item.produtoid"
                   cols="4"
                   md="3"
                 >
-                  <div class="variante-item" @click="clickVariavel(productoid)">
-                    <v-img :src="imgPath(productoid)"></v-img>
+                  <div class="variante-item" @click="clickVariavel(item.produtoid)">
+                    <v-img :src="imgPath(item.produtoid)"></v-img>
                     <div>{{ item.cor }}</div>
                   </div>
                 </v-col>
@@ -113,6 +114,8 @@ import axios from "axios";
 export default {
   data: () => ({
     produtoId: null,
+    nome:'',
+    desc:'',
     imagens: [],
     variantes: [], //Vai ter os ids,depois vai vai se buscar as imagens e mete-se um evento de click
     rating: null,
@@ -139,7 +142,6 @@ export default {
       alert(this.produtoId);
     },
     imgPath(id) {
-      console.log(id);
       return require("../../public/imagens/" + id + "_1.webp");
     },
     setImagensProduto() {
@@ -150,6 +152,24 @@ export default {
         );
       }
     },
+    getDadosDB(){
+      const options = {
+      method: "GET",
+      url: "http://localhost:3342/api/produto-por-id",
+      params: { id: this.produtoId },
+    };
+
+    axios.request(options).then(response => {
+        this.nome= response.data.produto.nome
+        this.desc= response.data.produto.descricao
+        this.variantes= response.data.variantes
+        this.rating = parseFloat(response.data.rating[0].review)
+        this.reviewNumber=response.data.rating[0].total
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+    }
   },
   components: {
     "app-bar": AppBar,
@@ -161,24 +181,7 @@ export default {
   mounted: function () {
     this.produtoId = this.$route.params.id;
     this.setImagensProduto();
-
-    const options = {
-      method: "GET",
-      url: "http://localhost:3342/api/produto-por-id",
-      params: { id: this.produtoId },
-    };
-
-    axios.request(options).then(response => {
-        this.variantes= response.data.variantes
-        this.rating = response.data.rating.review
-        this.reviewNumber=response.data.rating.total
-        console.log(this.variantes[0].produtoid)
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
-    //Ir buscar a bd os dados deste produto e as variaveis
-    //ir buscar as imagens dos produtos e variaveis
+    this.getDadosDB();
   },
 };
 </script>

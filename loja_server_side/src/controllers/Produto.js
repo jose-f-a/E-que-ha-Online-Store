@@ -27,12 +27,12 @@ module.exports = {
 
             });
             if (produto.length > 0) {
-                const nomeProduto = produto[0].nome.split('-')[0] + '%'
+                const nomeProduto = produto[0].nome.split('-')[0]
                     //Existe produto, vai se buscar as variantes
                 await connection.query("Select * from produto where nome like :nome and produtoid <> :id", {
                     replacements: {
                         id: id,
-                        nome: nomeProduto
+                        nome: nomeProduto + '%'
                     }
                 }).then((results2) => {
                     variantes = results2[0]
@@ -40,11 +40,9 @@ module.exports = {
 
                 if (variantes.length > 0) {
                     //existe variantes
-
-
                     //Get rating geral
                     //Fazer dinamincamnte a query e o replacenents
-                    var query = "Select AVG(rating)as review, count(*)total from review where produtoid =:idmain "
+                    var query = "Select CAST(AVG(rating)AS DECIMAL(3,2))as review, count(*)total from review where produtoid =:idmain "
 
                     var replacements = { idmain: produto[0].produtoid }
 
