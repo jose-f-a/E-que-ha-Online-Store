@@ -7,14 +7,15 @@
       <v-container>
         <login> </login>
         <signup></signup>
+        <v-row cols="6" md="2">
+          <v-col v-for="artigo in artigos" v-bind:key="artigo.id" class="mt-2" cols="12">
+          <artigo v-bind:artigo="artigo"></artigo>
+        </v-col>
+        </v-row>
         <v-row>
           <template v-for="n in 4">
             <v-col :key="n" class="mt-2" cols="12">
               <strong>Category {{ n }}</strong>
-            </v-col>
-            <v-col v-for="j in 6" :key="`${n}${j}`" cols="6" md="2">
-              <artigo v-bind:id="id"></artigo>
-              <!-- <v-sheet height="150"></v-sheet> -->
             </v-col>
           </template>
         </v-row>
@@ -34,7 +35,11 @@ import Artigo from "@/components/Artigo.vue";
 import axios from "axios";
 
 export default {
-  data: () => ({}),
+  data() {
+    return {
+      artigos: [],
+    };
+  },
   components: {
     "app-bar": AppBar,
     login: Login,
@@ -53,14 +58,11 @@ export default {
 
       axios
         .request(options)
-        .then((response) => {
-          if (response.status == 200) {
-            console.log(response.data);
-          }
+        .then((res) => {
+          this.artigos = res.data;
+          console.log(this.artigos);
         })
-        .catch(function (error) {
-          console.log(error);
-        });
+        .catch((err) => console.log(err));
     });
   },
 };
