@@ -1,6 +1,12 @@
 <template>
-  <v-card :ripple="false" elevation="0" tile class="artigo">
-    <v-img :src="imgPath()" width="250" contain :aspect-ratio="4 / 3"> </v-img>
+  <v-card
+    :ripple="false"
+    elevation="0"
+    tile
+    class="artigo center"
+    @click="goToProduto(artigo.produtoid)"
+  >
+    <v-img :src="imgPath()" width="200" contain :aspect-ratio="4 / 3"> </v-img>
     <v-card-title>{{ artigo.nome }}</v-card-title>
     <v-card-text>
       <v-row align="center" class="mx-0">
@@ -16,23 +22,21 @@
       </v-row>
     </v-card-text>
     <v-card-text>
-      <v-row align="center" class="mx-1">
-        <div class="text-subtitle-2">{{ artigo.descricao }}</div>
+      <v-row align="left" class="mx-1">
+        <div class="text-subtitle-2 text-left">{{ artigo.descricao }}</div>
         <v-list-item-title class="text-h6 text-left">
           {{ artigo.preco }}€
         </v-list-item-title>
       </v-row>
     </v-card-text>
 
-    <div class="variante">
-      <v-row>
-        <v-col v-for="item in variantes" v-bind:key="item.id" cols="4" md="3">
-          <div class="variante-item" @click="clickVariavel(item.id)">
-            <v-img :src="imgPath(item.id)"></v-img>
-          </div>
-        </v-col>
-      </v-row>
-    </div>
+    <v-row align="center" class="mx-1">
+      <p
+        class="text-caption text-left font-weight-medium grey--text text--darken-1 variante"
+      >
+        Mais opcoes
+      </p>
+    </v-row>
   </v-card>
 </template>
 
@@ -46,32 +50,24 @@ export default {
         this.artigo.produtoid +
         "_1.webp");
     },
+    goToProduto(id) {
+      this.$router.push("/produto/" + id);
+      this.$router.go();
+    },
   },
-  data: () => ({
-    variantes: [
-      { id: 16, cor: "branco" },
-      { id: 17, cor: "azul" },
-      { id: 19, cor: "roxo" },
-    ],
-  }),
+  data: () => ({}),
 };
 </script>
 
 <style scoped>
 .artigo {
   cursor: pointer;
-  width: fit-content;
+  width: 15rem;
 }
 
 .variante {
+  margin-top: 1%;
   margin-left: 1rem;
-}
-.variante-item {
-  width: 4rem;
-  padding: 2px;
-}
-.variante-item:hover {
-  border-radius: 5px;
-  border: 1px solid black;
+  text-decoration: underline;
 }
 </style>

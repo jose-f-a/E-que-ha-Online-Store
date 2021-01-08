@@ -8,9 +8,14 @@
         <login> </login>
         <signup></signup>
         <v-row cols="6" md="2">
-          <v-col v-for="artigo in artigos" v-bind:key="artigo.id" class="mt-2" cols="12">
-          <artigo v-bind:artigo="artigo"></artigo>
-        </v-col>
+          <v-col
+            v-for="artigo in artigos"
+            v-bind:key="artigo.id"
+            class="mt-2"
+            cols="12"
+          >
+            <artigo v-bind:artigo="artigo"> </artigo>
+          </v-col>
         </v-row>
         <v-row>
           <template v-for="n in 4">
@@ -48,6 +53,7 @@ export default {
     carrinho: Carrinho,
     artigo: Artigo,
   },
+  methods: {},
   created: function () {
     this.$nextTick(function () {
       const options = {
