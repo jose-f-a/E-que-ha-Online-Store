@@ -1,80 +1,29 @@
 <template>
   <v-app id="inspire">
-    <v-app-bar
-      app
-      color="white"
-      flat
-    >
+    <v-app-bar app color="white">
       <v-container class="py-0 fill-height">
-        <v-avatar
-          class="mr-10"
-          color="grey darken-1"
-          size="32"
-        ></v-avatar>
-
-        <v-btn
-          v-for="link in links"
-          :key="link"
-          text
-        >
-          {{ link }}
-        </v-btn>
+        <v-img
+          class="logo"
+          max-height="57"
+          max-width="134"
+          src="../assets/logo.png"
+          @click="goHome"
+        ></v-img>
 
         <v-spacer></v-spacer>
 
-        <v-responsive max-width="260">
-          <v-text-field
-            dense
-            flat
-            hide-details
-            rounded
-            solo-inverted
-          ></v-text-field>
-        </v-responsive>
+        <v-btn text :ripple="false" @click="togglePerfil"> Perfil </v-btn>
+        <v-btn text :ripple="false" @click="toggleCompras"> Compras </v-btn>
+        <v-btn text :ripple="false" @click="logout"> Logout </v-btn>
       </v-container>
     </v-app-bar>
 
-    <v-main class="grey lighten-3">
+    <v-main class="white main">
       <v-container>
         <v-row>
-          <v-col cols="2">
-            <v-sheet rounded="lg">
-              <v-list color="transparent">
-                <v-list-item
-                  v-for="n in 5"
-                  :key="n"
-                  link
-                >
-                  <v-list-item-content>
-                    <v-list-item-title>
-                      List Item {{ n }}
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-
-                <v-divider class="my-2"></v-divider>
-
-                <v-list-item
-                  link
-                  color="grey lighten-4"
-                >
-                  <v-list-item-content>
-                    <v-list-item-title>
-                      Refresh
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list>
-            </v-sheet>
-          </v-col>
-
           <v-col>
-            <v-sheet
-              min-height="70vh"
-              rounded="lg"
-            >
-              <!--  -->
-            </v-sheet>
+            <perfil v-if="showPerfil"></perfil>
+            <compras v-if="showCompras"></compras>
           </v-col>
         </v-row>
       </v-container>
@@ -83,19 +32,36 @@
 </template>
 
 <script>
+import perfil from "../components/Perfil";
+import compras from "../components/Compras";
+
 import axios from "axios";
 
-  export default {
-    data: () => ({
-      links: [
-        'Dashboard',
-        'Messages',
-        'Profile',
-        'Updates',
-      ],
-    }),
-    methods:{
-      verifySesion() {
+export default {
+  data() {
+    return {
+      showPerfil: true,
+      showCompras: false,
+    }
+  },
+  components: {
+    perfil,
+    compras,
+  },
+  methods: {
+    goHome() {
+      this.$router.push("/");
+      this.$router.go();
+    },
+    togglePerfil(){
+      this.showPerfil = true;
+      this.showCompras = false;
+    },
+    toggleCompras(){
+      this.showCompras = true;
+      this.showPerfil = false; 
+    },
+    verifySesion() {
       if (localStorage.getItem("token")) {
         const options = {
           method: "POST",
@@ -107,21 +73,29 @@ import axios from "axios";
         };
         axios
           .request(options)
-          .then(response => {
-            if(response.data.message)
-                this.login=true
+          .then((response) => {
+            if (response.data.message) this.login = true;
           })
-          .catch(error=> {
-            this.$router.push('/')
+          .catch((error) => {
+            this.$router.push("/");
             console.error(error);
           });
-      }else{
-       this.$router.push('/')
+      } else {
+        this.$router.push("/");
       }
     },
-    },
-    mounted: function (){
-      this.verifySesion();
-    }
-  }
+  },
+  mounted: function () {
+    this.verifySesion();
+  },
+};
 </script>
+
+<style scoped>
+.logo {
+  cursor: pointer;
+}
+.main { 
+  margin-top: 1rem;
+}
+</style>
