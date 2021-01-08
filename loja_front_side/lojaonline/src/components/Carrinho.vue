@@ -1,22 +1,63 @@
 <template>
-    <v-navigation-drawer v-model="isOpen" fixed temporary right>
-    </v-navigation-drawer>
+  <v-navigation-drawer v-model="isOpen" fixed temporary right>
+    <div class="carrinho-top">
+      Close Button Carrinho
+    </div>
+    <div class="conteudo-artigos">
+      <v-card elevation="24" outlined>
+        <artigo></artigo>
+        <artigo></artigo>
+        <artigo></artigo>
+        <artigo></artigo>
+        <artigo></artigo>
+      </v-card>
+    </div>
+    <div class="buttons">
+      <v-btn
+                class="ma-2"
+                outlined
+                color="indigo"
+                @click="comprarArtigo"
+              >
+                Comprar
+              </v-btn>
+    </div>
+  </v-navigation-drawer>
 </template>
 
 <script>
+
+import ArtigoCarrinho from "@/components/ArtigoCarrinho.vue";
+
 export default {
-    computed:{
-        isOpen:{
-            get(){
-                return this.$store.getters['appbar/getOpenCarrinho']
-            },
-            set(val){
-                this.$store.commit("appbar/setOpenCarrinho",val)
-            }
-        }
+  computed: {
+    isOpen: {
+      get() {
+        return this.$store.getters["appbar/getOpenCarrinho"];
+      },
+      set(val) {
+        this.$store.commit("appbar/setOpenCarrinho", val);
+      },
     },
-    method:{
-        
-    },
-}
+  },
+  method: {},
+  components: {
+    "artigo":ArtigoCarrinho
+  },
+};
 </script>
+
+<style>
+.carrinho-top{
+    height: 15%;
+}
+.conteudo-artigos{
+    overflow: scroll;
+    overflow-x: hidden;
+    height: 70%;
+}
+.buttons{
+    height: 15%;
+}
+
+</style>
