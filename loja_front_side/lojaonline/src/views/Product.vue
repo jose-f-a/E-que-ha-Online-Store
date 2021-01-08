@@ -38,12 +38,12 @@
               <v-row>
                 <v-col
                   v-for="item in variantes"
-                  v-bind:key="item.id"
+                  v-bind:key="item.productoid"
                   cols="4"
                   md="3"
                 >
-                  <div class="variante-item" @click="clickVariavel(item.id)">
-                    <v-img :src="imgPath(item.id)"></v-img>
+                  <div class="variante-item" @click="clickVariavel(productoid)">
+                    <v-img :src="imgPath(productoid)"></v-img>
                     <div>{{ item.cor }}</div>
                   </div>
                 </v-col>
@@ -108,18 +108,15 @@ import Login from "@/components/Login.vue";
 import Signup from "@/components/Signup.vue";
 import Menu from "@/components/Menu.vue";
 import Carrinho from "@/components/Carrinho.vue";
+import axios from "axios";
 
 export default {
   data: () => ({
     produtoId: null,
-    imagens:[],
-    variantes: [
-      { id: 16, cor: "branco" },
-      { id: 17, cor: "azul" },
-      { id: 19, cor: "roxo" },
-    ], //Vai ter os ids,depois vai vai se buscar as imagens e mete-se um evento de click
-    rating: 4.3,
-    reviewNumber: 32,
+    imagens: [],
+    variantes: [], //Vai ter os ids,depois vai vai se buscar as imagens e mete-se um evento de click
+    rating: null,
+    reviewNumber: null,
     quantidade: 1,
     model: 0,
     colors: ["primary", "secondary", "yellow darken-2", "red", "orange"],
@@ -133,7 +130,7 @@ export default {
     },
     clickVariavel(id) {
       this.$router.push("/produto/" + id);
-      this.$router.go()
+      this.$router.go();
     },
     adicionarCarrinho() {
       alert("dasd");
@@ -147,11 +144,11 @@ export default {
     },
     setImagensProduto() {
       var i;
-      
       for (i = 1; i < 4; i++) {
-        this.imagens.push(require("../../public/imagens/" + this.produtoId + "_"+i+".webp"))
+        this.imagens.push(
+          require("../../public/imagens/" + this.produtoId + "_" + i + ".webp")
+        );
       }
-      
     },
   },
   components: {
@@ -163,7 +160,23 @@ export default {
   },
   mounted: function () {
     this.produtoId = this.$route.params.id;
-    this.setImagensProduto()
+    this.setImagensProduto();
+
+    const options = {
+      method: "GET",
+      url: "http://localhost:3342/api/produto-por-id",
+      params: { id: this.produtoId },
+    };
+
+    axios.request(options).then(response => {
+        this.variantes= response.data.variantes
+        this.rating = response.data.rating.review
+        this.reviewNumber=response.data.rating.total
+        console.log(this.variantes[0].produtoid)
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
     //Ir buscar a bd os dados deste produto e as variaveis
     //ir buscar as imagens dos produtos e variaveis
   },
@@ -201,7 +214,6 @@ export default {
   text-align: left;
 }
 .variante-item {
-  
   width: 4rem;
   padding: 2px;
 }
