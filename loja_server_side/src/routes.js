@@ -7,4 +7,6 @@ routes.post("/api/signup", user.signup)
 routes.post("/api/login", user.login)
 routes.post("/api/sessionValidation", user.sessionValidation)
 routes.get("/api/produto-por-id", produto.getArtigoById)
+routes.get("/api/getArtigo", produto.getArtigo);
+
 module.exports = routes;
