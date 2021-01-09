@@ -1,5 +1,5 @@
-//import axios from "axios";
-
+import axios from "axios";
+const jwt = require('jsonwebtoken');
 const state = {
     listaArtigos: [],
     login: null
@@ -21,9 +21,25 @@ const actions = {
     loadArtigos({ commit, rootState }) {
 
         //Verificar se tem login com o store da appbar
-
         if (rootState.appbar.login) {
             //se sim ir buscar a bd e guardar no store
+            //Verificar se tem no localstore artigos, comprar com a bd e adicionar os que falta
+
+            /* ISTO AQUI VAI SE MUDAR PARA O ID DO STORE*/
+            const { userid } = jwt.decode(localStorage.getItem('token'))
+                /* -------------------------------------------- */
+
+            const options = {
+                method: 'GET',
+                url: 'http://localhost:3342/api/get-carrinho',
+                params: { userid: userid }
+            };
+
+            axios.request(options).then(function(response) {
+                commit('setListaArtigos', response.data.produtos)
+            }).catch(function(error) {
+                console.error(error);
+            });
 
         } else {
             //se não, ir ao local e guarar no store
@@ -43,6 +59,21 @@ const actions = {
 
         if (rootState.appbar.login) {
             //se sim ir guarda na bd
+            const options = {
+                method: 'POST',
+                url: 'http://localhost:3342/api/set-carrinho',
+                headers: { 'Content-Type': 'application/json' },
+                data: {
+                    userid: 1,
+                    produtos: state.listaArtigos
+                }
+            };
+
+            axios.request(options).then(function(response) {
+                console.log(response.data);
+            }).catch(function(error) {
+                console.error(error);
+            });
 
         } else {
             //se não, guarda na local
@@ -59,6 +90,21 @@ const actions = {
 
         if (rootState.appbar.login) {
             //se sim ir guarda na bd
+            const options = {
+                method: 'POST',
+                url: 'http://localhost:3342/api/set-carrinho',
+                headers: { 'Content-Type': 'application/json' },
+                data: {
+                    userid: 1,
+                    produtos: state.artigos
+                }
+            };
+
+            axios.request(options).then(function(response) {
+                console.log(response.data);
+            }).catch(function(error) {
+                console.error(error);
+            });
 
         } else {
             //se não, guarda na local

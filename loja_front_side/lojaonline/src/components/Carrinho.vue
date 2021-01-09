@@ -31,6 +31,10 @@ export default {
       set(val) {
         this.$store.commit("appbar/setOpenCarrinho", val);
       },
+    
+    },
+    isLogin(){
+        return this.$store.getters["appbar/getLogin"];
     },
     artigos:{
         get(){
@@ -41,17 +45,19 @@ export default {
         }
     }
   },
+  watch:{
+    isLogin(){
+      this.$store.dispatch("carrinho/loadArtigos");
+    }
+  },
   method: {
     comprarArtigo(){
 
     }
   },
   //Sempre que este comonente é criado corre isto
-  created: function () {
-    console.log('CriouCarrinho')
+  mounted: function () {
     this.$store.dispatch("carrinho/loadArtigos");
-    console.log('load crrinho')
-
   },
   components: {
     artigo: ArtigoCarrinho,
