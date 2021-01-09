@@ -11,9 +11,6 @@
         ></v-img>
 
         <v-spacer></v-spacer>
-
-        <v-btn text :ripple="false" @click="togglePerfil"> Perfil </v-btn>
-        <v-btn text :ripple="false" @click="toggleCompras"> Compras </v-btn>
         <v-btn text :ripple="false" @click="logout"> Logout </v-btn>
       </v-container>
     </v-app-bar>
@@ -21,6 +18,41 @@
     <v-main class="white main">
       <v-container>
         <v-row>
+          <v-col cols="2">
+            <v-list>
+              <v-list-item-group>
+                <v-list-item @click="togglePerfil">
+                  <v-list-item-icon>
+                    <v-icon>mdi-account-outline</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    <v-list-item-title>Perfil</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+
+                <v-list-group :value="false" prepend-icon="mdi-cart-outline">
+                  <template v-slot:activator>
+                    <v-list-item-title>Compras</v-list-item-title>
+                  </template>
+
+                  <v-list-item @click="toggleCompras">
+                    <v-list-item-icon>
+                      <v-icon>mdi-dots-horizontal</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-title>A decorrer</v-list-item-title>
+                  </v-list-item>
+
+                  <v-list-item @click="toggleCompras">
+                    <v-list-item-icon>
+                      <v-icon>mdi-check</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-title>Concluidas</v-list-item-title>
+                  </v-list-item>
+                </v-list-group>
+              </v-list-item-group>
+            </v-list>
+          </v-col>
+
           <v-col>
             <perfil v-if="showPerfil"></perfil>
             <compras v-if="showCompras"></compras>
@@ -35,14 +67,12 @@
 import perfil from "../components/Perfil";
 import compras from "../components/Compras";
 
-import axios from "axios";
-
 export default {
   data() {
     return {
       showPerfil: true,
       showCompras: false,
-    }
+    };
   },
   components: {
     perfil,
@@ -53,40 +83,33 @@ export default {
       this.$router.push("/");
       this.$router.go();
     },
-    togglePerfil(){
+    togglePerfil() {
       this.showPerfil = true;
       this.showCompras = false;
     },
-    toggleCompras(){
+    toggleCompras() {
       this.showCompras = true;
-      this.showPerfil = false; 
+      this.showPerfil = false;
     },
-    verifySesion() {
-      if (localStorage.getItem("token")) {
-        const options = {
-          method: "POST",
-          url: "http://localhost:3342/api/sessionValidation",
-          headers: { "Content-Type": "application/json" },
-          data: {
-            token: localStorage.getItem("token"),
-          },
-        };
-        axios
-          .request(options)
-          .then((response) => {
-            if (response.data.message) this.login = true;
-          })
-          .catch((error) => {
-            this.$router.push("/");
-            console.error(error);
-          });
-      } else {
+    verifyLogin() {
+      console.log(this.$store.getters["appbar/getLogin"]);
+      if (!this.$store.getters["appbar/getLogin"]) {
         this.$router.push("/");
+        this.$router.go();
       }
     },
   },
   mounted: function () {
-    this.verifySesion();
+    this.$store.dispatch("appbar/verifySession");
+    this.verifyLogin();
+    console.log(this.user);
+  },
+  computed: {
+    user: {
+      get() {
+        return this.$store.getters["appbar/getUser"];
+      },
+    },
   },
 };
 </script>
@@ -95,7 +118,7 @@ export default {
 .logo {
   cursor: pointer;
 }
-.main { 
+.main {
   margin-top: 1rem;
 }
 </style>

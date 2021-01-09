@@ -6,15 +6,33 @@
     rounded="lg"
     elevation="3"
   >
-    <h1>Perfil</h1>
+    <v-container>
+      <v-row>
+        <v-col>
+          <p class="text-h5 text-left">Bem-vindo {{user.name}}!</p>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="5">
+          
+        </v-col>
+      </v-row>
+    </v-container>
   </v-sheet>
 </template>
 
 <script>
 export default {
   name: "Perfil",
+  computed: {
+    user: {
+      get() {
+        return this.$store.getters["appbar/getUser"];
+      },
+    },
+  },
 };
 </script>
 
-<style>
+<style scoped>
 </style>

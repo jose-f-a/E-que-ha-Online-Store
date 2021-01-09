@@ -1,4 +1,5 @@
 import axios from "axios";
+import jwt from 'jsonwebtoken';
 
 const state = {
     openMenuLateral: false,
@@ -6,6 +7,7 @@ const state = {
     loginDialog: null,
     signupDialog: null,
     openCarrinho: false,
+    user: null,
 };
 
 const getters = {
@@ -27,6 +29,9 @@ const getters = {
     },
     getOpenMenuLateral: (state) => {
         return state.openMenuLateral
+    },
+    getUser: (state) => { 
+        return state.user;
     }
 };
 
@@ -45,8 +50,7 @@ const actions = {
                 .request(options)
                 .then(response => {
                     if (response.data.message)
-                        commit('setLogin', true)
-
+                        commit('setLogin', true);
                 })
                 .catch(error => {
                     commit('setLogin', false)
@@ -61,7 +65,10 @@ const actions = {
 
 const mutations = {
     setLogin(state, val) {
-        state.login = val
+        state.login = val;
+        if (val) {
+            state.user = jwt.decode(localStorage.getItem("token"));
+        }
     },
     setOpenCarrinho(state, val) {
         state.openCarrinho = val

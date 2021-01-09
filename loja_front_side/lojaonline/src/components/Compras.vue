@@ -6,15 +6,31 @@
     rounded="lg"
     elevation="3"
   >
-    <h1>compras</h1>
+  <h1>aaa</h1>
+    <compra></compra>
   </v-sheet>
 </template>
 
 <script>
+import compra from './Compra';
+
 export default {
   name: "Compras",
+  components: {
+    compra
+  },
+  created: {
+    
+  },
+  computed: {
+    user: {
+      get() {
+        return this.$store.getters["appbar/getUser"];
+      },
+    },
+  },
 };
 </script>
 
-<style>
+<style scoped>
 </style>
