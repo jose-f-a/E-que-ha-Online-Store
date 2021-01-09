@@ -4,7 +4,7 @@
     <div class="conteudo-artigos">
       <v-card elevation="24" outlined>
         <div  v-for="item in this.artigos"  v-bind:key="item.produtoid">
-          <artigo></artigo>
+          <artigo :artigo="item"></artigo>
         </div>
       </v-card>
     </div>
@@ -41,7 +41,15 @@ export default {
         }
     }
   },
-  method: {},
+  method: {
+    comprarArtigo(){
+
+    }
+  },
+  //Sempre que este comonente é criado corre isto
+  created: function () {
+    this.$store.dispatch("carrinho/loadArtigos");
+  },
   components: {
     artigo: ArtigoCarrinho,
   },

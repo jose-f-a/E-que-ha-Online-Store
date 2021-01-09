@@ -3,11 +3,12 @@
         <div class="produto" @click="clickVariavel(item.produtoid)">
             <v-img class="image" src="../../public/imagens/17_1.webp"></v-img>
             <div>{{this.artigo.nome}}</div>
+            <div>{{this.artigo.preco}}€</div>
         </div>
           <div class="quantidadeC">
               <v-text-field
                 class="input-quantidadeC"
-                v-model="quantidade"
+                v-model="this.artigo.quantidade"
                 type="number"
                 label="quantidade"
               ></v-text-field>
@@ -35,18 +36,23 @@
 
 <script>
 export default {
+    props: ['artigo'],
     data: () => ({
-        artigo:{id:1,nome:"aaaaaa"},
-        quantidade:0,    
+        
     }),
     methods:{
         maisQuantidade() {
-            this.quantidade = this.quantidade + 1;
+            const id = this.artigo.produtoid
+            this.$store.dispatch("carrinho/alterarMaisArtigo",id);
+            //Vai ao store editar o artigo em questao
+            //this.quantidade = this.quantidade + 1;
         },
         menosQuantidade() {
-            this.quantidade = this.quantidade - 1;
+            //Vai ao store editar o artigo em questao
+            //this.quantidade = this.quantidade - 1;
         },
-    }
+    },
+    
 }
 </script>
 
