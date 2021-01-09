@@ -54,23 +54,22 @@ module.exports = {
                 })
 
             }))
+            console.log(produtosFinal)
             return res.json({
                 produtos: produtosFinal
             })
 
         } else {
+            /* [
+  { produtoid: 16, quantidade: 13, preco: '9', nome: 'VÅGSJÖN-Branco' },
+  { produtoid: 18, quantidade: 8, preco: '9', nome: 'VÅGSJÖN-Cinza' },
+  { produtoid: 19, quantidade: 8, preco: '9', nome: 'VÅGSJÖN-Roxo' }
+] */
+            //se nao tiver linhas retornar vazio
             return res.json({
                 produtos: []
             })
         }
-
-        //se nao tiver linhas retornar vazio
-
-        return res.json({
-            produtos: [
-
-            ]
-        })
     },
 
     async setCarrinho(req, res) {
@@ -122,7 +121,22 @@ module.exports = {
             return res.json({ msg: "adicionou" })
 
         } else {
-            return res.json({ msg: "nada a adicionar" })
+
+            await connection.query("Select * from carrinho where userid =:id ", {
+                replacements: { id: userid }
+            }).then(results => {
+                if (results[0].length > 0) {
+                    carrinhoid = results[0][0].carrinhoid
+                }
+            });
+            if (carrinhoid) {
+                //Apagar as linhas todas desse linhacarrinho
+                await connection.query("DELETE FROM linhacarrinho WHERE carrinhoid=:id ", {
+                    replacements: { id: carrinhoid }
+                }).then(results => {});
+            }
+
+            return res.json({ msg: "bd ficou vazia" })
         }
 
 

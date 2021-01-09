@@ -58,10 +58,12 @@ const actions = {
                     commit('setListaArtigos', artigosAdd)
 
                 } else {
-                    commit('setListaArtigos', local)
+                    commit('setListaArtigos', JSON.stringify())
                 }
                 //Sempre que tiver login limpa o local
-                localStorage.removeItem('carrinho');
+                //localStorage.removeItem('carrinho');
+                console.log(response.data.produtos)
+                    //localStorage.setItem('carrinho', JSON.stringify('[{"produtoid":18,"quantidade":8,"preco":"9","nome":"VÅGSJÖN-Cinza"},{"produtoid":19,"quantidade":8,"preco":"9","nome":"VÅGSJÖN-Roxo"},{"produtoid":16,"quantidade":13,"preco":"9","nome":"VÅGSJÖN-Branco"}]'));
 
             }).catch(function(error) {
                 console.error(error);
@@ -70,6 +72,7 @@ const actions = {
         } else {
             //se não, ir ao local e guarar no store
             console.log('tou a ler o storgae')
+
             const artigos = JSON.parse(localStorage.getItem('carrinho'))
             console.log(artigos)
             commit('setListaArtigos', artigos)
@@ -79,6 +82,25 @@ const actions = {
 
 
         /* NÃO ME ESQUECER QUANDO FAÇO LOGIN CARREGAR O CARRINHO DA BD E ACRESCENTAR, CASO NÃO EXISTAM, OS ARTIGOS QUE ESTEJAM NA LOCAL STORE E APAGAR A LOCAL STORE */
+    },
+    removerDB() {
+        console.log('eee')
+        const options = {
+            method: 'POST',
+            url: 'http://localhost:3342/api/set-carrinho',
+            headers: { 'Content-Type': 'application/json' },
+            data: {
+                userid: 1,
+                produtos: []
+            }
+        };
+
+        axios.request(options).then(function(response) {
+            console.log(response.data);
+        }).catch(function(error) {
+            console.error(error);
+        });
+
     },
     alterarMaisArtigo({ commit, state, rootState }, id) {
         //Alterar artigo no store
@@ -143,7 +165,6 @@ const actions = {
 
 const mutations = {
     setListaArtigos(state, artigos) {
-        console.log(artigos)
         state.listaArtigos = artigos
     },
     alterarMenosQuantidade(state, id) {

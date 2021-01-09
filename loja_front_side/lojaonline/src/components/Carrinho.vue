@@ -1,6 +1,11 @@
 <template>
   <v-navigation-drawer v-model="isOpen" fixed temporary right>
-    <div class="carrinho-top">Close Button Carrinho</div>
+    <div class="carrinho-top">
+      <v-icon>mdi-arrow-collapse-right</v-icon>
+      Carrinho 
+      <v-icon @click="removerCarrinho"> mdi-trash-can </v-icon>
+    
+    </div>
     <div class="conteudo-artigos">
       <v-card elevation="24" outlined>
         <div  v-for="item in this.artigos"  v-bind:key="item.produtoid">
@@ -50,10 +55,24 @@ export default {
       this.$store.dispatch("carrinho/loadArtigos");
     }
   },
-  method: {
+  methods: {
     comprarArtigo(){
-
+      alert('comprar')
+    },
+    removerCarrinho(){
+      
+      console.log(this.$store.getters["appbar/getLogin"])
+      if(this.$store.getters["appbar/getLogin"]){
+        console.log('eeeeee')
+        this.$store.dispatch("carrinho/removerDB");
+        this.$store.commit("carrinho/setListaArtigos", []);
+      }else{
+        localStorage.removeItem('carrinho');
+        this.$store.commit("carrinho/setListaArtigos", []);
+        
+      }
     }
+
   },
   //Sempre que este comonente é criado corre isto
   mounted: function () {
