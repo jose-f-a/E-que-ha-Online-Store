@@ -36,17 +36,44 @@ const actions = {
             };
 
             axios.request(options).then(function(response) {
-                commit('setListaArtigos', response.data.produtos)
+
+                //Colocar o que se tem no localstore e bd juntos
+                const local = JSON.parse(localStorage.getItem('carrinho'))
+                if (response.data.produtos.length > 0) {
+                    var artigosAdd = response.data.produtos
+                    if (local && local.length > 0) {
+                        local.forEach(localEl => {
+                            var notAdd = false;
+                            response.data.produtos.forEach(dbEl => {
+                                if (dbEl.produtoid === localEl.produtoid) {
+                                    notAdd = true
+                                }
+                            });
+
+                            if (!notAdd) {
+                                artigosAdd.push(localEl)
+                            }
+                        });
+                    }
+                    commit('setListaArtigos', artigosAdd)
+
+                } else {
+                    commit('setListaArtigos', local)
+                }
+                //Sempre que tiver login limpa o local
+                localStorage.removeItem('carrinho');
+
             }).catch(function(error) {
                 console.error(error);
             });
 
         } else {
             //se não, ir ao local e guarar no store
+            console.log('tou a ler o storgae')
             const artigos = JSON.parse(localStorage.getItem('carrinho'))
             console.log(artigos)
             commit('setListaArtigos', artigos)
-                //localStorage.setItem('carrinho', JSON.stringify(state.listaArtigos));
+
 
         }
 

@@ -46,8 +46,8 @@ const actions = {
                 .request(options)
                 .then(response => {
                     if (response.data.message)
-                        console.log('asdsadqds-> verificads saea')
-                    commit('setLogin', true)
+
+                        commit('setLogin', true)
 
                 })
                 .catch(error => {
