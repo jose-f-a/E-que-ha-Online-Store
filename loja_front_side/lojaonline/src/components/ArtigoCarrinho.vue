@@ -48,6 +48,8 @@ export default {
             //this.quantidade = this.quantidade + 1;
         },
         menosQuantidade() {
+            const id = this.artigo.produtoid
+            this.$store.dispatch("carrinho/alterarMenosArtigo",id);
             //Vai ao store editar o artigo em questao
             //this.quantidade = this.quantidade - 1;
         },

@@ -53,18 +53,23 @@ const mutations = {
     alterarMenosQuantidade(state, id) {
 
         var position = 0;
-
+        var elRemove = -1;
         state.listaArtigos.forEach(element => {
-            position++
             if (element.produtoid == id) {
                 element.quantidade = element.quantidade - 1
                     //se a quantidade for 0 remove do carrinho
                 if (element.quantidade == 0) {
-                    state.listaArtigos.splice(element, position)
+                    elRemove = position
+
                 }
             }
             position++
         });
+
+        if (elRemove > -1) {
+
+            state.listaArtigos.splice(elRemove, 1)
+        }
 
     },
     alterarMaisQuantidade(state, id) {
