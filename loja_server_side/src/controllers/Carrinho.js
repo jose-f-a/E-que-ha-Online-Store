@@ -4,20 +4,78 @@ const connection = require("../database");
 module.exports = {
     async getCarrinho(req, res) {
         const { userid } = req.query
-        console.log(userid)
+        var carrinhoid;
+        var produtosIni;
+        //Ir buscar o id do carrinho
+
+        //se não tiver carrinho retornar vazio
+        await connection.query("Select * from carrinho where userid =:id ", {
+            replacements: { id: userid }
+        }).then(results => {
+
+            if (results[0].length > 0) {
+                carrinhoid = results[0][0].carrinhoid
+            }
+        });
+
+        if (carrinhoid) {
+            //Ir buscar todas as linhas
+            await connection.query("Select * from linhaCarrinho where carrinhoid =:id ", {
+                replacements: { id: carrinhoid }
+            }).then(results => {
+
+                if (results[0].length > 0) {
+                    produtosIni = results[0]
+
+                } else {
+                    return res.json({
+                        produtos: []
+                    })
+                }
+            });
+            //Procurar pelos produtos
+            var produtosFinal = [];
+            await Promise.all(await produtosIni.map(async(produto) => {
+
+                await connection.query("SELECT * FROM produto where produtoid = :id;", {
+                    replacements: {
+                        id: produto.produtoid,
+                    }
+                }).then(results => {
+                    var aux = []
+                    json_ = {
+                        produtoid: produto.produtoid,
+                        quantidade: produto.quantidade,
+                        preco: results[0][0].preco,
+                        nome: results[0][0].nome,
+                    }
+                    produtosFinal.push(json_)
+
+                })
+
+            }))
+            return res.json({
+                produtos: produtosFinal
+            })
+
+        } else {
+            return res.json({
+                produtos: []
+            })
+        }
+
+        //se nao tiver linhas retornar vazio
+
         return res.json({
             produtos: [
-                { produtoid: 16, nome: 'EWQeqwe', quantidade: 9, preco: 10 },
-                { produtoid: 17, nome: 'Weqw', quantidade: 10, preco: 10 },
-                { produtoid: 18, nome: 'wqe', quantidade: 5, preco: 10 },
-                { produtoid: 19, nome: 'eqwe', quantidade: 3, preco: 10 }
+
             ]
         })
     },
 
     async setCarrinho(req, res) {
         const { userid, produtos } = req.body
-        console.log(req.body)
+
         var carrinhoid;
         if (produtos.length > 0) {
             //Procurar o carrinho do user**

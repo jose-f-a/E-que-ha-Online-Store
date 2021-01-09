@@ -96,7 +96,7 @@ const actions = {
                 headers: { 'Content-Type': 'application/json' },
                 data: {
                     userid: 1,
-                    produtos: state.artigos
+                    produtos: state.listaArtigos
                 }
             };
 
