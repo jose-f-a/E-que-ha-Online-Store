@@ -2,6 +2,7 @@
 
 const state = {
     listaArtigos: [],
+    login: null
 };
 
 const getters = {
@@ -17,38 +18,60 @@ const getters = {
 };
 
 const actions = {
-    loadArtigos({ commit }) {
-        commit('setListaArtigos')
-            //Verificar se tem login com o store da appbar
+    loadArtigos({ commit, rootState }) {
+
+        //Verificar se tem login com o store da appbar
+
+        if (rootState.appbar.login) {
             //se sim ir buscar a bd e guardar no store
+
+        } else {
             //se não, ir ao local e guarar no store
+            const artigos = JSON.parse(localStorage.getItem('carrinho'))
+            console.log(artigos)
+            commit('setListaArtigos', artigos)
+                //localStorage.setItem('carrinho', JSON.stringify(state.listaArtigos));
+
+        }
+
 
         /* NÃO ME ESQUECER QUANDO FAÇO LOGIN CARREGAR O CARRINHO DA BD E ACRESCENTAR, CASO NÃO EXISTAM, OS ARTIGOS QUE ESTEJAM NA LOCAL STORE E APAGAR A LOCAL STORE */
     },
-    alterarMaisArtigo({ commit }, id) {
+    alterarMaisArtigo({ commit, state, rootState }, id) {
         //Alterar artigo no store
         commit('alterarMaisQuantidade', id)
 
+        if (rootState.appbar.login) {
+            //se sim ir guarda na bd
 
+        } else {
+            //se não, guarda na local
+            localStorage.setItem('carrinho', JSON.stringify(state.listaArtigos));
+
+        }
         //Verificar se tem login com o store da appbar
         //se sim alterar o artgigo no store e na bd
         //se não, alterar o artigo no store e guardar no localstore
     },
-    alterarMenosArtigo({ commit }, id) {
+    alterarMenosArtigo({ commit, state, rootState }, id) {
         //Alterar artigo no store
         commit('alterarMenosQuantidade', id)
 
+        if (rootState.appbar.login) {
+            //se sim ir guarda na bd
 
-        //Verificar se tem login com o store da appbar
-        //se sim alterar o artgigo no store e na bd
-        //se não, alterar o artigo no store e guardar no localstore
+        } else {
+            //se não, guarda na local
+            localStorage.setItem('carrinho', JSON.stringify(state.listaArtigos));
+
+        }
     },
-    removeUser: ({ commit }, uuid) => commit("remove", uuid),
 };
 
 const mutations = {
-    setListaArtigos(state) {
-        state.listaArtigos = [{ produtoid: 1, nome: "EWQeqwe", quantidade: 3, preco: 10.0 }, { produtoid: 2, nome: "Weqw", quantidade: 3, preco: 10.0 }, { produtoid: 3, nome: "wqe", quantidade: 3, preco: 10.0 }, { produtoid: 4, nome: "eqwe", quantidade: 3, preco: 10.0 }]
+    setListaArtigos(state, artigos) {
+        console.log(artigos)
+        state.listaArtigos = artigos
     },
     alterarMenosQuantidade(state, id) {
 

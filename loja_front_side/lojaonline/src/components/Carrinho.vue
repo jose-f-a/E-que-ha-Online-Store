@@ -48,7 +48,10 @@ export default {
   },
   //Sempre que este comonente é criado corre isto
   created: function () {
+    console.log('CriouCarrinho')
     this.$store.dispatch("carrinho/loadArtigos");
+    console.log('load crrinho')
+
   },
   components: {
     artigo: ArtigoCarrinho,
