@@ -61,14 +61,11 @@ const actions = {
         };
 
         axios.request(options).then(function(response) {
-            console.log(response.data)
-            if (response.data.lenght > 0) {
+            if (response.data.length > 1) {
                 commit('setMoradas', response.data)
             } else {
                 commit('setMoradas', [response.data])
             }
-
-
         }).catch(function(error) {
             console.error(error);
         });
@@ -114,6 +111,7 @@ const mutations = {
         }
     },
     setMorada(state, val) {
+
         state.morada = val
     },
     setMoradas(state, val) {

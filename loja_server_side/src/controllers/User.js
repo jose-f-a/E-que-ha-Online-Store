@@ -64,26 +64,54 @@ module.exports = {
 
     async getMoradas(req, res) {
         const { userid } = req.query
-        var moradaid;
+        var moradaid = [];
+        var moradas = [];
         await connection.query("SELECT * FROM moradautilizador where userid= :userid;", {
                 replacements: {
                     userid: userid,
                 },
             })
             .then((result) => {
-                moradaid = result[0][0].moradaid
-
+                if (result[0].length > 0) {
+                    result[0].forEach(element => {
+                        moradaid.push(element.moradaid)
+                    });
+                } else {
+                    return res.json({})
+                }
             });
-        await connection.query("SELECT * FROM morada where moradaid= :moradaid;", {
-                replacements: {
-                    moradaid: moradaid,
-                },
-            })
-            .then((result) => {
 
-                return res.json(result[0][0])
+        if (moradaid.length > 1) {
+            await Promise.all(
+                moradaid.map(async(element) => {
 
-            });
+                    await connection.query("SELECT * FROM morada where moradaid= :moradaid;", {
+                            replacements: {
+                                moradaid: element,
+                            },
+                        })
+                        .then((result) => {
+
+                            moradas.push(result[0][0])
+
+                        })
+                })
+            )
+            return res.json(moradas)
+        } else {
+
+            await connection.query("SELECT * FROM morada where moradaid= :moradaid;", {
+                    replacements: {
+                        moradaid: moradaid[0],
+                    },
+                })
+                .then((result) => {
+
+                    return res.json(result[0][0])
+
+                });
+        }
+
 
     }
 }

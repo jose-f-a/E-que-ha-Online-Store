@@ -25,3 +25,6 @@ INSERT INTO morada(rua,cidade,codigo_postal,pais,descricao)
 	VALUES('Rua 25 Abril','Guimarães','4835-111','Portugal','Perto de quem vai')
 INSERT INTO moradautilizador(moradaid,userid) values(1,1)
 
+INSERT INTO morada(rua,cidade,codigo_postal,pais,descricao)
+	VALUES('Rua Da descida','Pé na cova','3412-111','Portugal','Longe de tudo')
+INSERT INTO moradautilizador(moradaid,userid) values(2,1)

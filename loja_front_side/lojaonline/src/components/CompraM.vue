@@ -12,8 +12,11 @@
               </v-col>
               <v-col  v-for="item in this.moradas" v-bind:key="item.moradaid" cols="4" md="3">
               <v-item v-slot="{ active ,toggle}">
-                <v-card elevation="24" outlined  @click="toggle();selectMorada(item.moradaid,active);">
-                  <v-icon>mdi-plus</v-icon>
+                <v-card elevation="24" outlined  @click="toggle();selectMorada(item,active);">
+                  <v-card-title>{{item.rua}}</v-card-title>
+                  
+                  {{item.cidade}}, {{item.pais}}
+                  {{item.codigo_postal}},{{item.descricao}}
                   <v-scroll-y-transition>
                     <div v-if="active" class="display-3 flex-grow-1 text-center"></div>
                   </v-scroll-y-transition>
@@ -44,13 +47,16 @@ export default {
     clickContinuar() {
       this.$store.commit("compra/setStep", 4);
     },
-    selectMorada(id,active){
-        if(active){
-          
-          //Set morada
-
+    selectMorada(morada,active){
+      
+        console.log(this.$store.getters["compra/getMorada"])
+        if(!active){
+          console.log('alterou')
+          console.log(morada)
+          this.$store.commit("compra/setMorada",morada );
         }else{
-          //removeMorada
+          console.log("removeu")
+          this.$store.commit("compra/setMorada",[]);
         }
         
     }
