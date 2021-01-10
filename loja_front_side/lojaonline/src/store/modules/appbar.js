@@ -32,6 +32,7 @@ const getters = {
 
 const actions = {
     verifySession({ commit }) {
+        console.log('tou a verificar')
         if (localStorage.getItem("token")) {
             const options = {
                 method: "POST",
@@ -45,6 +46,7 @@ const actions = {
                 .request(options)
                 .then(response => {
                     if (response.data.message)
+
                         commit('setLogin', true)
 
                 })
