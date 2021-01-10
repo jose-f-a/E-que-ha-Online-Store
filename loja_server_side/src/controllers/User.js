@@ -61,4 +61,29 @@ module.exports = {
             console.log(error);
         }
     },
+
+    async getMoradas(req, res) {
+        const { userid } = req.query
+        var moradaid;
+        await connection.query("SELECT * FROM moradautilizador where userid= :userid;", {
+                replacements: {
+                    userid: userid,
+                },
+            })
+            .then((result) => {
+                moradaid = result[0][0].moradaid
+
+            });
+        await connection.query("SELECT * FROM morada where moradaid= :moradaid;", {
+                replacements: {
+                    moradaid: moradaid,
+                },
+            })
+            .then((result) => {
+
+                return res.json(result[0][0])
+
+            });
+
+    }
 }

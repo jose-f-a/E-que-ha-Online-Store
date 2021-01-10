@@ -21,3 +21,7 @@ INSERT INTO categoriaproduto(produtoid,categoriaid) values(17,2);
 INSERT INTO categoriaproduto(produtoid,categoriaid) values(18,2);
 INSERT INTO categoriaproduto(produtoid,categoriaid) values(19,2);
 
+INSERT INTO morada(rua,cidade,codigo_postal,pais,descricao)
+	VALUES('Rua 25 Abril','Guimarães','4835-111','Portugal','Perto de quem vai')
+INSERT INTO moradautilizador(moradaid,userid) values(1,1)
+
