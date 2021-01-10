@@ -116,6 +116,7 @@ export default {
     produtoId: null,
     nome:'',
     desc:'',
+    preco:1, //Hard coded,mudar
     imagens: [],
     variantes: [], //Vai ter os ids,depois vai vai se buscar as imagens e mete-se um evento de click
     rating: null,
@@ -136,7 +137,10 @@ export default {
       this.$router.go();
     },
     adicionarCarrinho() {
-      alert("dasd");
+      const artigo={produtoid:this.produtoId,
+      quantidade:this.quantidade,preco:this.preco,nome:this.nome}
+      this.$store.dispatch("carrinho/adicionarProduto",artigo);
+      alert('Adicionou')
     },
     comprarArtigo() {
       alert(this.produtoId);

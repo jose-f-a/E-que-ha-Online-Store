@@ -7,8 +7,8 @@ module.exports = {
         var carrinhoid;
         var produtosIni;
         //Ir buscar o id do carrinho
-
-        //se não tiver carrinho retornar vazio
+        console.log('GetCarrinho')
+            //se não tiver carrinho retornar vazio
         await connection.query("Select * from carrinho where userid =:id ", {
             replacements: { id: userid }
         }).then(results => {
@@ -28,6 +28,7 @@ module.exports = {
                     produtosIni = results[0]
 
                 } else {
+                    console.log([])
                     return res.json({
                         produtos: []
                     })
@@ -35,29 +36,33 @@ module.exports = {
             });
             //Procurar pelos produtos
             var produtosFinal = [];
-            await Promise.all(await produtosIni.map(async(produto) => {
+            if (produtosIni && produtosIni.length > 0) {
+                await Promise.all(await produtosIni.map(async(produto) => {
 
-                await connection.query("SELECT * FROM produto where produtoid = :id;", {
-                    replacements: {
-                        id: produto.produtoid,
-                    }
-                }).then(results => {
-                    var aux = []
-                    json_ = {
-                        produtoid: produto.produtoid,
-                        quantidade: produto.quantidade,
-                        preco: results[0][0].preco,
-                        nome: results[0][0].nome,
-                    }
-                    produtosFinal.push(json_)
+                    await connection.query("SELECT * FROM produto where produtoid = :id;", {
+                        replacements: {
+                            id: produto.produtoid,
+                        }
+                    }).then(results => {
+                        var aux = []
 
+                        json_ = {
+                            produtoid: parseInt(produto.produtoid),
+                            quantidade: parseInt(produto.quantidade),
+                            preco: parseFloat(results[0][0].preco),
+                            nome: results[0][0].nome.split('-')[0],
+                        }
+                        produtosFinal.push(json_)
+
+                    })
+
+                }))
+                console.log(produtosFinal)
+                return res.json({
+                    produtos: produtosFinal
                 })
+            }
 
-            }))
-            console.log(produtosFinal)
-            return res.json({
-                produtos: produtosFinal
-            })
 
         } else {
             /* [
@@ -66,6 +71,7 @@ module.exports = {
   { produtoid: 19, quantidade: 8, preco: '9', nome: 'VÅGSJÖN-Roxo' }
 ] */
             //se nao tiver linhas retornar vazio
+            console.log([])
             return res.json({
                 produtos: []
             })
@@ -74,7 +80,7 @@ module.exports = {
 
     async setCarrinho(req, res) {
         const { userid, produtos } = req.body
-
+        console.log('Set Carrinho')
         var carrinhoid;
         if (produtos.length > 0) {
             //Procurar o carrinho do user**
@@ -111,13 +117,14 @@ module.exports = {
                 await connection.query("INSERT INTO linhacarrinho(carrinhoid,produtoid,quantidade) values(:carrinhoid,:produtoid,:qtd);", {
                     replacements: {
                         carrinhoid: carrinhoid,
-                        produtoid: produto.produtoid,
-                        qtd: produto.quantidade
+                        produtoid: parseInt(produto.produtoid),
+                        qtd: parseInt(produto.quantidade)
                     }
                 }).then(results => {
 
                 })
             });
+            console.log(produtos)
             return res.json({ msg: "adicionou" })
 
         } else {

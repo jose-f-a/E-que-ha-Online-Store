@@ -76,12 +76,51 @@ const actions = {
             const artigos = JSON.parse(localStorage.getItem('carrinho'))
             console.log(artigos)
             commit('setListaArtigos', artigos)
-
-
         }
 
+    },
+    adicionarProduto({ rootState, state }, artigo) {
+        //Adicionar o artigo na db e no store
+        console.log(state.listaArtigos)
+        if (state.listaArtigos && state.listaArtigos.length > 0) {
+            var exist = false
+            state.listaArtigos.forEach(element => {
+                if (element.produtoid == artigo.produtoid) {
+                    element.quantidade = artigo.quantidade
+                    exist = true
+                }
+            });
+            if (!exist) {
+                state.listaArtigos.push(artigo)
+            }
 
-        /* NÃO ME ESQUECER QUANDO FAÇO LOGIN CARREGAR O CARRINHO DA BD E ACRESCENTAR, CASO NÃO EXISTAM, OS ARTIGOS QUE ESTEJAM NA LOCAL STORE E APAGAR A LOCAL STORE */
+        } else {
+            state.listaArtigos = [artigo]
+        }
+
+        if (rootState.appbar.login) {
+            //se sim ir guarda na bd
+            const options = {
+                method: 'POST',
+                url: 'http://localhost:3342/api/set-carrinho',
+                headers: { 'Content-Type': 'application/json' },
+                data: {
+                    userid: 1,
+                    produtos: state.listaArtigos
+                }
+            };
+
+            axios.request(options).then(function(response) {
+                console.log(response.data);
+            }).catch(function(error) {
+                console.error(error);
+            });
+
+        } else {
+            //se não, guarda na local
+            localStorage.setItem('carrinho', JSON.stringify(state.listaArtigos));
+
+        }
     },
     removerDB() {
         console.log('eee')
