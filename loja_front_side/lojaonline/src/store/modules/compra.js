@@ -1,4 +1,4 @@
-//import axios from "axios";
+import axios from "axios";
 
 const state = {
     step: 1,
@@ -26,7 +26,25 @@ const getters = {
 };
 
 const actions = {
+    updateDadosArtigos({ commit, state }) {
+        console.log('dentro')
 
+        const options = {
+            method: 'POST',
+            url: 'http://localhost:3342/api/get-artigos-actuais',
+            headers: { 'Content-Type': 'application/json' },
+            data: {
+                artigos: state.artigos
+            }
+        };
+
+        axios.request(options).then(function(response) {
+            console.log(response.data)
+            commit('setArtigos', response.data)
+        }).catch(function(error) {
+            console.error(error);
+        });
+    }
 };
 
 const mutations = {

@@ -93,6 +93,29 @@ module.exports = {
             console.log(error);
         }
     },
+    async getArtigosAtualizados(req, res) {
+        var { artigos } = req.body
+        var artigosUpdate = [];
+        await Promise.all(artigos.map(async(artigo) => {
+            await connection.query("Select * from produto where produtoid =:id", {
+                replacements: {
+                    id: artigo.produtoid
+                }
+            }).then((results) => {
+                const jsonAr = {
+                    produtoid: artigo.produtoid,
+                    quantidade: artigo.quantidade,
+                    preco: results[0][0].preco,
+                    nome: results[0][0].nome.split('-')[0]
+                }
+                artigosUpdate.push(jsonAr)
+
+                console.log(artigosUpdate)
+            });
+        }));
+
+        return res.json(artigosUpdate)
+    }
 };
 
 // Select produto.produtoid, nome, preco, produto.descricao, avg(rating)

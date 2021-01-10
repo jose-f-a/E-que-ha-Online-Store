@@ -23,7 +23,7 @@ export default {
     clickContinuar(){
         this.$store.commit("compra/setStep", 2);
         //Atualizar os dados dos produtos com os dados da db
-        
+        this.$store.dispatch("compra/updateDadosArtigos")
     }
   },
   computed: {

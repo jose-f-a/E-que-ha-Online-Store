@@ -11,6 +11,6 @@ routes.get("/api/produto-por-id", produto.getArtigoById)
 routes.post("/api/set-carrinho", carrinho.setCarrinho)
 routes.get("/api/get-carrinho", carrinho.getCarrinho)
 routes.get("/api/getArtigo", produto.getArtigo);
-
+routes.post("/api/get-artigos-actuais", produto.getArtigosAtualizados);
 
 module.exports = routes;
