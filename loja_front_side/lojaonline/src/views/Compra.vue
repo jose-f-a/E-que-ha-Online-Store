@@ -8,30 +8,30 @@
         <login> </login>
         <signup></signup>
         <div>
-    <v-stepper class="step" value ="3" alt-labels>
+    <v-stepper class="step" :value="this.step" alt-labels>
       <v-stepper-header>
-        <v-stepper-step step="1" complete>
+        <v-stepper-step step="1" :complete="this.step>1">
           Editar Artigos
         </v-stepper-step>
 
         <v-divider></v-divider>
 
-        <v-stepper-step step="2" complete>
+        <v-stepper-step step="2" :complete="this.step>2">
           Confirmar artigos
         </v-stepper-step>
 
         <v-divider></v-divider>
 
-        <v-stepper-step step="3">
+        <v-stepper-step step="3" :complete="this.step>3">
           Escolher morada
         </v-stepper-step>
 
         <v-divider></v-divider>
-        <v-stepper-step step="4">
+        <v-stepper-step step="4" :complete="this.step>4">
           Pagamento
         </v-stepper-step>
         <v-divider></v-divider>
-        <v-stepper-step step="5">
+        <v-stepper-step step="5" :complete="this.step>5">
           Confirmar
         </v-stepper-step>
         <v-divider></v-divider>
@@ -61,7 +61,7 @@
     </div>
     <div v-else></div>
     <div v-if="step==5">
-      <step5 >
+      <step5>
       </step5>
     </div>
     <div v-else></div>
