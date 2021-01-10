@@ -29,6 +29,9 @@ const getters = {
     getMoradas: (state) => {
         return state.moradas
     },
+    getMetodoPagamento: (state) => {
+        return state.pagamento
+    }
 
 };
 
@@ -116,8 +119,10 @@ const mutations = {
     },
     setMoradas(state, val) {
         state.moradas = val
+    },
+    setMetodoPagamento(state, val) {
+        state.pagamento = val
     }
-
 };
 
 export default {
