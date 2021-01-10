@@ -7,6 +7,7 @@ const state = {
         { produtoid: 18, quantidade: 4, preco: 9, nome: 'VÅGSJÖN' },
         { produtoid: 19, quantidade: 4, preco: 9, nome: 'VÅGSJÖN' }
     ],
+    moradas: [],
     morada: null,
     pagamento: null,
 };
@@ -21,6 +22,12 @@ const getters = {
     },
     getArtigos: (state) => {
         return state.artigos
+    },
+    getMorada: (state) => {
+        return state.morada
+    },
+    getMoradas: (state) => {
+        return state.moradas
     },
 
 };
@@ -41,6 +48,27 @@ const actions = {
         axios.request(options).then(function(response) {
             console.log(response.data)
             commit('setArtigos', response.data)
+        }).catch(function(error) {
+            console.error(error);
+        });
+    },
+    getMoradasDB({ commit }) {
+        console.log('dsadsad')
+        const options = {
+            method: 'GET',
+            url: 'http://localhost:3342/api/get-user-morada',
+            params: { userid: '1' }
+        };
+
+        axios.request(options).then(function(response) {
+            console.log(response.data)
+            if (response.data.lenght > 0) {
+                commit('setMoradas', response.data)
+            } else {
+                commit('setMoradas', [response.data])
+            }
+
+
         }).catch(function(error) {
             console.error(error);
         });
@@ -67,6 +95,12 @@ const mutations = {
                 artigo.quantidade = artigo.quantidade - 1
             }
         });
+    },
+    setMorada(state, val) {
+        state.morada = val
+    },
+    setMoradas(state, val) {
+        state.moradas = val
     }
 
 };

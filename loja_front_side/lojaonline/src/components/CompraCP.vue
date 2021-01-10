@@ -24,6 +24,8 @@ import ArtigoCompra from "@/components/ArtigoCompraConfirmar.vue";
 export default {
   methods: {
     clickContinuar(){
+        
+        this.$store.dispatch("compra/getMoradasDB");
         this.$store.commit("compra/setStep", 3);
     },
     clickVoltar(){
