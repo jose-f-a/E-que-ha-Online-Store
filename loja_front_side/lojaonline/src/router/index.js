@@ -5,7 +5,8 @@ import Admin from "../views/Admin.vue";
 import User from "../views/User.vue";
 import Pesquisa from "../views/Search.vue";
 import Produto from "../views/Product.vue";
-import Categoria from "../views/CategoriaS.vue"
+import Categoria from "../views/CategoriaS.vue";
+import Compra from "../views/Compra.vue";
 Vue.use(VueRouter);
 
 const routes = [{
@@ -37,7 +38,12 @@ const routes = [{
         path: "/pesquisa/:query",
         name: "Pesquisa",
         component: Pesquisa
-    }
+    },
+    {
+        path: "/compra",
+        name: "Compra",
+        component: Compra
+    },
 ];
 
 const router = new VueRouter({
