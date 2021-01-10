@@ -9,13 +9,29 @@
       </v-card>
     </div>
     <div class="morada">
-      <v-card elevation="24" outlined disabled>
-        Morada
-      </v-card>
+      <v-card elevation="24" outlined> 
+        <v-car-title>Morada</v-car-title>
+        {{this.morada.rua}}
+         </v-card>
     </div>
     <div class="metodoPagamento">
-      <v-card elevation="24" outlined disabled>
+      <v-card elevation="24" outlined >
         Pagamento
+        <div v-if="this.pagamento == 1">
+          <v-img
+            src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Logo_MBWay.svg"
+          >
+          </v-img>
+        </div>
+        <div v-if="this.pagamento == 2">
+          <v-img
+            src="https://upload.wikimedia.org/wikipedia/commons/4/46/Multibanco.svg"
+          >
+          </v-img>
+        </div>
+        <div v-if="this.pagamento == 3">
+          <v-img src="../../public/imagens/credit.png"> </v-img>
+        </div>
       </v-card>
     </div>
     <div>
@@ -33,12 +49,12 @@
 import ArtigoCompra from "@/components/ArtigoCompraConfirmar.vue";
 export default {
   methods: {
-    clickVoltar(){
-        this.$store.commit("compra/setStep", 4);
+    clickVoltar() {
+      this.$store.commit("compra/setStep", 4);
     },
-    clickContinuar(){
-        alert('Compra feita')
-    }
+    clickContinuar() {
+      alert("Compra feita");
+    },
   },
   computed: {
     artigos: {
@@ -49,11 +65,25 @@ export default {
         this.$store.commit("compra/setArtigos", val);
       },
     },
+    pagamento: {
+      get() {
+        return this.$store.getters["compra/getMetodoPagamento"];
+      },
+      set(val) {
+        this.$store.commit("compra/setMetodoPagamento", val);
+      },
+    },
+     morada: {
+      get() {
+        return this.$store.getters["compra/getMorada"];
+      },
+      set(val) {
+        this.$store.commit("compra/setMorada", val);
+      },
+    },
   },
-  data: () => ({}),
   components: {
     artigo: ArtigoCompra,
-    
   },
 };
 </script>
