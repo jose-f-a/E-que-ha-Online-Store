@@ -2,6 +2,16 @@
   <v-card clas="container" elevation="6" outlined>
     <v-card-title> Pagamento </v-card-title>
     <div>
+      <v-row>
+        <v-col cols="4" md="3">
+          <v-card elevation="24" outlined disabled>
+            <v-img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Logo_MBWay.svg"></v-img>
+          </v-card></v-col
+        >
+        
+      </v-row>
+    </div>
+    <div>
       <v-btn class="ma-2" outlined color="indigo" @click="clickVoltar">
         Voltar
       </v-btn>
