@@ -127,6 +127,8 @@ export default {
     margin-bottom: 0.4rem;
   }
   .componente{
-
+    background: red;
+    height: 2rem;
+    max-height: 2rem;
   }
 </style>
