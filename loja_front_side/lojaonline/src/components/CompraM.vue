@@ -2,23 +2,27 @@
   <v-card clas="container" elevation="6" outlined>
     <v-card-title> Morada </v-card-title>
     <div>
-      <v-row>
-        <v-col cols="4" md="3">
-          <v-card elevation="24" outlined disabled>
-            <v-icon>mdi-plus</v-icon>
-          </v-card></v-col
-        >
-        <v-col
-          v-for="item in this.moradas"
-          v-bind:key="item.moradaid"
-          cols="4"
-          md="3"
-        >
-          <v-card elevation="24" outlined disabled>
-            <v-icon>mdi-plus</v-icon>
-          </v-card>
-        </v-col>
-      </v-row>
+      <v-item-group active-class="primary">
+        <v-container>
+          <v-row>
+            <v-col cols="4" md="3">
+                <v-card elevation="24" outlined>
+                  <v-icon>mdi-plus</v-icon>
+                </v-card>
+              </v-col>
+              <v-col  v-for="item in this.moradas" v-bind:key="item.moradaid" cols="4" md="3">
+              <v-item v-slot="{ active ,toggle}">
+                <v-card elevation="24" outlined  @click="toggle();selectMorada(item.moradaid,active);">
+                  <v-icon>mdi-plus</v-icon>
+                  <v-scroll-y-transition>
+                    <div v-if="active" class="display-3 flex-grow-1 text-center"></div>
+                  </v-scroll-y-transition>
+                </v-card>
+              </v-item>
+              </v-col>
+          </v-row>
+        </v-container>
+      </v-item-group>
     </div>
     <div>
       <v-btn class="ma-2" outlined color="indigo" @click="clickVoltar">
@@ -40,6 +44,16 @@ export default {
     clickContinuar() {
       this.$store.commit("compra/setStep", 4);
     },
+    selectMorada(id,active){
+        if(active){
+          
+          //Set morada
+
+        }else{
+          //removeMorada
+        }
+        
+    }
   },
   computed: {
     moradas: {
