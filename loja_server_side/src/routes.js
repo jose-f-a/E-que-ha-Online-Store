@@ -10,4 +10,7 @@ routes.post("/api/sessionValidation", user.sessionValidation)
 routes.get("/api/produto-por-id", produto.getArtigoById)
 routes.post("/api/set-carrinho", carrinho.setCarrinho)
 routes.get("/api/get-carrinho", carrinho.getCarrinho)
+routes.get("/api/getArtigo", produto.getArtigo);
+
+
 module.exports = routes;
