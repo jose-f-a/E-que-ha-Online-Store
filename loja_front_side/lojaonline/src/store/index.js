@@ -5,9 +5,11 @@ Vue.use(Vuex);
 
 import appbar from "./modules/appbar";
 import carrinho from "./modules/carrinho"
+import compra from "./modules/compra"
 export default new Vuex.Store({
     modules: {
         appbar,
-        carrinho
+        carrinho,
+        compra
     },
 });

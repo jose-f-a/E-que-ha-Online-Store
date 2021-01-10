@@ -1,12 +1,8 @@
 <template>
-  <v-card
-    style="background:red;"
-    :ripple="false"
-    elevation="0"
-    tile
+  <v-card clas="container"   elevation="6"
+  outlined
   >
-
-  dsadadS
+  Confirmar
   </v-card>
 
 </template>
@@ -22,5 +18,7 @@ export default {
 </script>
 
 <style scoped>
-
+.v-card{
+    
+}
 </style>
