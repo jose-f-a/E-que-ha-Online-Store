@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import ArtigoCarrinho from "@/components/ArtigoCompra.vue";
+import ArtigoCompra from "@/components/ArtigoCompraConfirmar.vue";
 export default {
   methods: {
     clickContinuar(){
@@ -42,7 +42,7 @@ export default {
   },
   data: () => ({}),
   components: {
-    artigo: ArtigoCarrinho,
+    artigo: ArtigoCompra,
   },
 };
 </script>

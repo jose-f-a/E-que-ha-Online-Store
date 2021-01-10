@@ -1,24 +1,71 @@
 <template>
-  <v-card clas="container"   elevation="6"
-  outlined
-  >
-  Confirmar
+  <v-card clas="container" elevation="6" outlined>
+    <v-card-title> Confirmar </v-card-title>
+    <div class="lista">
+      <v-card elevation="24" outlined disabled>
+        <div v-for="item in this.artigos" v-bind:key="item.produtoid">
+          <artigo :artigo="item"></artigo>
+        </div>
+      </v-card>
+    </div>
+    <div class="morada">
+      <v-card elevation="24" outlined disabled>
+        Morada
+      </v-card>
+    </div>
+    <div class="metodoPagamento">
+      <v-card elevation="24" outlined disabled>
+        Pagamento
+      </v-card>
+    </div>
+    <div>
+      <v-btn class="ma-2" outlined color="indigo" @click="clickVoltar">
+        Voltar
+      </v-btn>
+      <v-btn class="ma-2" outlined color="indigo" @click="clickContinuar">
+        Finalizar
+      </v-btn>
+    </div>
   </v-card>
-
 </template>
 
 <script>
+import ArtigoCompra from "@/components/ArtigoCompraConfirmar.vue";
 export default {
-
   methods: {
-
+    clickVoltar(){
+        this.$store.commit("compra/setStep", 4);
+    },
+    clickContinuar(){
+        alert('Compra feita')
+    }
+  },
+  computed: {
+    artigos: {
+      get() {
+        return this.$store.getters["compra/getArtigos"];
+      },
+      set(val) {
+        this.$store.commit("compra/setArtigos", val);
+      },
+    },
   },
   data: () => ({}),
+  components: {
+    artigo: ArtigoCompra,
+    
+  },
 };
 </script>
 
 <style scoped>
-.v-card{
-    
+.v-card {
+}
+.lista {
+  overflow: scroll;
+  overflow-x: hidden;
+  height: auto;
+  max-height: 28rem;
+  padding: 5px;
 }
 </style>
