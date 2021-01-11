@@ -112,8 +112,12 @@ export default {
       set(val) {
         this.$store.commit("compra/setStep", val);
       },
-    
     },
+ 
+  },
+  created:function(){
+    //Vai ler o valor recebido com parametro e preencher com o carrinho
+    this.$store.dispatch("compra/getArtigosDoCarrinho");
   },
 };
 </script>

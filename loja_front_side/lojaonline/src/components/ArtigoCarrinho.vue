@@ -1,7 +1,7 @@
 <template>
     <v-card class="card" elevation="2" outlined >
-        <div class="produto" @click="clickVariavel(item.produtoid)">
-            <v-img class="image" src="../../public/imagens/17_1.webp"></v-img>
+        <div class="produto">
+            <v-img class="image" :src="imgPath(artigo.produtoid)"></v-img>
             <div>{{this.artigo.nome}}</div>
             <div>{{this.artigo.preco}}€</div>
         </div>
@@ -53,6 +53,9 @@ export default {
             //Vai ao store editar o artigo em questao
             //this.quantidade = this.quantidade - 1;
         },
+            imgPath(id) {
+      return require("../../public/imagens/" + id + "_1.webp");
+    },
     },
     
 }

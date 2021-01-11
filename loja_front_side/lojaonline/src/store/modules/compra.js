@@ -1,13 +1,9 @@
 import axios from "axios";
-
 const state = {
     step: 1,
-    artigos: [{ produtoid: 16, quantidade: 4, preco: 9, nome: 'VÅGSJÖN' },
-        { produtoid: 17, quantidade: 4, preco: 9, nome: 'VÅGSJÖN' },
-        { produtoid: 18, quantidade: 4, preco: 9, nome: 'VÅGSJÖN' },
-        { produtoid: 19, quantidade: 4, preco: 9, nome: 'VÅGSJÖN' }
-    ],
+    artigos: [],
     moradas: [],
+    isCompra: false,
     morada: null,
     pagamento: null,
 };
@@ -19,6 +15,9 @@ const getters = {
     },
     getStep: (state) => {
         return state.step
+    },
+    getisCompra: (state) => {
+        return state.isCompra
     },
     getArtigos: (state) => {
         return state.artigos
@@ -34,8 +33,11 @@ const getters = {
     }
 
 };
-
 const actions = {
+    getArtigosDoCarrinho({ commit, rootState }) {
+        commit('setCompra', true)
+        setTimeout(function() { commit('setArtigos', rootState.carrinho.listaArtigos); }, 3000);
+    },
     updateDadosArtigos({ commit, state }) {
         console.log('dentro')
 
@@ -76,6 +78,9 @@ const actions = {
 };
 
 const mutations = {
+    setCompra(state, val) {
+        state.isCompra = val
+    },
     setStep(state, val) {
         state.step = val
     },

@@ -80,6 +80,9 @@
               </v-btn>
             </div>
             <div>
+              {{preco}}€
+              </div>
+            <div>
               <v-btn
                 class="ma-2"
                 outlined
@@ -143,7 +146,12 @@ export default {
       alert('Adicionou')
     },
     comprarArtigo() {
-      alert(this.produtoId);
+      
+      const artigo={produtoid:this.produtoId,
+      quantidade:this.quantidade,preco:this.preco,nome:this.nome}
+      this.$store.dispatch("carrinho/adicionarProduto",artigo);
+      this.$router.push("/compra");
+      this.$router.go();
     },
     imgPath(id) {
       return require("../../public/imagens/" + id + "_1.webp");
@@ -166,7 +174,8 @@ export default {
     axios.request(options).then(response => {
         this.nome= response.data.produto.nome
         this.desc= response.data.produto.descricao
-        this.variantes= response.data.variantes
+        this.variantes = response.data.variantes
+        this.preco = response.data.preco
         this.rating = parseFloat(response.data.rating[0].review)
         this.reviewNumber=response.data.rating[0].total
       })

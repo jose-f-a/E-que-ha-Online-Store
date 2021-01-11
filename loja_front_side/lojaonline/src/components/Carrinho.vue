@@ -57,7 +57,8 @@ export default {
   },
   methods: {
     comprarArtigo(){
-      alert('comprar')
+      this.$router.push("/compra");
+      this.$router.go();
     },
     removerCarrinho(){
       
@@ -72,10 +73,10 @@ export default {
         
       }
     }
-
   },
   //Sempre que este comonente é criado corre isto
-  mounted: function () {
+  created: function () {
+    console.log('criou carrinho')
     this.$store.dispatch("carrinho/loadArtigos");
   },
   components: {

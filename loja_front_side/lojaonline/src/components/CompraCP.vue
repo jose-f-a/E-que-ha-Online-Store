@@ -22,6 +22,10 @@
 <script>
 import ArtigoCompra from "@/components/ArtigoCompraConfirmar.vue";
 export default {
+  data: () => ({}),
+  components: {
+    artigo: ArtigoCompra,
+  },
   methods: {
     clickContinuar(){
         
@@ -42,10 +46,10 @@ export default {
       },
     },
   },
-  data: () => ({}),
-  components: {
-    artigo: ArtigoCompra,
-  },
+  created: function(){
+      this.$store.dispatch("compra/getArtigosById");
+  }
+  
 };
 </script>
 
