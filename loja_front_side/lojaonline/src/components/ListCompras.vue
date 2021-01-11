@@ -1,5 +1,6 @@
 <template>
   <div>
+    <compra></compra>
     <!-- <v-stepper alt-labels>
       <v-stepper-header>
         <v-stepper-step step="1"> Pedido Processado </v-stepper-step>
@@ -15,8 +16,20 @@
 </template>
 
 <script>
+import compra from "./ListComprasItem";
+
 export default {
   name: "Compra",
+  components: {
+    compra,
+  },
+  computed: {
+    user: {
+      get() {
+        return this.$store.getters["appbar/getUser"];
+      },
+    },
+  },
 };
 </script>
 

@@ -35,14 +35,14 @@
                     <v-list-item-title>Compras</v-list-item-title>
                   </template>
 
-                  <v-list-item @click="toggleCompras">
+                  <v-list-item @click="toggleCompras('1')">
                     <v-list-item-icon>
                       <v-icon>mdi-dots-horizontal</v-icon>
                     </v-list-item-icon>
                     <v-list-item-title>A decorrer</v-list-item-title>
                   </v-list-item>
 
-                  <v-list-item @click="toggleCompras">
+                  <v-list-item @click="toggleCompras('2')">
                     <v-list-item-icon>
                       <v-icon>mdi-check</v-icon>
                     </v-list-item-icon>
@@ -65,7 +65,7 @@
 
 <script>
 import perfil from "../components/Perfil";
-import compras from "../components/Compras";
+import compras from "../components/ListCompras";
 
 export default {
   data() {
@@ -87,12 +87,12 @@ export default {
       this.showPerfil = true;
       this.showCompras = false;
     },
-    toggleCompras() {
+    toggleCompras(valor) {
       this.showCompras = true;
       this.showPerfil = false;
+      this.$store.dispatch("user/loadListaCompras", valor);
     },
     verifyLogin() {
-      console.log(this.$store.getters["appbar/getLogin"]);
       if (!this.$store.getters["appbar/getLogin"]) {
         this.$router.push("/");
         this.$router.go();
@@ -102,12 +102,19 @@ export default {
   mounted: function () {
     this.$store.dispatch("appbar/verifySession");
     this.verifyLogin();
-    console.log(this.user);
   },
   computed: {
     user: {
       get() {
         return this.$store.getters["appbar/getUser"];
+      },
+    },
+    listaCompras: {
+      set(val) {
+        this.$store.commit("user/setListaCompras", val);
+      },
+      get() {
+        return this.$store.getters["user/getListaCompras"];
       },
     },
   },
