@@ -1,4 +1,5 @@
 import axios from "axios";
+const jwt = require('jsonwebtoken');
 const state = {
     step: 1,
     artigos: [],
@@ -71,6 +72,28 @@ const actions = {
             } else {
                 commit('setMoradas', [response.data])
             }
+        }).catch(function(error) {
+            console.error(error);
+        });
+    },
+    criarCompra({ state }) {
+        const { userid } = jwt.decode(localStorage.getItem('token'))
+
+        const options = {
+            method: 'POST',
+            url: 'http://localhost:3342/api/comprar',
+            headers: { 'Content-Type': 'application/json' },
+            data: {
+                userid: userid,
+                moradaid: state.morada.moradaid,
+                pagamentoid: state.pagamento,
+                artigos: state.artigos
+            }
+        };
+
+        axios.request(options).then(function(response) {
+
+            console.log(response.data);
         }).catch(function(error) {
             console.error(error);
         });

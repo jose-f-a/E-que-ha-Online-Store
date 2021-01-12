@@ -48,7 +48,6 @@ export default {
       this.$store.commit("compra/setStep", 4);
     },
     selectMorada(morada,active){
-      
         console.log(this.$store.getters["compra/getMorada"])
         if(!active){
           console.log('alterou')

@@ -38,7 +38,7 @@
       <v-btn class="ma-2" outlined color="indigo" @click="clickVoltar">
         Voltar
       </v-btn>
-      <v-btn class="ma-2" outlined color="indigo" @click="clickContinuar">
+      <v-btn class="ma-2" outlined color="indigo" @click="clickFinalizar">
         Finalizar
       </v-btn>
     </div>
@@ -52,8 +52,13 @@ export default {
     clickVoltar() {
       this.$store.commit("compra/setStep", 4);
     },
-    clickContinuar() {
-      alert("Compra feita");
+    clickFinalizar() {
+      this.$store.dispatch("compra/criarCompra");
+      // Remove o carrinho da bd depois da compra
+      this.$store.dispatch("carrinho/removerDB");
+      this.$router.push("/");
+      this.$router.go();
+      
     },
   },
   computed: {

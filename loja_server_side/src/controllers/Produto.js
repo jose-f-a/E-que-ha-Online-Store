@@ -54,6 +54,7 @@ module.exports = {
                             produtoid: produto.produtoid,
                             nome: produto.nome.split('-')[0],
                             cor: produto.nome.split('-')[1],
+                            preco: produto.preco,
                             variantes: variantes
                         }
                         produtosFinais.push(json_produto)
