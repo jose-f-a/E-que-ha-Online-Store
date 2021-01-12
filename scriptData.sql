@@ -32,3 +32,50 @@ INSERT INTO moradautilizador(moradaid,userid) values(2,1)
 INSERT into metodopagamento(nome) values('mbway')
 INSERT into metodopagamento(nome) values('multibanco')
 INSERT into metodopagamento(nome) values('cartão')
+
+
+INSERT INTO produto(nome,preco,desconto,stock,descricao) 
+values('KORNAN-Rosa',7,0,3,'Lençol de banho, rosa100x150 cm');
+INSERT INTO produto(nome,preco,desconto,stock,descricao) 
+values('KORNAN-Azul Claro',7,0,3,'Lençol de banho, azul claro100x150 cm');
+INSERT INTO produto(nome,preco,desconto,stock,descricao) 
+values('KORNAN-Cinza',7,0,3,'Lençol de banho, cinz100x150 cm');
+
+
+INSERT INTO produto(nome,preco,desconto,stock,descricao) 
+values('HIMLEÅN-Amarelo',15,0,3,'Lençol de banho, amarelo100x150 cm');
+INSERT INTO produto(nome,preco,desconto,stock,descricao) 
+values('HIMLEÅN-Azul escuro',15,0,3,'Lençol de banho, azul100x150 cm');
+INSERT INTO produto(nome,preco,desconto,stock,descricao) 
+values('HIMLEÅN-Bege',15,0,3,'Lençol de banho, bege/mescla100x150 cm');
+INSERT INTO produto(nome,preco,desconto,stock,descricao) 
+values('HIMLEÅN-Cinzento',15,0,3,'Lençol de banho, cinza100x150 cm');
+INSERT INTO produto(nome,preco,desconto,stock,descricao) 
+values('HIMLEÅN-Vermelho',15,0,3,'Lençol de banho, vermelho100x150 cm');
+
+INSERT INTO produto(nome,preco,desconto,stock,descricao) 
+values('FOSKÅN',9.99,0,3,'Toalha de banho, branco/multicor70x140 cm');
+
+INSERT INTO produto(nome,preco,desconto,stock,descricao) 
+values('RÖRANDE',6,0,3,'Toalha de banho, branco/multicor70x140 cm');
+
+INSERT INTO produto(nome,preco,desconto,stock,descricao) 
+values('KLÄMMIG',2.75,0,3,'Toalha de rosto, verde/branco3 unidades');
+
+
+
+INSERT INTO categoriaproduto(produtoid,categoriaid) values(20,2);
+INSERT INTO categoriaproduto(produtoid,categoriaid) values(21,2);
+INSERT INTO categoriaproduto(produtoid,categoriaid) values(22,2);
+
+INSERT INTO categoriaproduto(produtoid,categoriaid) values(23,2);
+INSERT INTO categoriaproduto(produtoid,categoriaid) values(24,2);
+INSERT INTO categoriaproduto(produtoid,categoriaid) values(25,2);
+INSERT INTO categoriaproduto(produtoid,categoriaid) values(26,2);
+INSERT INTO categoriaproduto(produtoid,categoriaid) values(27,2);
+
+INSERT INTO categoriaproduto(produtoid,categoriaid) values(28,2);
+
+INSERT INTO categoriaproduto(produtoid,categoriaid) values(29,2);
+
+INSERT INTO categoriaproduto(produtoid,categoriaid) values(30,2);
