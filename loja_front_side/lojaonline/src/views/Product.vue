@@ -79,8 +79,8 @@
                 <v-icon dark> mdi-plus </v-icon>
               </v-btn>
             </div>
-            <div>
-              {{preco}}€
+            <div class="custom-transform-class text-none">
+                {{ this.preco }}€
               </div>
             <div>
               <v-btn
@@ -119,7 +119,7 @@ export default {
     produtoId: null,
     nome:'',
     desc:'',
-    preco:1, //Hard coded,mudar
+    preco:null, //Hard coded,mudar
     imagens: [],
     variantes: [], //Vai ter os ids,depois vai vai se buscar as imagens e mete-se um evento de click
     rating: null,
@@ -146,7 +146,6 @@ export default {
       alert('Adicionou')
     },
     comprarArtigo() {
-      
       const artigo={produtoid:this.produtoId,
       quantidade:this.quantidade,preco:this.preco,nome:this.nome}
       this.$store.dispatch("carrinho/adicionarProduto",artigo);
@@ -159,9 +158,13 @@ export default {
     setImagensProduto() {
       var i;
       for (i = 1; i < 4; i++) {
-        this.imagens.push(
+        try{
           require("../../public/imagens/" + this.produtoId + "_" + i + ".webp")
-        );
+          this.imagens.push(
+          require("../../public/imagens/" + this.produtoId + "_" + i + ".webp"));
+        }catch(e){
+          console.log(e)
+        }
       }
     },
     getDadosDB(){
@@ -170,14 +173,16 @@ export default {
       url: "http://localhost:3342/api/produto-por-id",
       params: { id: this.produtoId },
     };
-
+    console.log('ddddddd')
     axios.request(options).then(response => {
+      console.log('ddddddd')
+        console.log(response)
         this.nome= response.data.produto.nome
         this.desc= response.data.produto.descricao
         this.variantes = response.data.variantes
-        this.preco = response.data.preco
-        this.rating = parseFloat(response.data.rating[0].review)
-        this.reviewNumber=response.data.rating[0].total
+        this.preco = response.data.produto.preco
+        this.rating = parseFloat(response.data.rating.review)
+        this.reviewNumber=response.data.rating.total
       })
       .catch(function (error) {
         console.error(error);

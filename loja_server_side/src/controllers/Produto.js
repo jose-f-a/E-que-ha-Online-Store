@@ -72,6 +72,7 @@ module.exports = {
         }
     },
     async getArtigoById(req, res) {
+
         try {
             const { id } = req.query
             var produto;
@@ -122,23 +123,85 @@ module.exports = {
                             varianteNova.cor = variantes[i].nome.split('-')[1]
                             variantes2.push(varianteNova)
                         }
-                        var resposta = {
-                            produto: {
-                                produtoid: produto[0].produtoid,
-                                nome: nomeProduto,
-                                cor: produto[0].nome.split('-')[1],
-                                preco: produto[0].preco,
-                                desconto: produto[0].desconto,
-                                descricao: produto[0].descricao
-                            },
-                            rating: results3[0],
-                            variantes: variantes2
+
+                        //Verificar se existe rating
+                        if (results3[0][0].review) {
+                            var resposta = {
+                                produto: {
+                                    produtoid: produto[0].produtoid,
+                                    nome: nomeProduto,
+                                    cor: produto[0].nome.split('-')[1],
+                                    preco: produto[0].preco,
+                                    desconto: produto[0].desconto,
+                                    descricao: produto[0].descricao
+                                },
+                                rating: {
+                                    review: results3[0][0].review,
+                                    total: results3[0][0].total
+                                },
+                                variantes: variantes2
+                            }
+                        } else {
+                            var resposta = {
+                                produto: {
+                                    produtoid: produto[0].produtoid,
+                                    nome: nomeProduto,
+                                    cor: produto[0].nome.split('-')[1],
+                                    preco: produto[0].preco,
+                                    desconto: produto[0].desconto,
+                                    descricao: produto[0].descricao
+                                },
+                                rating: {
+                                    review: 0,
+                                    total: 0
+                                },
+                                variantes: variantes2
+                            }
                         }
                         return res.json(resposta)
                     });
                     //Vamos retornar os dados do produto com o rating geral, mais uma lista da variantes
                 } else {
                     //nao existe variantes
+                    var query = "Select CAST(AVG(rating)AS DECIMAL(3,2))as review, count(*)total from review where produtoid =:idmain "
+                    await connection.query(query, { replacements: { idmain: id } }).then((results3) => {
+
+                        //Verificar se existe rating
+                        if (results3[0][0].review) {
+                            var resposta = {
+                                produto: {
+                                    produtoid: produto[0].produtoid,
+                                    nome: nomeProduto,
+                                    cor: produto[0].nome,
+                                    preco: produto[0].preco,
+                                    desconto: produto[0].desconto,
+                                    descricao: produto[0].descricao
+                                },
+                                rating: {
+                                    review: results3[0][0].review,
+                                    total: results3[0][0].total
+                                },
+                                variantes: []
+                            }
+                        } else {
+                            var resposta = {
+                                produto: {
+                                    produtoid: produto[0].produtoid,
+                                    nome: nomeProduto,
+                                    cor: produto[0].nome,
+                                    preco: produto[0].preco,
+                                    desconto: produto[0].desconto,
+                                    descricao: produto[0].descricao
+                                },
+                                rating: {
+                                    review: 0,
+                                    total: 0
+                                },
+                                variantes: []
+                            }
+                        }
+                        return res.json(resposta)
+                    });
 
 
                     //Vamos retornar os dados do produto com o rating geral
