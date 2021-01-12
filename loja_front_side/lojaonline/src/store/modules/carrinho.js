@@ -6,36 +6,28 @@ const state = {
 };
 
 const getters = {
-    // getAll: (state) => state.data
     getAll: (state) => {
         return [state.openMenuLateral, state.login, state.loginDialog, state.signupDialog, state.openCarrinho]
     },
     getArtigos: (state) => {
-        console.log('asdasd')
         return state.listaArtigos
     },
 
 };
-
 const actions = {
     loadArtigos({ commit, rootState }) {
-
         //Verificar se tem login com o store da appbar
         if (rootState.appbar.login) {
             //se sim ir buscar a bd e guardar no store
             //Verificar se tem no localstore artigos, comprar com a bd e adicionar os que falta
-
-            /* ISTO AQUI VAI SE MUDAR PARA O ID DO STORE*/
             const { userid } = jwt.decode(localStorage.getItem('token'))
-                /* -------------------------------------------- */
-
             const options = {
                 method: 'GET',
                 url: 'http://localhost:3342/api/get-carrinho',
                 params: { userid: userid }
             };
 
-            axios.request(options).then(function(response) {
+            axios.request(options).then(async function(response) {
 
                 //Colocar o que se tem no localstore e bd juntos
                 const local = JSON.parse(localStorage.getItem('carrinho'))
@@ -54,16 +46,38 @@ const actions = {
                                 artigosAdd.push(localEl)
                             }
                         });
+
+                        //Se adicionou algo do store, vai atualizar a db
+                        const options2 = {
+                            method: 'POST',
+                            url: 'http://localhost:3342/api/set-carrinho',
+                            headers: { 'Content-Type': 'application/json' },
+                            data: {
+                                userid: 1,
+                                produtos: artigosAdd
+                            }
+                        };
+
+                        axios.request(options2).then(function(response2) {
+                            console.log(response2.data);
+                        }).catch(function(error) {
+                            console.error(error);
+                        });
+
                     }
                     commit('setListaArtigos', artigosAdd)
-
                 } else {
-                    commit('setListaArtigos', JSON.stringify())
+                    if (local) {
+                        commit('setListaArtigos', local)
+                    } else {
+                        commit('setListaArtigos', [])
+                    }
+
                 }
                 //Sempre que tiver login limpa o local
-                //localStorage.removeItem('carrinho');
-                console.log(response.data.produtos)
-                    //localStorage.setItem('carrinho', JSON.stringify('[{"produtoid":18,"quantidade":8,"preco":"9","nome":"VÅGSJÖN-Cinza"},{"produtoid":19,"quantidade":8,"preco":"9","nome":"VÅGSJÖN-Roxo"},{"produtoid":16,"quantidade":13,"preco":"9","nome":"VÅGSJÖN-Branco"}]'));
+                localStorage.removeItem('carrinho');
+
+                //localStorage.setItem('carrinho', JSON.stringify('[{"produtoid":18,"quantidade":8,"preco":"9","nome":"VÅGSJÖN-Cinza"},{"produtoid":19,"quantidade":8,"preco":"9","nome":"VÅGSJÖN-Roxo"},{"produtoid":16,"quantidade":13,"preco":"9","nome":"VÅGSJÖN-Branco"}]'));
 
             }).catch(function(error) {
                 console.error(error);
@@ -123,13 +137,14 @@ const actions = {
         }
     },
     removerDB() {
-        console.log('eee')
+        localStorage.removeItem('carrinho')
+        const { userid } = jwt.decode(localStorage.getItem('token'))
         const options = {
             method: 'POST',
             url: 'http://localhost:3342/api/set-carrinho',
             headers: { 'Content-Type': 'application/json' },
             data: {
-                userid: 1,
+                userid: userid,
                 produtos: []
             }
         };

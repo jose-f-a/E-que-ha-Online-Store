@@ -58,7 +58,6 @@ const actions = {
             commit('setLogin', false)
         }
     },
-    removeUser: ({ commit }, uuid) => commit("remove", uuid),
 };
 
 const mutations = {
