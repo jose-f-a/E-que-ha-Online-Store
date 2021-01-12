@@ -57,6 +57,7 @@ const actions = {
       axios
         .request(options)
         .then((res) => {
+          console.log(res.data);
           commit("setListaCompras", res.data);
         })
         .catch((err) => {
@@ -74,6 +75,7 @@ const actions = {
       axios
         .request(options)
         .then((res) => {
+          console.log(res.data);
           commit("setListaCompras", res.data);
         })
         .catch((err) => {
