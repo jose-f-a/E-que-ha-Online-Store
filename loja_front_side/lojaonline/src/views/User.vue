@@ -32,7 +32,7 @@
 
                 <v-list-group :value="false" prepend-icon="mdi-cart-outline">
                   <template v-slot:activator>
-                    <v-list-item-title>Compras</v-list-item-title>
+                    <v-list-item-title>Encomendas</v-list-item-title>
                   </template>
 
                   <v-list-item @click="toggleCompras('1')">
@@ -90,7 +90,6 @@ export default {
     toggleCompras(valor) {
       this.showCompras = true;
       this.showPerfil = false;
-      console.log("bbbb");
       this.$store.dispatch("user/loadListCompras", valor);
     },
     verifyLogin() {

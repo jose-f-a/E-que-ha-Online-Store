@@ -5,6 +5,7 @@ const state = {
   user: null,
   login: null,
   listaCompras: null,
+  compraDialog: false,
 };
 
 const getters = {
@@ -16,6 +17,9 @@ const getters = {
   },
   getListaCompras: (state) => {
     return state.listaCompras;
+  },
+  getCompraDialog: (state) => {
+    return state.compraDialog;
   },
 };
 
@@ -106,6 +110,12 @@ const mutations = {
   },
   setListaCompras(state, val) {
     state.listaCompras = val;
+  },
+  setCompraDialog(state, val) {
+    state.compraDialog = val;
+  },
+  changeCompraDialog(state) {
+    state.compraDialog = !state.compraDialog;
   },
 };
 

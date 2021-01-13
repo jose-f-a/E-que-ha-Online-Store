@@ -6,32 +6,33 @@
     rounded="lg"
     elevation="3"
   >
-    <div>
-      <div v-for="item in listaCompras" v-bind:key="item.compraid">
-        <ListComprasItem></ListComprasItem>
+    <div class="lista">
+      <p class="text-h4 text-left">As suas encomendas</p>
+      <div v-for="compra in listaCompras" v-bind:key="compra.compraid">
+        <ListComprasItem
+          v-bind:compra="compra"
+          @click="onClickItem"
+        ></ListComprasItem>
       </div>
-      <!-- <v-stepper alt-labels>
-      <v-stepper-header>
-        <v-stepper-step step="1"> Pedido Processado </v-stepper-step>
-        <v-divider></v-divider>
-        <v-stepper-step step="2"> 2 </v-stepper-step>
-        <v-divider></v-divider>
-        <v-stepper-step step="3"> 3 </v-stepper-step>
-        <v-divider></v-divider>
-        <v-stepper-step step="4"> 4 </v-stepper-step>
-      </v-stepper-header>
-    </v-stepper> -->
+      <ListCompraItemDialog></ListCompraItemDialog>
     </div>
   </v-sheet>
 </template>
 
 <script>
 import ListComprasItem from "./ListComprasItem";
+import listCompraItemDialog from "./ListCompraItemDialog";
 
 export default {
   name: "Compra",
   components: {
     ListComprasItem,
+    listCompraItemDialog,
+  },
+  methods: {
+    onClickItem() {
+      this.$store.commit("user/changeCompraDialog");
+    },
   },
   computed: {
     user: {
@@ -49,4 +50,7 @@ export default {
 </script>
 
 <style scoped>
+.lista {
+  padding: 25px;
+}
 </style>
