@@ -15,7 +15,7 @@
           ></v-text-field>
     </v-form>
     <div v-if="isLogin">
-      <v-btn depressed @click="this.clickConta" >
+      <v-btn depressed @click="this.clickConta">
         <v-icon> mdi-account </v-icon>
       </v-btn>
       <v-btn depressed>
@@ -28,9 +28,11 @@
       </v-btn>
       <v-btn depressed @click="onClickRegistarButton"> Registar </v-btn>
     </div>
-    <v-btn depressed  @click="onClickCartButton">
-    <v-icon> mdi-cart-outline </v-icon>
-    </v-btn>
+    <div v-if="!isCompra">
+      <v-btn depressed @click="onClickCartButton">
+        <v-icon> mdi-cart-outline </v-icon>
+      </v-btn>
+    </div>
   </v-app-bar>
 </template>
 <script>
@@ -40,18 +42,21 @@ export default {
   }),
   props:{
   },
-  methods:{
-    clickConta(){
-      this.$router.push('/perfil')
+  methods: {
+    clickConta() {
+      this.$router.push("/perfil");
     },
-    onClickCartButton(){
-      this.$store.commit("appbar/changeOpenCarrinho")
+    onClickCartButton() {
+      this.$store.commit("appbar/changeOpenCarrinho");
     },
-    onClickDrawer(){
-      this.$store.commit("appbar/changeOpenMenuLateral")
+    onClickDrawer() {
+      this.$store.commit("appbar/changeOpenMenuLateral");
     },
-    onClickLoginButton(){
-      this.$store.commit("appbar/changeShowLoginDialog")
+    onClickLoginButton() {
+      this.$store.commit("appbar/changeShowLoginDialog");
+    },
+    onClickRegistarButton() {
+      this.$store.commit("appbar/changeShowSignupDialog");
     },
     onClickRegistarButton(){
       this.$store.commit("appbar/changeShowSignupDialog")
@@ -60,16 +65,23 @@ export default {
       this.$router.push("/pesquisa/"+encodeURI(this.query))
       this.$router.go()
     }
-
   },
-  computed:{
-      isLogin(){
-        return this.$store.getters['appbar/getLogin']
-      }
+  computed: {
+    isLogin() {
+      return this.$store.getters["appbar/getLogin"];
+    },
+    isCompra() {
+      return this.$store.getters["compra/getisCompra"];
+    },
+  },
+  watch: {
+    search(val) {
+      val && val !== this.select && this.querySelections(val);
+    },
   },
   //Sempre que este comonente é criado corre isto
-  created: function(){
-      this.$store.dispatch("appbar/verifySession")
+  created: function () {
+    this.$store.dispatch("appbar/verifySession");
   },
 };
 </script>
