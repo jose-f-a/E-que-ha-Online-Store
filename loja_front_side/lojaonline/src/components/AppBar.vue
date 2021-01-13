@@ -58,9 +58,6 @@ export default {
     onClickRegistarButton() {
       this.$store.commit("appbar/changeShowSignupDialog");
     },
-    onClickRegistarButton(){
-      this.$store.commit("appbar/changeShowSignupDialog")
-    },
     onSubmit(){
       this.$router.push("/pesquisa/"+encodeURI(this.query))
       this.$router.go()
