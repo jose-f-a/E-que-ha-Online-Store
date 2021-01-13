@@ -7,13 +7,18 @@
       max-width="134"
       src="../assets/logo.png"
     ></v-img>
-    <v-form @submit.prevent="onSubmit">
-       <v-text-field
-            v-model="query"
-            label="Outlined"
-            outlined
+    <v-responsive max-width="260">
+       <v-form @submit.prevent="onSubmit">
+          <v-text-field
+           v-model="query"
+            dense
+            flat
+            hide-details
+            rounded
+            solo-inverted
           ></v-text-field>
-    </v-form>
+          </v-form>
+        </v-responsive>
     <div v-if="isLogin">
       <v-btn depressed @click="this.clickConta">
         <v-icon> mdi-account </v-icon>
