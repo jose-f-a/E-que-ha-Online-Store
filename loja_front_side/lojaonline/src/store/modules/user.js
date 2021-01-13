@@ -14,7 +14,7 @@ const getters = {
   getLogin: (state) => {
     return state.login;
   },
-  getListaComrpras: (state) => {
+  getListaCompras: (state) => {
     return state.listaCompras;
   },
 };
@@ -30,10 +30,14 @@ const actions = {
           token: localStorage.getItem("token"),
         },
       };
-      axios
+      return axios
         .request(options)
         .then((response) => {
-          if (response.data.message) commit("setLogin", true);
+          if (response.data.message) {
+            console.log("verificar session");
+            commit("setLogin", true);
+            // commit("setUser", jwt.decode(localStorage.getItem("token")));
+          }
         })
         .catch((error) => {
           commit("setLogin", false);
@@ -44,14 +48,15 @@ const actions = {
     }
   },
 
-  loadListCompras({ commit }, valor) {
+  loadListCompras({ commit, state }, valor) {
+    console.log("aaaaa");
     if (valor == 1) {
       const options = {
         method: "POST",
         url: "http://localhost:3342/api/getPendingCompras",
         headers: { "Content-Type": "application/json" },
         data: {
-          userid: user.userid,
+          userid: state.user.userid,
         },
       };
       axios
@@ -69,7 +74,7 @@ const actions = {
         url: "http://localhost:3342/api/getFinishedCompras",
         headers: { "Content-Type": "application/json" },
         data: {
-          userid: user.userid,
+          userid: state.user.userid,
         },
       };
       axios
@@ -93,7 +98,9 @@ const mutations = {
   },
   setLogin(state, val) {
     state.login = val;
+    console.log(state.login);
     if (val) {
+      console.log("dentro do if do setlogin");
       state.user = jwt.decode(localStorage.getItem("token"));
     }
   },

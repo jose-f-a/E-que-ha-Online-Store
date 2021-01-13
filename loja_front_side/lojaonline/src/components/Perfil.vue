@@ -9,13 +9,11 @@
     <v-container>
       <v-row>
         <v-col>
-          <p class="text-h5 text-left">Bem-vindo {{user.name}}!</p>
+          <p class="text-h5 text-left">perfil</p>
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="5">
-          
-        </v-col>
+        <v-col cols="5"> </v-col>
       </v-row>
     </v-container>
   </v-sheet>

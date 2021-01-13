@@ -90,31 +90,25 @@ export default {
     toggleCompras(valor) {
       this.showCompras = true;
       this.showPerfil = false;
-      this.$store.dispatch("user/loadListaCompras", valor);
+      console.log("bbbb");
+      this.$store.dispatch("user/loadListCompras", valor);
     },
     verifyLogin() {
-      if (!this.$store.getters["appbar/getLogin"]) {
+      if (!this.$store.getters["user/getLogin"]) {
         this.$router.push("/");
         this.$router.go();
       }
     },
   },
-  mounted: function () {
-    this.$store.dispatch("appbar/verifySession");
-    this.verifyLogin();
+  created: async function () {
+    await this.$store.dispatch("user/verifySession");
+    console.log(this.$store.getters["user/getLogin"] + "getter verify");
+    // this.verifyLogin();
   },
   computed: {
     user: {
       get() {
-        return this.$store.getters["appbar/getUser"];
-      },
-    },
-    listaCompras: {
-      set(val) {
-        this.$store.commit("user/setListaCompras", val);
-      },
-      get() {
-        return this.$store.getters["user/getListaCompras"];
+        return this.$store.getters["user/getUser"];
       },
     },
   },

@@ -13,7 +13,6 @@ module.exports = {
           }
         )
         .then((results) => {
-          console.log(results);
           return res.json(results[0]);
         });
     } catch (error) {
@@ -31,7 +30,6 @@ module.exports = {
           }
         )
         .then((results) => {
-          console.log(results);
           return res.json(results[0]);
         });
     } catch (error) {
