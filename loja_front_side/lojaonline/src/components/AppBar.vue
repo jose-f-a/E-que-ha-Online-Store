@@ -7,19 +7,13 @@
       max-width="134"
       src="../assets/logo.png"
     ></v-img>
-    <v-autocomplete
-      v-model="select"
-      :loading="loading"
-      :items="items"
-      :search-input.sync="search"
-      cache-items
-      class="mx-4"
-      flat
-      hide-no-data
-      hide-details
-      label="Procure um artigo"
-      solo-inverted
-    ></v-autocomplete>
+    <v-form @submit.prevent="onSubmit">
+       <v-text-field
+            v-model="query"
+            label="Outlined"
+            outlined
+          ></v-text-field>
+    </v-form>
     <div v-if="isLogin">
       <v-btn depressed @click="this.clickConta" >
         <v-icon> mdi-account </v-icon>
@@ -41,6 +35,9 @@
 </template>
 <script>
 export default {
+   data: () => ({
+    query:null
+  }),
   props:{
   },
   methods:{
@@ -58,6 +55,10 @@ export default {
     },
     onClickRegistarButton(){
       this.$store.commit("appbar/changeShowSignupDialog")
+    },
+    onSubmit(){
+      this.$router.push("/pesquisa/"+encodeURI(this.query))
+      this.$router.go()
     }
 
   },
