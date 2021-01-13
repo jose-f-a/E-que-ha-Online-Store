@@ -7,22 +7,13 @@
       max-width="134"
       src="../assets/logo.png"
     ></v-img>
-    <v-form @submit="submitSearch">
-      <v-autocomplete
-        v-model="select"
-        :loading="loading"
-        :items="items"
-        :search-input.sync="search"
-        cache-items
-        class="mx-4"
-        flat
-        hide-no-data
-        hide-details
-        label="Procure um produto"
-        solo-inverted
-      ></v-autocomplete>
+    <v-form @submit.prevent="onSubmit">
+       <v-text-field
+            v-model="query"
+            label="Outlined"
+            outlined
+          ></v-text-field>
     </v-form>
-
     <div v-if="isLogin">
       <v-btn depressed @click="this.clickConta">
         <v-icon> mdi-account </v-icon>
@@ -46,12 +37,11 @@
 </template>
 <script>
 export default {
-  data: () => ({
-    loading: false,
-    items: [],
-    search: null,
-    select: null,
+   data: () => ({
+    query:null
   }),
+  props:{
+  },
   methods: {
     clickConta() {
       this.$router.push("/perfil");
@@ -68,19 +58,13 @@ export default {
     onClickRegistarButton() {
       this.$store.commit("appbar/changeShowSignupDialog");
     },
-    querySelections(v) {
-      this.loading = true;
-      // Simulated ajax query
-      console.log(v);
-      //Colocar items com listerns, assim ao carregar neles vai faz logo a pesquisa
-
-      this.items = ["asda", "ee"];
-      //No fim do pedido por false
-      this.loading = false;
+    onClickRegistarButton(){
+      this.$store.commit("appbar/changeShowSignupDialog")
     },
-    submitSearch() {
-      this.$router.push("/pesquisa/" + this.search);
-    },
+    onSubmit(){
+      this.$router.push("/pesquisa/"+encodeURI(this.query))
+      this.$router.go()
+    }
   },
   computed: {
     isLogin() {
