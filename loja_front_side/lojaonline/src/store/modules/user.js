@@ -104,7 +104,6 @@ const mutations = {
     state.login = val;
     console.log(state.login);
     if (val) {
-      console.log("dentro do if do setlogin");
       state.user = jwt.decode(localStorage.getItem("token"));
     }
   },

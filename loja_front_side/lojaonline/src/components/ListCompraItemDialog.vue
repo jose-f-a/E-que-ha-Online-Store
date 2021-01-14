@@ -34,9 +34,11 @@ export default {
   computed: {
     isOpen: {
       get() {
+        console.log("getdialog");
         return this.$store.getters["user/getCompraDialog"];
       },
       set(val) {
+        console.log("setdialog");
         this.$store.commit("user/setCompraDialog", val);
       },
     },

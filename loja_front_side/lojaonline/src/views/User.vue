@@ -17,6 +17,7 @@
 
     <v-main class="white main">
       <v-container>
+        <listCompraItemDialog></listCompraItemDialog>
         <v-row>
           <v-col cols="2">
             <v-list>
@@ -66,6 +67,7 @@
 <script>
 import perfil from "../components/Perfil";
 import compras from "../components/ListCompras";
+import listCompraItemDialog from "../components/ListCompraItemDialog";
 
 export default {
   data() {
@@ -77,6 +79,7 @@ export default {
   components: {
     perfil,
     compras,
+    listCompraItemDialog,
   },
   methods: {
     goHome() {

@@ -9,30 +9,19 @@
     <div class="lista">
       <p class="text-h4 text-left">As suas encomendas</p>
       <div v-for="compra in listaCompras" v-bind:key="compra.compraid">
-        <ListComprasItem
-          v-bind:compra="compra"
-          @click="onClickItem"
-        ></ListComprasItem>
+        <ListComprasItem v-bind:compra="compra"></ListComprasItem>
       </div>
-      <ListCompraItemDialog></ListCompraItemDialog>
     </div>
   </v-sheet>
 </template>
 
 <script>
 import ListComprasItem from "./ListComprasItem";
-import listCompraItemDialog from "./ListCompraItemDialog";
 
 export default {
   name: "Compra",
   components: {
     ListComprasItem,
-    listCompraItemDialog,
-  },
-  methods: {
-    onClickItem() {
-      this.$store.commit("user/changeCompraDialog");
-    },
   },
   computed: {
     user: {
