@@ -60,7 +60,6 @@ module.exports = {
         }
 
     },
-
     async signup(req, res) {
         try {
             const { nome, contacto, email, password } = req.body;
