@@ -7,12 +7,14 @@ import appbar from "./modules/appbar";
 import carrinho from "./modules/carrinho";
 import compra from "./modules/compra";
 import user from "./modules/user";
+import admin from "./modules/admin"
 
 export default new Vuex.Store({
-  modules: {
-    appbar,
-    carrinho,
-    compra,
-    user,
-  },
+    modules: {
+        appbar,
+        carrinho,
+        compra,
+        user,
+        admin
+    },
 });

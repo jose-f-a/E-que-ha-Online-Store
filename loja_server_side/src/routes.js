@@ -9,6 +9,7 @@ routes.post("/api/signup", user.signup);
 routes.post("/api/login", user.login);
 routes.post("/api/sessionValidation", user.sessionValidation);
 routes.get("/api/produto-por-id", produto.getArtigoById);
+routes.post("/api/create-product", produto.createProduct)
 routes.post("/api/set-carrinho", carrinho.setCarrinho);
 routes.get("/api/get-carrinho", carrinho.getCarrinho);
 routes.get("/api/getArtigo", produto.getArtigo);

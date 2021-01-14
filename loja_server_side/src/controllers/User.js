@@ -5,6 +5,7 @@ const KEY = process.env.KEY;
 
 module.exports = {
     async login(req, res) {
+        console.log('A fazer login')
         const { email, password } = req.body
 
         await connection.query("Select * from utilizador where email=:email and pass=:password", {
@@ -13,12 +14,27 @@ module.exports = {
 
             if (results[0].length != 0) {
                 //Return json with jwt token
-                return res.status(200).json({
-                    token: jwt.sign({
-                        name: results[0][0].nome,
-                        userid: results[0][0].userid,
-                    }, KEY)
-                });
+
+                if (results[0][0].isadmin) {
+                    console.log('Admin')
+                    return res.status(200).json({
+                        token: jwt.sign({
+                            name: results[0][0].nome,
+                            userid: results[0][0].userid,
+                            isadmin: results[0][0].isadmin
+                        }, KEY)
+                    });
+                } else {
+                    return res.status(200).json({
+                        token: jwt.sign({
+                            name: results[0][0].nome,
+                            userid: results[0][0].userid,
+                        }, KEY)
+                    });
+                }
+
+
+
             } else {
                 //return forbidden
                 return res.status(403).json({ 'message': 'error' })
@@ -29,9 +45,11 @@ module.exports = {
     async sessionValidation(req, res) {
         try {
             const { token } = req.body
-            const decode = await jwt.verify(token, KEY)
+            const { isadmin } = await jwt.verify(token, KEY)
+
             return res.status(200).json({
-                message: 'OK !'
+                message: 'OK !',
+                isadmin: isadmin
             })
 
         } catch (error) {

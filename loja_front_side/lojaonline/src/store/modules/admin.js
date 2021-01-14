@@ -2,12 +2,8 @@ import axios from "axios";
 import jwt from "jsonwebtoken";
 
 const state = {
-    openMenuLateral: false,
     login: false,
-    loginDialog: null,
-    signupDialog: null,
-    openCarrinho: false,
-    user: null,
+    loginDialog: true,
 };
 
 const getters = {
@@ -27,36 +23,26 @@ const getters = {
     getLoginDialog: (state) => {
         return state.loginDialog;
     },
-    getSignupDialog: (state) => {
-        return state.signupDialog;
-    },
-    getOpenCarrinho: (state) => {
-        return state.openCarrinho;
-    },
-    getOpenMenuLateral: (state) => {
-        return state.openMenuLateral;
-    },
-    getUser: (state) => {
-        return state.user;
-    },
+
 };
 
 const actions = {
     verifySession({ commit }) {
-        if (localStorage.getItem("token")) {
+        if (localStorage.getItem("tokenAdmin")) {
             const options = {
                 method: "POST",
                 url: "http://localhost:3342/api/sessionValidation",
                 headers: { "Content-Type": "application/json" },
                 data: {
-                    token: localStorage.getItem("token"),
+                    token: localStorage.getItem("tokenAdmin"),
                 },
             };
             axios
                 .request(options)
                 .then((response) => {
-                    if (!response.data.isadmin) {
-                        commit("setLogin", true);
+                    if (response.data.isadmin) {
+                        commit("setLogin", true)
+                        commit('setShowLoginDialog', false)
                     }
                 })
                 .catch((error) => {
@@ -76,29 +62,11 @@ const mutations = {
             state.user = jwt.decode(localStorage.getItem("token"));
         }
     },
-    setOpenCarrinho(state, val) {
-        state.openCarrinho = val;
-    },
-    changeOpenCarrinho(state) {
-        state.openCarrinho = !state.openCarrinho;
-    },
-    setOpenMenuLateral(state, val) {
-        state.openMenuLateral = val;
-    },
-    changeOpenMenuLateral(state) {
-        state.openMenuLateral = !state.openMenuLateral;
-    },
     setShowLoginDialog(state, val) {
         state.loginDialog = val;
     },
     changeShowLoginDialog(state) {
         state.loginDialog = !state.loginDialog;
-    },
-    setShowSignupDialog(state, val) {
-        state.signupDialog = val;
-    },
-    changeShowSignupDialog(state) {
-        state.signupDialog = !state.signupDialog;
     },
 };
 

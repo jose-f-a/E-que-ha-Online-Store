@@ -7,6 +7,7 @@
       max-width="134"
       src="../assets/logo.png"
     ></v-img>
+    <v-spacer></v-spacer>
     <v-responsive max-width="260">
        <v-form @submit.prevent="onSubmit">
           <v-text-field
