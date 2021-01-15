@@ -9,13 +9,13 @@
       </v-card>
     </div>
     <div class="morada">
-      <v-card elevation="24" outlined> 
+      <v-card elevation="24" outlined>
         <v-car-title>Morada</v-car-title>
-        {{this.morada.rua}}
-         </v-card>
+        {{ this.morada.rua }}
+      </v-card>
     </div>
     <div class="metodoPagamento">
-      <v-card elevation="24" outlined >
+      <v-card elevation="24" outlined>
         Pagamento
         <div v-if="this.pagamento == 1">
           <v-img
@@ -58,7 +58,6 @@ export default {
       this.$store.dispatch("carrinho/removerDB");
       this.$router.push("/");
       this.$router.go();
-      
     },
   },
   computed: {
@@ -78,7 +77,7 @@ export default {
         this.$store.commit("compra/setMetodoPagamento", val);
       },
     },
-     morada: {
+    morada: {
       get() {
         return this.$store.getters["compra/getMorada"];
       },
@@ -94,8 +93,6 @@ export default {
 </script>
 
 <style scoped>
-.v-card {
-}
 .lista {
   overflow: scroll;
   overflow-x: hidden;

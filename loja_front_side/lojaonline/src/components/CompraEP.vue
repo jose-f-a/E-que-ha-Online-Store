@@ -1,16 +1,24 @@
 <template>
   <v-card clas="container" elevation="6" outlined>
     <v-card-title> Editar Produtos</v-card-title>
+
     <div class="lista">
-      <v-card elevation="24" outlined>
+      <v-card elevation="3">
         <div v-for="item in this.artigos" v-bind:key="item.produtoid">
           <artigo :artigo="item"></artigo>
         </div>
       </v-card>
     </div>
+
     <div>
-      <v-btn class="ma-2" outlined color="indigo" @click="clickContinuar">
+      <v-btn
+        class="ma-2"
+        outlined
+        color="blue darken-2"
+        @click="clickContinuar"
+      >
         Continuar
+        <v-icon right>mdi-chevron-right</v-icon>
       </v-btn>
     </div>
   </v-card>
@@ -18,13 +26,14 @@
 
 <script>
 import ArtigoCompra from "@/components/ArtigoCompra.vue";
+
 export default {
   methods: {
-    clickContinuar(){
-        this.$store.commit("compra/setStep", 2);
-        //Atualizar os dados dos produtos com os dados da db
-        this.$store.dispatch("compra/updateDadosArtigos")
-    }
+    clickContinuar() {
+      this.$store.commit("compra/setStep", 2);
+      //Atualizar os dados dos produtos com os dados da db
+      this.$store.dispatch("compra/updateDadosArtigos");
+    },
   },
   computed: {
     artigos: {
@@ -44,13 +53,11 @@ export default {
 </script>
 
 <style scoped>
-.v-card {
-}
 .lista {
   overflow: scroll;
   overflow-x: hidden;
-  height: auto;
-  max-height: 28rem;
-  padding: 5px;
+  height: fit-content;
+  max-height: 80vh;
+  padding: 2rem;
 }
 </style>
