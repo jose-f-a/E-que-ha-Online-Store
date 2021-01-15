@@ -63,27 +63,42 @@
         <v-icon right>mdi-chevron-right</v-icon>
       </v-btn>
     </div>
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="timeout"
+      bottom
+      color="red"
+      elevation="15"
+    >
+      Selecione uma morada
+    </v-snackbar>
   </v-card>
 </template>
 
 <script>
 export default {
+  data: () => ({
+    snackbar: false,
+    timeout: 2000,
+  }),
   methods: {
     clickVoltar() {
       this.$store.commit("compra/setStep", 2);
     },
     clickContinuar() {
-      this.$store.commit("compra/setStep", 4);
+      if (this.$store.getters["compra/getMorada"] != null) {
+        this.$store.commit("compra/setStep", 4);
+      } else {
+        this.snackbar = true;
+      }
     },
     selectMorada(morada, active) {
       console.log(this.$store.getters["compra/getMorada"]);
       if (!active) {
-        console.log("alterou");
         console.log(morada);
         this.$store.commit("compra/setMorada", morada);
       } else {
-        console.log("removeu");
-        this.$store.commit("compra/setMorada", []);
+        this.$store.commit("compra/setMorada", null);
       }
     },
   },
@@ -97,8 +112,6 @@ export default {
       },
     },
   },
-  data: () => ({}),
-  components: {},
 };
 </script>
 

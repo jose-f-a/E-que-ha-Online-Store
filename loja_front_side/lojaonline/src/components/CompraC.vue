@@ -96,6 +96,7 @@ export default {
   methods: {
     clickVoltar() {
       this.$store.commit("compra/setStep", 4);
+      this.$store.commit("compra/setMetodoPagamento", null);
     },
     clickFinalizar() {
       this.$store.dispatch("compra/criarCompra");

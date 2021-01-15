@@ -104,18 +104,18 @@
         <v-card-title>
           <span class="headline">MBWAY</span>
         </v-card-title>
-        <v-btn @click="closeDialog">
-          <v-icon> mdi-close </v-icon>
-        </v-btn>
 
         <v-card-text>
           <v-container>
             <v-row>
               <v-col cols="12">
                 <v-text-field
+                  class="input-contacto"
                   label="Contacto"
                   v-model="contacto"
-                  required
+                  type="number"
+                  prepend-icon="mdi-phone"
+                  :rules="[rules.numbers]"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -124,6 +124,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
+          <v-btn text @click="closeDialog"> Fechar </v-btn>
           <v-btn color="blue darken-1" text @click="clickContinuar">
             Confirmar
           </v-btn>
@@ -146,6 +147,15 @@
         <v-icon right>mdi-chevron-right</v-icon>
       </v-btn>
     </div>
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="timeout"
+      bottom
+      color="red"
+      elevation="15"
+    >
+      Selecione um metodo de pagamento
+    </v-snackbar>
   </v-card>
 </template>
 
@@ -154,13 +164,31 @@ export default {
   data: () => ({
     dialog: false,
     contacto: null,
+    snackbar: false,
+    timeout: 2000,
+    rules: {
+      numbers: (value) => value.length >= 9 || "Numero invalido",
+    },
   }),
+
   methods: {
     clickVoltar() {
       this.$store.commit("compra/setStep", 3);
+      this.$store.commit("compra/setMorada", null);
     },
     clickContinuar() {
-      this.$store.commit("compra/setStep", 5);
+      if (this.$store.getters["compra/getMetodoPagamento"] != null) {
+        if (this.$store.getters["compra/getMetodoPagamento"] == 1) {
+          if (!this.contacto.length < 9) {
+            this.$store.commit("compra/setStep", 5);
+          }
+        }
+      } else {
+        this.snackbar = true;
+      }
+    },
+    closeDialog() {
+      this.dialog = false;
     },
     selectMetodo(id) {
       if (id == 1) {
@@ -205,5 +233,12 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+.input-contacto input[type="number"] {
+  -moz-appearance: textfield;
+}
+.input-contacto input::-webkit-outer-spin-button,
+.input-contacto input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
 }
 </style>

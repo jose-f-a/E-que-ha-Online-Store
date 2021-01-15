@@ -1,12 +1,12 @@
 <template>
   <v-card class="cartao" elevation="0">
     <v-row>
-      <v-col cols="3">
+      <v-col cols="2">
         <div class="imagem">
           <v-img
             class="image"
-            width="125"
-            height="125"
+            width="70"
+            height="70"
             contain
             :aspect-ratio="4 / 3"
             :src="imgPath(artigo.produtoid)"
@@ -14,8 +14,8 @@
         </div>
       </v-col>
       <v-col cols="9">
-        <div class="produto">
-          <p class="text-body-1">{{ this.artigo.nome }}</p>
+        <div class="produto-info">
+          <p class="text-left text-body-1">{{ this.artigo.nome }}</p>
           <p class="text-left">{{ this.artigo.preco }}€</p>
         </div>
 
@@ -130,11 +130,12 @@ export default {
 .imagem {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
 }
-.produto {
+.produto-info {
   display: flex;
   flex-direction: column;
+  line-height: 0.75rem;
 }
 
 .quantidadeC {
@@ -147,7 +148,6 @@ export default {
 }
 .input-quantidadeC input[type="number"] {
   -moz-appearance: textfield;
-  min-width: 50px;
 }
 .input-quantidadeC input::-webkit-outer-spin-button,
 .input-quantidadeC input::-webkit-inner-spin-button {
