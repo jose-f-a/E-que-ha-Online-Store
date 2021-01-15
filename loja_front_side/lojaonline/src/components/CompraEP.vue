@@ -11,6 +11,7 @@
     </div>
 
     <div>
+      <p class="text-left text-h5 font-weight-bold total">Total:</p>
       <v-btn
         class="ma-2"
         outlined
@@ -68,5 +69,8 @@ export default {
   min-height: 60vh;
   max-height: 60vh;
   padding: 2rem;
+}
+.total {
+  padding-left: 2rem;
 }
 </style>

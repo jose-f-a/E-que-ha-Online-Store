@@ -183,6 +183,7 @@ export default {
             this.$store.commit("compra/setStep", 5);
           }
         }
+        this.$store.commit("compra/setStep", 5);
       } else {
         this.snackbar = true;
       }
