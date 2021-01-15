@@ -14,10 +14,8 @@
         </v-stepper-header>
       </v-stepper>
       <v-card-text> </v-card-text>
-
       <v-card-actions>
         <v-spacer></v-spacer>
-
         <v-btn text @click="this.closeDialog"> Fechar </v-btn>
       </v-card-actions>
     </v-card>
@@ -34,11 +32,11 @@ export default {
   computed: {
     isOpen: {
       get() {
-        console.log("getdialog");
+        
         return this.$store.getters["user/getCompraDialog"];
       },
       set(val) {
-        console.log("setdialog");
+        
         this.$store.commit("user/setCompraDialog", val);
       },
     },

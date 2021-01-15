@@ -8,20 +8,40 @@
   >
     <div class="lista">
       <p class="text-h4 text-left">As suas encomendas</p>
-      <div v-for="compra in listaCompras" v-bind:key="compra.compraid">
+       <div v-for="compra in listaComprasVisiveis" v-bind:key="compra.compraid">
         <ListComprasItem v-bind:compra="compra"></ListComprasItem>
       </div>
+      <div class="text-center">
+    <v-pagination
+      v-model="page"
+      :length="paginas" circle class="my-4"
+      :total-visible="7"
+    ></v-pagination>
+  </div>   
     </div>
   </v-sheet>
 </template>
-
 <script>
 import ListComprasItem from "./ListComprasItem";
 
 export default {
-  name: "Compra",
+  data () {
+      return {
+        page: 1,
+        name: "Compra",
+        perPage: 6,
+      }
+    },
   components: {
     ListComprasItem,
+  },
+  methods:{
+    
+  },
+  watch:{
+    page:function(){
+      this.$store.commit("user/setComprasVisiveis",this.page)
+    }
   },
   computed: {
     user: {
@@ -29,11 +49,16 @@ export default {
         return this.$store.getters["user/getUser"];
       },
     },
-    listaCompras: {
+    listaComprasVisiveis: {
       get() {
-        return this.$store.getters["user/getListaCompras"];
+        return this.$store.getters["user/getComprasVisiveis"];
       },
     },
+    paginas:{
+        get(){
+           return this.$store.getters["user/getPaginas"];
+        }
+    }
   },
 };
 </script>

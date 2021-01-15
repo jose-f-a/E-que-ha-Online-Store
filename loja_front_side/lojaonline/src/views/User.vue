@@ -67,7 +67,7 @@
 <script>
 import perfil from "../components/Perfil";
 import compras from "../components/ListCompras";
-import listCompraItemDialog from "../components/ListCompraItemDialog";
+import listCompraItemDialog from "../components/ListCompraItemDialog.vue";
 
 export default {
   data() {

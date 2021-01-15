@@ -14,7 +14,7 @@ export default {
     onClickItem() {
       console.log("click");
       this.$store.commit("user/changeCompraDialog");
-      console.log(this.$store.commit("user/changeCompraDialog"));
+      //console.log(this.$store.commit("user/changeCompraDialog"));
     },
   },
 };
