@@ -6,9 +6,9 @@
     rounded="lg"
     elevation="3"
   >
-    <div class="lista">
-      <p class="text-h4 text-left">As suas encomendas</p>
-       <div v-for="compra in listaComprasVisiveis" v-bind:key="compra.compraid">
+    <v-card :loading="this.loading">
+      <v-card-title>As suas encomendas</v-card-title>
+      <div v-for="compra in listaComprasVisiveis" v-bind:key="compra.compraid">
         <ListComprasItem v-bind:compra="compra"></ListComprasItem>
       </div>
       <div class="text-center">
@@ -17,8 +17,8 @@
       :length="paginas" circle class="my-4"
       :total-visible="7"
     ></v-pagination>
-  </div>   
-    </div>
+  </div>
+    </v-card>
   </v-sheet>
 </template>
 <script>
@@ -53,6 +53,14 @@ export default {
       get() {
         return this.$store.getters["user/getComprasVisiveis"];
       },
+    },
+    loading:{
+      get(){
+        return this.$store.getters["user/getLoading"]
+      },
+      set(val){
+        return this.$store.commit["user/setLoading",val]
+      }
     },
     paginas:{
         get(){

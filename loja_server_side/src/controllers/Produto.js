@@ -233,8 +233,6 @@ module.exports = {
                     nome: results[0][0].nome.split('-')[0]
                 }
                 artigosUpdate.push(jsonAr)
-
-                console.log(artigosUpdate)
             });
         }));
 

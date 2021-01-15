@@ -7,7 +7,8 @@ const state = {
     listaCompras: null,
     compraDialog: false,
     comprasVisiveis: null,
-    paginas: null
+    paginas: null,
+    loading: null
 };
 
 const getters = {
@@ -28,6 +29,9 @@ const getters = {
     },
     getComprasVisiveis: (state) => {
         return state.comprasVisiveis;
+    },
+    getLoading: (state) => {
+        return state.loading;
     },
 };
 
@@ -61,6 +65,7 @@ const actions = {
     },
 
     loadListCompras({ commit, state }, valor) {
+        commit("setLoading", true)
         if (valor == 1) {
             const options = {
                 method: "POST",
@@ -73,9 +78,10 @@ const actions = {
             axios
                 .request(options)
                 .then((res) => {
-                    console.log('Leu bd 1')
+
                     commit("setListaCompras", res.data);
                     commit("setComprasVisiveis", 1)
+                    commit("setLoading", false)
                 })
                 .catch((err) => {
                     console.log(err);
@@ -94,9 +100,10 @@ const actions = {
             axios
                 .request(options)
                 .then((res) => {
-
+                    console.log(res)
                     commit("setListaCompras", res.data);
                     commit("setComprasVisiveis", 1)
+                    commit("setLoading", false)
                 })
                 .catch((err) => {
                     console.log(err);
@@ -110,6 +117,9 @@ const actions = {
 const mutations = {
     setUser(state, val) {
         state.user = val;
+    },
+    setLoading: (state, val) => {
+        state.loading = val;
     },
     setLogin(state, val) {
         state.login = val;
