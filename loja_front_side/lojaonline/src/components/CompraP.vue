@@ -1,7 +1,8 @@
 <template>
   <v-card clas="container" elevation="6" outlined>
     <v-card-title> Pagamento </v-card-title>
-    <div>
+
+    <div class="lista">
       <v-item-group active-class="primary">
         <v-container class="content">
           <v-row>
@@ -195,7 +196,9 @@ export default {
   overflow: scroll;
   overflow-x: hidden;
   height: auto;
-  max-height: 28rem;
+  height: 60vh;
+  min-height: 60vh;
+  max-height: 60vh;
   padding: 5px;
 }
 .content {

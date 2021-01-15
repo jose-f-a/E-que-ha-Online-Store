@@ -65,7 +65,9 @@ export default {
   overflow: scroll;
   overflow-x: hidden;
   height: fit-content;
-  max-height: 80vh;
+  height: 60vh;
+  min-height: 60vh;
+  max-height: 60vh;
   padding: 2rem;
 }
 </style>

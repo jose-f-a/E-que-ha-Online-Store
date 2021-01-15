@@ -1,52 +1,97 @@
 <template>
-  <v-card clas="container" elevation="6" outlined>
+  <v-card class="content" elevation="5" outlined>
     <v-card-title> Confirmar </v-card-title>
-    <div class="lista">
-      <v-card elevation="24" outlined disabled>
+
+    <div class="artigos">
+      <v-card elevation="3" outlined disabled>
+        <v-card-title> Artigos </v-card-title>
+
         <div v-for="item in this.artigos" v-bind:key="item.produtoid">
           <artigo :artigo="item"></artigo>
         </div>
       </v-card>
     </div>
-    <div class="morada">
-      <v-card elevation="24" outlined>
-        <v-car-title>Morada</v-car-title>
-        {{ this.morada.rua }}
-      </v-card>
-    </div>
-    <div class="metodoPagamento">
-      <v-card elevation="24" outlined>
-        Pagamento
-        <div v-if="this.pagamento == 1">
-          <v-img
-            src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Logo_MBWay.svg"
+
+    <v-row>
+      <v-col cols="6">
+        <div>
+          <v-card elevation="3" outlined class="morada">
+            <v-card-title>Morada</v-card-title>
+            <div class="morada-info">
+              <p class="text-left">
+                {{ this.morada.rua }}, {{ this.morada.cidade }}
+              </p>
+              <p class="text-left">{{ this.morada.codigo_postal }}</p>
+              <p class="text-left">{{ this.morada.pais }}</p>
+            </div>
+          </v-card>
+        </div>
+      </v-col>
+
+      <v-col cols="6">
+        <div>
+          <v-card elevation="3" outlined class="metodoPagamento">
+            <v-card-title>Pagamento</v-card-title>
+
+            <div v-if="this.pagamento == 1">
+              <v-img
+                src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Logo_MBWay.svg"
+                width="150"
+                height="150"
+                contain
+                :aspect-ratio="4 / 3"
+              >
+              </v-img>
+            </div>
+            <div v-if="this.pagamento == 2">
+              <v-img
+                src="https://www.multibase.pt/wp-content/uploads/2015/07/1200px-Multibanco.svg.png"
+                width="150"
+                height="150"
+                contain
+                :aspect-ratio="4 / 3"
+              >
+              </v-img>
+            </div>
+            <div v-if="this.pagamento == 3">
+              <v-img
+                src="../../public/imagens/credit.png"
+                width="150"
+                height="150"
+                contain
+                :aspect-ratio="4 / 3"
+              >
+              </v-img>
+            </div>
+          </v-card>
+        </div>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col>
+        <div class="butoes">
+          <v-btn class="ma-2" color="blue darken-2" @click="clickVoltar">
+            Voltar
+          </v-btn>
+
+          <v-btn
+            class="ma-2"
+            outlined
+            color="blue darken-2"
+            @click="clickFinalizar"
           >
-          </v-img>
-        </div>
-        <div v-if="this.pagamento == 2">
-          <v-img
-            src="https://upload.wikimedia.org/wikipedia/commons/4/46/Multibanco.svg"
-          >
-          </v-img>
-        </div>
-        <div v-if="this.pagamento == 3">
-          <v-img src="../../public/imagens/credit.png"> </v-img>
-        </div>
-      </v-card>
-    </div>
-    <div>
-      <v-btn class="ma-2" outlined color="indigo" @click="clickVoltar">
-        Voltar
-      </v-btn>
-      <v-btn class="ma-2" outlined color="indigo" @click="clickFinalizar">
-        Finalizar
-      </v-btn>
-    </div>
+            Finalizar
+          </v-btn>
+        </div></v-col
+      >
+    </v-row>
   </v-card>
 </template>
 
 <script>
 import ArtigoCompra from "@/components/ArtigoCompraConfirmar.vue";
+
 export default {
   methods: {
     clickVoltar() {
@@ -93,11 +138,29 @@ export default {
 </script>
 
 <style scoped>
-.lista {
+.artigos {
   overflow: scroll;
   overflow-x: hidden;
   height: auto;
-  max-height: 28rem;
+  height: 30rem;
+  min-height: 30rem;
+  max-height: 30rem;
+  padding: 5px;
+}
+.morada {
+  height: 15rem;
+  min-height: 15rem;
+  max-height: 15rem;
+  padding: 5px;
+}
+.morada-info {
+  padding-left: 1rem;
+  line-height: 10px;
+}
+.metodoPagamento {
+  height: 15rem;
+  min-height: 15rem;
+  max-height: 15rem;
   padding: 5px;
 }
 </style>

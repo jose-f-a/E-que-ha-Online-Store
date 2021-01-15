@@ -1,6 +1,6 @@
 <template>
-  <v-card clas="container" elevation="6" outlined>
-    <v-card-title> Editar Produtos</v-card-title>
+  <v-card clas="container" elevation="3" outlined :loading="this.loading">
+    <v-card-title> Editar Artigos</v-card-title>
 
     <div class="lista">
       <v-card elevation="3">
@@ -44,6 +44,14 @@ export default {
         this.$store.commit("compra/setArtigos", val);
       },
     },
+    loading: {
+      get() {
+        return this.$store.getters["compra/getLoading"];
+      },
+      set(val) {
+        return this.$store.commit("compra/setLoading", val);
+      },
+    },
   },
   data: () => ({}),
   components: {
@@ -56,8 +64,9 @@ export default {
 .lista {
   overflow: scroll;
   overflow-x: hidden;
-  height: fit-content;
-  max-height: 80vh;
+  height: 60vh;
+  min-height: 60vh;
+  max-height: 60vh;
   padding: 2rem;
 }
 </style>
