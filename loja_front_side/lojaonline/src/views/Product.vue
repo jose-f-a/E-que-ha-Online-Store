@@ -3,10 +3,12 @@
     <app-bar> </app-bar>
     <menu-lateral> </menu-lateral>
     <carrinho> </carrinho>
+
     <v-main class="container">
       <v-container>
         <login> </login>
         <signup></signup>
+
         <v-card class="produto">
           <div class="imagens">
             <v-carousel>
@@ -14,26 +16,33 @@
                 v-for="(imagem, i) in imagens"
                 :key="i"
                 :src="imagem"
+                contain
+                width="900"
                 reverse-transition="fade-transition"
                 transition="fade-transition"
               ></v-carousel-item>
             </v-carousel>
           </div>
+
           <div class="card-smal-container">
             <v-card-title class="card-titulo">{{ nome }} </v-card-title>
             <v-card-subtitle class="card-desc"> {{ desc }} </v-card-subtitle>
+
+            <p class="text-left text-h5 preco">{{ this.preco }} €</p>
+
             <div class="rating">
               <v-rating
                 v-model="this.rating"
-                background-color="indigo lighten-3"
+                background-color="warning"
                 half-increments
-                color="indigo"
+                color="warning"
                 readonly
               ></v-rating>
               <div class="custom-transform-class text-none">
                 ({{ this.reviewNumber }})
               </div>
             </div>
+
             <div class="variante">
               <div class="variant-text">Variantes</div>
               <v-row>
@@ -53,20 +62,20 @@
                 </v-col>
               </v-row>
             </div>
-            <div class="preco"></div>
+
             <div class="quantidade">
               <v-text-field
                 class="input-quantidade"
                 v-model="quantidade"
                 type="number"
-                label="quantidade"
+                label="Quantidade"
               ></v-text-field>
               <v-btn
                 @click="this.menosQuantidade"
                 class="mx-1"
                 fab
                 dark
-                small
+                x-small
                 color="primary"
               >
                 <v-icon dark> mdi-minus </v-icon>
@@ -76,35 +85,30 @@
                 class="mx-1"
                 fab
                 dark
-                small
+                x-small
                 color="primary"
               >
                 <v-icon dark> mdi-plus </v-icon>
               </v-btn>
             </div>
-            <div class="custom-transform-class text-none">
-              {{ this.preco }}€
-            </div>
+
             <div>
               <v-btn
                 class="ma-2"
+                color="blue darken-2"
                 outlined
-                color="indigo"
                 @click="adicionarCarrinho"
               >
+                <v-icon>mdi-cart-outline</v-icon>
                 Adicionar ao carrinho
               </v-btn>
-              <v-btn
-                class="ma-2"
-                outlined
-                color="indigo"
-                @click="comprarArtigo"
-              >
+              <v-btn class="ma-2" color="blue darken-2" @click="comprarArtigo">
                 Comprar
               </v-btn>
             </div>
           </div>
         </v-card>
+
         <v-card class="card-analise">
           <v-card-title>Analises</v-card-title>
           <div v-for="analise in this.analises" v-bind:key="analise.reviewid">
@@ -140,6 +144,7 @@
     </v-main>
   </v-app>
 </template>
+
 <script>
 import AppBar from "@/components/AppBar.vue";
 import Login from "@/components/Login.vue";
@@ -277,9 +282,10 @@ export default {
 
 <style >
 .container {
-  /*background: red;*/
+  margin-top: 1rem;
 }
 .produto {
+  align-self: center;
   display: flex;
   flex-direction: row;
 }
@@ -289,10 +295,11 @@ export default {
 .card-smal-container {
   width: 35%;
 }
-.card-titulo {
-}
 .card-desc {
   text-align: left;
+}
+.preco {
+  padding-left: 1rem;
 }
 .rating {
   display: flex;
@@ -308,14 +315,16 @@ export default {
 .variante-item {
   width: 4rem;
   padding: 2px;
+  cursor: pointer;
 }
 .variante-item:hover {
   border-radius: 5px;
-  border: 2px solid black;
+  border: 1px solid #333333;
 }
 .quantidade {
   display: flex;
   flex-direction: row;
+  align-items: baseline;
   margin: 2rem;
 }
 
