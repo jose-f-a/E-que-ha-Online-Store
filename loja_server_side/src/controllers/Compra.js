@@ -100,17 +100,14 @@ module.exports = {
             var compras = [];
             await connection
                 .query(
-                    "SELECT * FROM compra, utilizador WHERE compra.estadocompraid = 1 OR compra.estadocompraid = 2 OR compra.estadocompraid = 3 AND compra.userid = utilizador.userid;", {
+                    "SELECT * FROM compra, utilizador WHERE compra.userid = utilizador.userid AND (compra.estadocompraid = 1 OR compra.estadocompraid = 2 OR compra.estadocompraid = 3);", {
                         replacements: { userid: userid },
                     }
                 )
                 .then((results) => {
-
                     for (compra in results[0]) {
                         compras.push(results[0][compra])
                     }
-
-
                 });
             /* Tratamento dos dados */
             var json_final;
@@ -133,6 +130,7 @@ module.exports = {
                                 produtoid: results[0][produto].produtoid,
                                 nome: results[0][produto].nome.split('-')[0],
                                 cor: results[0][produto].nome.split('-')[0],
+                                preco: results[0][produto].preco,
                                 quantidade: results[0][produto].quantidade,
                                 descricao: results[0][produto].descricao
                             }
@@ -239,6 +237,7 @@ module.exports = {
                                 produtoid: results[0][produto].produtoid,
                                 nome: results[0][produto].nome.split('-')[0],
                                 cor: results[0][produto].nome.split('-')[0],
+                                preco: results[0][produto].preco,
                                 quantidade: results[0][produto].quantidade,
                                 descricao: results[0][produto].descricao
                             }

@@ -8,7 +8,8 @@ const state = {
     compraDialog: false,
     comprasVisiveis: null,
     paginas: null,
-    loading: null
+    loading: null,
+    selectedCompra: null,
 };
 
 const getters = {
@@ -32,6 +33,9 @@ const getters = {
     },
     getLoading: (state) => {
         return state.loading;
+    },
+    getSelectedCompra: (state) => {
+        return state.selectedCompra
     },
 };
 
@@ -120,6 +124,10 @@ const mutations = {
     },
     setLoading: (state, val) => {
         state.loading = val;
+    },
+    setSelectedCompra: (state, val) => {
+        state.selectedCompra = val
+        console.log(val)
     },
     setLogin(state, val) {
         state.login = val;

@@ -59,7 +59,7 @@ export default {
         return this.$store.getters["user/getLoading"]
       },
       set(val){
-        return this.$store.commit["user/setLoading",val]
+        return this.$store.commit("user/setLoading",val)
       }
     },
     paginas:{

@@ -3,6 +3,7 @@ const user = require("./controllers/User");
 const produto = require("./controllers/Produto");
 const carrinho = require("./controllers/Carrinho");
 const compra = require("./controllers/Compra");
+const analises = require("./controllers/analise");
 const routes = express.Router();
 
 routes.post("/api/signup", user.signup);
@@ -17,5 +18,6 @@ routes.get("/api/get-user-morada", user.getMoradas);
 routes.post("/api/comprar", compra.fazerCompra);
 routes.post("/api/getFinishedCompras", compra.getFinishedCompras);
 routes.post("/api/getPendingCompras", compra.getPendingCompras);
+routes.post("/api/createAnalise", analises.fazerReview)
 
 module.exports = routes;

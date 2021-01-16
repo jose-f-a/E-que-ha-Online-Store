@@ -1,43 +1,91 @@
 <template>
   <v-dialog v-model="isOpen" max-width="75%">
+    
     <v-card>
-      <v-card-title class="headline"> Encomenda </v-card-title>
-      <v-stepper v-model="e6" vertical>
-        <v-stepper-step complete step="1"> Pedido Recebido </v-stepper-step>
+      <v-card-title class="headline">
+        <div> 
+          Encomenda Nº{{ compra.compra.compraid }}
+          </div>
+            <div> 
+         <v-btn text @click="this.closeDialog"> Fechar </v-btn>
+          </div>
+       
+      </v-card-title>
+      <v-stepper v-model="this.step" vertical>
+        <v-stepper-step :complete="this.step > 1" step="1">
+          Pedido Recebido
+        </v-stepper-step>
         <v-stepper-content step="1">
-          <v-card color="grey lighten-1" class="mb-12" height="200px">
-            A embalar produtos
+          <v-img
+            max-height="195"
+            max-width="250"
+            src="../../public/animations/packing3.gif"
+          ></v-img>
+        </v-stepper-content>
+        <v-stepper-step :complete="this.step > 2" step="2">
+          Produtos embalados
+        </v-stepper-step>
+        <v-stepper-content step="2">
+          <v-card color="grey lighten-1" class="mb-12" width="250" height="150">
+            <v-img
+              max-height="150"
+              max-width="250"
+              src="../../public/animations/em_packing.gif"
+            ></v-img>
           </v-card>
         </v-stepper-content>
-        <v-stepper-step complete step="2"> Produtos embalados </v-stepper-step>
-
-        <v-stepper-step complete step="3">
-          Select an ad format and name ad unit
-        </v-stepper-step>
-
+        <v-stepper-step :complete="this.step > 3" step="3"
+          >Produtos Enviados</v-stepper-step
+        >
         <v-stepper-content step="3">
-          <v-card color="grey lighten-1" class="mb-12" height="200px"></v-card>
+          <v-card color="grey lighten-1" class="mb-12" width="250" height="150">
+            <v-img
+              max-height="150"
+              max-width="250"
+              src="../../public/animations/em_distribuicao.gif"
+            ></v-img>
+          </v-card>
         </v-stepper-content>
+        
+        <v-stepper-step :complete="this.step == 4" step="4"
+          >Produtos Recebidos</v-stepper-step
+        >
 
-        <v-stepper-step step="4"> View setup instructions </v-stepper-step>
         <v-stepper-content step="4">
-          <v-card color="grey lighten-1" class="mb-12" height="200px"></v-card>
+            <v-img
+              max-height="180"
+              max-width="270"
+              src="../../public/animations/recebido.gif"
+            ></v-img>
         </v-stepper-content>
       </v-stepper>
       <v-card-text> </v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn text @click="this.closeDialog"> Fechar </v-btn>
-      </v-card-actions>
+      <v-card>
+        <v-card-title class="headline">Produtos</v-card-title>
+        <div v-for="item in this.listProduto" v-bind:key="item.produtoid">
+          <artigo :artigo="item" :step="step"></artigo>
+        </div>
+      </v-card>
     </v-card>
   </v-dialog>
 </template>
-
 <script>
+import ArtigoCompra from "@/components/ArtigoDialogCompra.vue";
 export default {
+  data: () => ({
+    step: 1,
+    listProdutos: null,
+  }),
   methods: {
     closeDialog() {
       this.$store.commit("user/changeCompraDialog");
+    },
+  },
+  watch: {
+    compra: function () {
+      this.step = this.compra.compra.estadoCompra;
+      console.log("Altera compra dialog");
+      this.listProduto = this.compra.produtos
     },
   },
   computed: {
@@ -49,6 +97,28 @@ export default {
         this.$store.commit("user/setCompraDialog", val);
       },
     },
+    compra: {
+      get() {
+        return this.$store.getters["user/getSelectedCompra"];
+      },
+      set(val) {
+        this.$store.commit("user/setSelectedCompra", val);
+      },
+    },
+  },
+  created: function () {
+    var total = 0;
+    for (var i in this.compra.produtos) {
+      total = total + parseFloat(this.compra.produtos[i].preco);
+    }
+    this.total = total;
+    this.data =
+      this.compra.compra.criadaem.split("T")[0] +
+      " " +
+      this.compra.compra.criadaem.split("T")[1].split(".")[0];
+  },
+  components: {
+    artigo: ArtigoCompra,
   },
 };
 </script>
