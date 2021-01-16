@@ -31,7 +31,7 @@ const getters = {
     },
     getMetodoPagamento: (state) => {
         return state.pagamento
-    }
+    },
 
 };
 const actions = {

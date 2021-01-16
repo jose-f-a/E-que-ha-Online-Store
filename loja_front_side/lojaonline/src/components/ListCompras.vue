@@ -6,32 +6,42 @@
     rounded="lg"
     elevation="3"
   >
-    <div>
-      <div v-for="item in listaCompras" v-bind:key="item.compraid">
-        <ListComprasItem></ListComprasItem>
+    <v-card :loading="this.loading">
+      <v-card-title>As suas encomendas</v-card-title>
+      <div v-for="compra in listaComprasVisiveis" v-bind:key="compra.compraid">
+        <ListComprasItem v-bind:compra="compra"></ListComprasItem>
       </div>
-      <!-- <v-stepper alt-labels>
-      <v-stepper-header>
-        <v-stepper-step step="1"> Pedido Processado </v-stepper-step>
-        <v-divider></v-divider>
-        <v-stepper-step step="2"> 2 </v-stepper-step>
-        <v-divider></v-divider>
-        <v-stepper-step step="3"> 3 </v-stepper-step>
-        <v-divider></v-divider>
-        <v-stepper-step step="4"> 4 </v-stepper-step>
-      </v-stepper-header>
-    </v-stepper> -->
-    </div>
+      <div class="text-center">
+    <v-pagination
+      v-model="page"
+      :length="paginas" circle class="my-4"
+      :total-visible="7"
+    ></v-pagination>
+  </div>
+    </v-card>
   </v-sheet>
 </template>
-
 <script>
 import ListComprasItem from "./ListComprasItem";
 
 export default {
-  name: "Compra",
+  data () {
+      return {
+        page: 1,
+        name: "Compra",
+        perPage: 6,
+      }
+    },
   components: {
     ListComprasItem,
+  },
+  methods:{
+    
+  },
+  watch:{
+    page:function(){
+      this.$store.commit("user/setComprasVisiveis",this.page)
+    }
   },
   computed: {
     user: {
@@ -39,14 +49,30 @@ export default {
         return this.$store.getters["user/getUser"];
       },
     },
-    listaCompras: {
+    listaComprasVisiveis: {
       get() {
-        return this.$store.getters["user/getListaCompras"];
+        return this.$store.getters["user/getComprasVisiveis"];
       },
     },
+    loading:{
+      get(){
+        return this.$store.getters["user/getLoading"]
+      },
+      set(val){
+        return this.$store.commit("user/setLoading",val)
+      }
+    },
+    paginas:{
+        get(){
+           return this.$store.getters["user/getPaginas"];
+        }
+    }
   },
 };
 </script>
 
 <style scoped>
+.lista {
+  padding: 25px;
+}
 </style>
