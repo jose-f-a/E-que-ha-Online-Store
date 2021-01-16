@@ -21,7 +21,24 @@ module.exports = {
                 return res.json({ mensagem: "sucesso" })
             });
 
+    },
+
+    async getReviewById(req, res) {
+        const { produtoid } = req.query
+        console.log('-----------------------')
+        console.log(produtoid)
+        await connection
+            .query(
+                "select * from review where produtoid=:produtoid;", {
+                    replacements: {
+                        produtoid: produtoid,
+                    }
+                }
+            )
+            .then((results) => {
+
+                return res.json(results[0])
+            });
+
     }
-
-
 }
