@@ -19,5 +19,6 @@ routes.post("/api/comprar", compra.fazerCompra);
 routes.post("/api/getFinishedCompras", compra.getFinishedCompras);
 routes.post("/api/getPendingCompras", compra.getPendingCompras);
 routes.post("/api/createAnalise", analises.fazerReview)
+routes.get("/api/get-review-byid", analises.getReviewById)
 
 module.exports = routes;

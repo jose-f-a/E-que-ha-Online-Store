@@ -111,8 +111,8 @@ module.exports = {
                         replacements['id' + i] = variantes[i].produtoid
                     }
                     await connection.query(query, { replacements: replacements }).then((results3) => {
-
-                        //Criar json com o produto e acrescentar ao rating o valor result3[0], e um array de variantes
+                        console.log(results3)
+                            //Criar json com o produto e acrescentar ao rating o valor result3[0], e um array de variantes
                         var variantes2 = []
                         console.log(variantes[0].produtoid)
                         for (var i = 0; i < variantes.length; i++) {
