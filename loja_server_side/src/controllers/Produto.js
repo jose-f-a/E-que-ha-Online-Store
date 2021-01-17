@@ -309,7 +309,173 @@ module.exports = {
 
         return res.json(resu);
 
+    },
+    async getArtigoByQuery(req, res) {
+        const { query } = req.query
+            /* Tratamento dos dados */
+        const upperList = query.toUpperCase().split(' ')
+        var queryFinal = "%"
+        for (i in upperList) {
+            queryFinal = queryFinal + upperList[i] + '%'
+        }
+        console.log(queryFinal)
+        var todosProdutos;
+        var variantes = []
+        var produtosFinais = [];
+
+        /* Vai buscar todos os produtos e separar as variantes */
+        try {
+            console.log('resultdsas');
+            await connection.query("Select produto.preco,produto.desconto,produto.stock,produto.descricao,produto.nome,produto.produtoid from produto,categoria, categoriaproduto where (UPPER(produto.nome) like :query) or" +
+                    "(UPPER(produto.descricao) like :query)or " +
+                    "(categoriaproduto.produtoid =produto.produtoid " +
+                    "and categoriaproduto.categoriaid = categoria.categoriaid and UPPER(categoria.nome) like :query);", {
+                        replacements: {
+                            query: queryFinal,
+                        }
+
+                    })
+                .then((results) => {
+                    todosProdutos = results[0]
+                });
+            if (todosProdutos.length == 0) {
+                return res.json({ mensagem: "vazio" })
+            }
+
+            /* Vair percorrer todos os produtos e vai procurar as suas variantes */
+
+            for (const produto of todosProdutos) {
+                const nomeProduto = produto.nome.split('-')[0]
+
+                var json_produto;
+                var json_variantes;
+                var exist = false
+
+                produtosFinais.forEach(pf => {
+                    if (pf.nome === nomeProduto) {
+                        exist = true
+                    }
+                });
+
+
+                if (!exist) {
+
+                    await connection.query("Select * from produto where nome like :nome and produtoid <> :id", {
+                        replacements: {
+                            id: produto.produtoid,
+                            nome: nomeProduto + '%'
+                        }
+                    }).then((results) => {
+
+                        //Todos os produtos aqui são as variantes
+                        results[0].forEach(el => {
+
+                            var json_variantes = {
+                                produtoid: el.produtoid,
+                                nome: el.nome.split('-')[0],
+                                cor: el.nome.split('-')[1]
+                            }
+                            variantes.push(json_variantes)
+                        });
+
+                        json_produto = {
+                            produtoid: produto.produtoid,
+                            nome: produto.nome.split('-')[0],
+                            cor: produto.nome.split('-')[1],
+                            preco: produto.preco,
+                            variantes: variantes
+                        }
+                        produtosFinais.push(json_produto)
+                    });
+
+                }
+
+            }
+
+            return res.json(produtosFinais)
+
+
+        } catch (error) {
+            console.log(error);
+        }
+    },
+    async getArtigoByCategoria(req, res) {
+        const { id } = req.query
+        var todosProdutos;
+        var variantes = []
+        var produtosFinais = [];
+
+        /* Vai buscar todos os produtos e separar as variantes */
+        try {
+            console.log('resultdsas');
+            await connection.query("Select produto.preco,produto.desconto,produto.stock,produto.descricao,produto.nome,produto.produtoid from produto, categoriaproduto where " +
+                "categoriaproduto.produtoid =produto.produtoid and categoriaproduto.categoriaid = :id", {
+                    replacements: {
+                        id: id
+                    }
+                }).then((results) => {
+                todosProdutos = results[0]
+            });
+
+            /* Vair percorrer todos os produtos e vai procurar as suas variantes */
+
+            for (const produto of todosProdutos) {
+                const nomeProduto = produto.nome.split('-')[0]
+
+                var json_produto;
+                var json_variantes;
+                var exist = false
+
+                produtosFinais.forEach(pf => {
+                    if (pf.nome === nomeProduto) {
+                        exist = true
+                    }
+                });
+
+
+                if (!exist) {
+
+                    await connection.query("Select * from produto where nome like :nome and produtoid <> :id", {
+                        replacements: {
+                            id: produto.produtoid,
+                            nome: nomeProduto + '%'
+                        }
+                    }).then((results) => {
+
+                        //Todos os produtos aqui são as variantes
+                        results[0].forEach(el => {
+
+                            var json_variantes = {
+                                produtoid: el.produtoid,
+                                nome: el.nome.split('-')[0],
+                                cor: el.nome.split('-')[1]
+                            }
+                            variantes.push(json_variantes)
+                        });
+
+                        json_produto = {
+                            produtoid: produto.produtoid,
+                            nome: produto.nome.split('-')[0],
+                            cor: produto.nome.split('-')[1],
+                            preco: produto.preco,
+                            variantes: variantes
+                        }
+                        produtosFinais.push(json_produto)
+                    });
+
+                }
+
+            }
+
+            return res.json(produtosFinais)
+
+
+        } catch (error) {
+            console.log(error);
+        }
     }
+
+
 };
 
 

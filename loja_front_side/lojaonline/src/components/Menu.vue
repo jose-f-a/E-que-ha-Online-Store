@@ -57,7 +57,7 @@
         <router-link class="link" to="/categoria/13">
           <v-list-item> Verão </v-list-item>
         </router-link>
-
+      
         <router-link class="link" to="/categoria/14">
           <v-list-item> Inverno </v-list-item>
         </router-link>

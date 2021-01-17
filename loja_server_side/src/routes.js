@@ -23,5 +23,7 @@ routes.get("/api/get-last-compra", compra.getLastCompras);
 routes.get("/api/get-last-review", produto.getLastReview);
 routes.post("/api/createAnalise", analises.fazerReview)
 routes.get("/api/get-review-byid", analises.getReviewById)
+routes.get("/api/get-artigos-query", produto.getArtigoByQuery);
+routes.get("/api/get-artigos-categoria", produto.getArtigoByCategoria);
 
 module.exports = routes;
