@@ -18,5 +18,7 @@ routes.get("/api/get-user-morada", user.getMoradas);
 routes.post("/api/comprar", compra.fazerCompra);
 routes.post("/api/getFinishedCompras", compra.getFinishedCompras);
 routes.post("/api/getPendingCompras", compra.getPendingCompras);
+routes.get("/api/get-last-compra", compra.getLastCompras);
+
 
 module.exports = routes;

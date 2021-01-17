@@ -27,7 +27,7 @@
         </v-list-group>
         <v-btn text> Compras </v-btn>
         <v-btn text> Pagamentos </v-btn>
-        <v-btn text> Tickets </v-btn>
+        <v-btn text> Dashboard </v-btn>
         <v-btn text> Finanças </v-btn>
         <v-spacer></v-spacer>
         <v-responsive max-width="260">
@@ -49,6 +49,9 @@
           <criarProduto> </criarProduto>
         </div>
         <login></login>
+        <dashboard> </dashboard>
+        
+       <bar-graph :points="points"/>
       </v-container>
     </v-main>
   </v-app>
@@ -56,14 +59,26 @@
 <script>
 import CriarProduto from "../components/CriarProduto.vue"
 import login from "../components/LoginAdmin.vue"
+import Dashboard from "../components/Dashboard.vue"
+
 export default {
   data: () => ({
     criarProduto:false,
-    menuProduto:false
+    menuProduto:false,
+          value: [
+        423,
+        446,
+        675,
+        510,
+        590,
+        610,
+        760,
+      ],
   }),
   components: {
     criarProduto:CriarProduto,
-    login:login
+    login:login,
+    dashboard:Dashboard
   },
   methods:{
     changeCriarProduto(){
