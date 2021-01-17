@@ -51,7 +51,7 @@
               class="mt-2 artigo"
               cols="4"
             >
-              <artigo v-bind:artigo="artigo"> </artigo>
+              <artigo v-bind:artigo="artigo" > </artigo>
             </v-col>
           </v-row>
           <v-pagination

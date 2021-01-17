@@ -11,14 +11,14 @@
     <v-card-text>
       <v-row align="center" class="mx-0">
         <v-rating
-          :value="4.5"
+          v-model="artigo.rating.review"
           color="black"
           dense
           half-increments
           readonly
           size="15"
         ></v-rating>
-        <div class="grey--text ml-4">4.5</div>
+        <div class="grey--text ml-4">{{artigo.rating.total}}</div>
       </v-row>
     </v-card-text>
     <v-card-text>
@@ -55,7 +55,9 @@ export default {
       this.$router.go();
     },
   },
-  data: () => ({}),
+  data: () => ({
+    
+  }),
 };
 </script>
 

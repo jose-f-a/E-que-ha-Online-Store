@@ -10,9 +10,13 @@ module.exports = {
         /* Vai buscar todos os produtos e separar as variantes */
         try {
             console.log('resultdsas');
-            await connection.query("Select produtoid, nome, preco, descricao from produto").then((results) => {
-                todosProdutos = results[0]
-            });
+            await connection.query("Select produtoid, nome, preco, descricao from produto")
+                .then((results) => {
+                    todosProdutos = results[0]
+                });
+            if (todosProdutos.length == 0) {
+                return res.json({ mensagem: "vazio" })
+            }
 
             /* Vair percorrer todos os produtos e vai procurar as suas variantes */
 
@@ -32,6 +36,7 @@ module.exports = {
 
                 if (!exist) {
 
+                    var variaveis;
                     await connection.query("Select * from produto where nome like :nome and produtoid <> :id", {
                         replacements: {
                             id: produto.produtoid,
@@ -40,28 +45,46 @@ module.exports = {
                     }).then((results) => {
 
                         //Todos os produtos aqui são as variantes
-                        results[0].forEach(el => {
+                        variantes = results[0]
+                    });
+                    var review;
+                    var total;
+                    for (var i in variantes) {
+                        var json_variantes = {
+                            produtoid: variantes[i].produtoid,
+                            nome: variantes[i].nome.split('-')[0],
+                            cor: variantes[i].nome.split('-')[1]
+                        }
+                        variantes.push(json_variantes)
 
-                            var json_variantes = {
-                                produtoid: el.produtoid,
-                                nome: el.nome.split('-')[0],
-                                cor: el.nome.split('-')[1]
-                            }
-                            variantes.push(json_variantes)
-                        });
+                    }
+                    // CALCULAR AS REVEIEW AQUI
+                    var querySQL = "Select CAST(AVG(rating)AS DECIMAL(3,2))as review, count(*)total from review where produtoid =:idmain "
 
+                    var replacements = { idmain: produto.produtoid }
+
+                    for (var i = 0; i < variantes.length; i++) {
+                        querySQL = querySQL + " or produtoid =:id" + i
+                        replacements['id' + i] = variantes[i].produtoid
+                    }
+                    await connection.query(querySQL, { replacements: replacements }).then((res) => {
                         json_produto = {
                             produtoid: produto.produtoid,
                             nome: produto.nome.split('-')[0],
                             cor: produto.nome.split('-')[1],
                             preco: produto.preco,
+                            rating: {
+                                review: res[0][0].review,
+                                total: res[0][0].total
+                            },
                             variantes: variantes
                         }
-                        produtosFinais.push(json_produto)
-                    });
+                    })
+
+
+                    produtosFinais.push(json_produto)
 
                 }
-
             }
 
             return res.json(produtosFinais)
@@ -360,6 +383,7 @@ module.exports = {
 
                 if (!exist) {
 
+                    var variaveis;
                     await connection.query("Select * from produto where nome like :nome and produtoid <> :id", {
                         replacements: {
                             id: produto.produtoid,
@@ -368,28 +392,46 @@ module.exports = {
                     }).then((results) => {
 
                         //Todos os produtos aqui são as variantes
-                        results[0].forEach(el => {
+                        variantes = results[0]
+                    });
+                    var review;
+                    var total;
+                    for (var i in variantes) {
+                        var json_variantes = {
+                            produtoid: variantes[i].produtoid,
+                            nome: variantes[i].nome.split('-')[0],
+                            cor: variantes[i].nome.split('-')[1]
+                        }
+                        variantes.push(json_variantes)
 
-                            var json_variantes = {
-                                produtoid: el.produtoid,
-                                nome: el.nome.split('-')[0],
-                                cor: el.nome.split('-')[1]
-                            }
-                            variantes.push(json_variantes)
-                        });
+                    }
+                    // CALCULAR AS REVEIEW AQUI
+                    var querySQL = "Select CAST(AVG(rating)AS DECIMAL(3,2))as review, count(*)total from review where produtoid =:idmain "
 
+                    var replacements = { idmain: produto.produtoid }
+
+                    for (var i = 0; i < variantes.length; i++) {
+                        querySQL = querySQL + " or produtoid =:id" + i
+                        replacements['id' + i] = variantes[i].produtoid
+                    }
+                    await connection.query(querySQL, { replacements: replacements }).then((res) => {
                         json_produto = {
                             produtoid: produto.produtoid,
                             nome: produto.nome.split('-')[0],
                             cor: produto.nome.split('-')[1],
                             preco: produto.preco,
+                            rating: {
+                                review: res[0][0].review,
+                                total: res[0][0].total
+                            },
                             variantes: variantes
                         }
-                        produtosFinais.push(json_produto)
-                    });
+                    })
+
+
+                    produtosFinais.push(json_produto)
 
                 }
-
             }
 
             return res.json(produtosFinais)
@@ -409,13 +451,17 @@ module.exports = {
         try {
             console.log('resultdsas');
             await connection.query("Select produto.preco,produto.desconto,produto.stock,produto.descricao,produto.nome,produto.produtoid from produto, categoriaproduto where " +
-                "categoriaproduto.produtoid =produto.produtoid and categoriaproduto.categoriaid = :id", {
-                    replacements: {
-                        id: id
-                    }
-                }).then((results) => {
-                todosProdutos = results[0]
-            });
+                    "categoriaproduto.produtoid =produto.produtoid and categoriaproduto.categoriaid = :id", {
+                        replacements: {
+                            id: id
+                        }
+                    })
+                .then((results) => {
+                    todosProdutos = results[0]
+                });
+            if (todosProdutos.length == 0) {
+                return res.json({ mensagem: "vazio" })
+            }
 
             /* Vair percorrer todos os produtos e vai procurar as suas variantes */
 
@@ -435,6 +481,7 @@ module.exports = {
 
                 if (!exist) {
 
+                    var variaveis;
                     await connection.query("Select * from produto where nome like :nome and produtoid <> :id", {
                         replacements: {
                             id: produto.produtoid,
@@ -443,28 +490,46 @@ module.exports = {
                     }).then((results) => {
 
                         //Todos os produtos aqui são as variantes
-                        results[0].forEach(el => {
+                        variantes = results[0]
+                    });
+                    var review;
+                    var total;
+                    for (var i in variantes) {
+                        var json_variantes = {
+                            produtoid: variantes[i].produtoid,
+                            nome: variantes[i].nome.split('-')[0],
+                            cor: variantes[i].nome.split('-')[1]
+                        }
+                        variantes.push(json_variantes)
 
-                            var json_variantes = {
-                                produtoid: el.produtoid,
-                                nome: el.nome.split('-')[0],
-                                cor: el.nome.split('-')[1]
-                            }
-                            variantes.push(json_variantes)
-                        });
+                    }
+                    // CALCULAR AS REVEIEW AQUI
+                    var querySQL = "Select CAST(AVG(rating)AS DECIMAL(3,2))as review, count(*)total from review where produtoid =:idmain "
 
+                    var replacements = { idmain: produto.produtoid }
+
+                    for (var i = 0; i < variantes.length; i++) {
+                        querySQL = querySQL + " or produtoid =:id" + i
+                        replacements['id' + i] = variantes[i].produtoid
+                    }
+                    await connection.query(querySQL, { replacements: replacements }).then((res) => {
                         json_produto = {
                             produtoid: produto.produtoid,
                             nome: produto.nome.split('-')[0],
                             cor: produto.nome.split('-')[1],
                             preco: produto.preco,
+                            rating: {
+                                review: res[0][0].review,
+                                total: res[0][0].total
+                            },
                             variantes: variantes
                         }
-                        produtosFinais.push(json_produto)
-                    });
+                    })
+
+
+                    produtosFinais.push(json_produto)
 
                 }
-
             }
 
             return res.json(produtosFinais)
@@ -473,7 +538,7 @@ module.exports = {
         } catch (error) {
             console.log(error);
         }
-    }
+    },
 
 
 };
