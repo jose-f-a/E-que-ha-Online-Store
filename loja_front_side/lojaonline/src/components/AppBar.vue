@@ -26,7 +26,6 @@
     </v-form>
 
     <v-spacer></v-spacer>
-
     <div v-if="isLogin">
       <v-btn depressed @click="this.clickConta">
         <v-icon> mdi-account </v-icon>

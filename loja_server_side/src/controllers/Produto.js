@@ -237,8 +237,81 @@ module.exports = {
         }));
 
         return res.json(artigosUpdate)
+    },
+
+    async createProduct(req, res) {
+        console.log(req.body)
+        try {
+
+            /* Introduzir o produto na bd */
+
+
+            /* Com o id mudar o nome das imagens recebidas e dar save na pasta certa */
+            let data = [];
+
+            //loop all files
+            _.forEach(_.keysIn(req.files.photos), (key) => {
+                let photo = req.files.photos[key];
+
+                //move photo to uploads directory
+                photo.mv('./uploads/' + photo.name);
+
+                //push file details
+                data.push({
+                    name: photo.name,
+                    mimetype: photo.mimetype,
+                    size: photo.size
+                });
+            });
+
+            //return response
+            res.send({
+                status: true,
+                message: 'Files are uploaded',
+                data: data
+            });
+
+        } catch (err) {
+            res.status(500).send(err);
+        }
+    },
+    async getLastReview(req, res) {
+        var review;
+
+        var resu = []
+        await connection
+            .query(
+                "select * from review order by reviewid desc LIMIT 5;"
+            )
+            .then((results) => {
+                review = results[0]
+
+            });
+
+        for (i in review) {
+            await connection
+                .query(
+                    "select * from produto where produtoid =:id;", {
+                        replacements: {
+                            id: review[i].produtoid
+                        }
+                    }
+                )
+                .then((results) => {
+
+                    json_fi = {
+                        rating: review[i].rating,
+                        nome: '(' + review[i].rating + ')' + results[0][0].nome.split('-')[0]
+                    }
+                    resu.push(json_fi)
+                });
+        }
+
+        return res.json(resu);
+
     }
 };
+
 
 // Select produto.produtoid, nome, preco, produto.descricao, avg(rating)
 // 	from produto, review

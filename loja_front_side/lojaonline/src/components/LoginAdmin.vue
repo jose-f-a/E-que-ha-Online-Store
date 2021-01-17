@@ -4,9 +4,6 @@
       <v-card-title>
         <span class="headline">Login</span>
       </v-card-title>
-      <v-btn @click="closeDialog">
-        <v-icon> mdi-close </v-icon>
-      </v-btn>
       <v-card-text>
         <v-container>
           <v-row>
@@ -51,42 +48,47 @@ export default {
   }),
   methods: {
     closeDialog() {
-       this.$store.commit("appbar/changeShowLoginDialog")
+       this.$store.commit("admin/changeShowLoginDialog")
     },
     loginValidation() {
+        console.log('sssss')
       const options = {
         method: "POST",
         url: "http://localhost:3342/api/login",
         headers: { "Content-Type": "application/json" },
         data: { email: this.email, password: this.password },
       };
+      console.log("aaaaaa")
       axios
         .request(options)
         .then((response) => {
+            console.log(response)
           if (response.status == 200) {
-            const{isadmin} = jwt.decode(response.data.token)
+            const {isadmin}=jwt.decode(response.data.token)
             if(isadmin){
-              alert('Conda de admin nao entra aqui')
-            }else
-            {localStorage.setItem("token", response.data.token);
-            this.closeDialog()
-            this.$store.commit("appbar/setLogin",true)}
+                localStorage.setItem("tokenAdmin", response.data.token);
+                this.closeDialog()
+                this.$store.commit("admin/setLogin",true)
+            }else{
+                alert('Nao tem premissão')
+            }
             
           }
         })
         .catch( error => {
           console.log(error);
         });
+    console.log('dsaddddasd')
     },
   },
   computed:{
         isOpen:{
             get(){
-                return this.$store.getters['appbar/getLoginDialog']
+                return this.$store.getters['admin/getLoginDialog']
             },
             set(val){
                 
-                this.$store.commit("appbar/setShowLoginDialog",val)
+                this.$store.commit("admin/setShowLoginDialog",val)
             }
         }
     },

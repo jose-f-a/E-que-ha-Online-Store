@@ -5,6 +5,7 @@ const state = {
     user: null,
     login: null,
     listaCompras: null,
+
     compraDialog: false,
     comprasVisiveis: null,
     paginas: null,
@@ -22,6 +23,7 @@ const getters = {
     getListaCompras: (state) => {
         return state.listaCompras;
     },
+
     getCompraDialog: (state) => {
         return state.compraDialog;
     },
@@ -53,10 +55,9 @@ const actions = {
             return axios
                 .request(options)
                 .then((response) => {
-                    if (response.data.message) {
-                        console.log("verificar session");
+                    if (!response.data.isadmin) {
                         commit("setLogin", true);
-                        // commit("setUser", jwt.decode(localStorage.getItem("token")));
+                        //commit("setUser", jwt.decode(localStorage.getItem("token")));
                     }
                 })
                 .catch((error) => {
@@ -70,6 +71,7 @@ const actions = {
 
     loadListCompras({ commit, state }, valor) {
         commit("setLoading", true)
+
         if (valor == 1) {
             const options = {
                 method: "POST",
@@ -82,7 +84,6 @@ const actions = {
             axios
                 .request(options)
                 .then((res) => {
-
                     commit("setListaCompras", res.data);
                     commit("setComprasVisiveis", 1)
                     commit("setLoading", false)
@@ -90,8 +91,6 @@ const actions = {
                 .catch((err) => {
                     console.log(err);
                 });
-
-
         } else if (valor == 2) {
             const options = {
                 method: "POST",

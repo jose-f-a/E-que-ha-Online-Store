@@ -101,6 +101,7 @@ module.exports = {
             await connection
                 .query(
                     "SELECT * FROM compra, utilizador WHERE compra.userid = utilizador.userid AND (compra.estadocompraid = 1 OR compra.estadocompraid = 2 OR compra.estadocompraid = 3);", {
+
                         replacements: { userid: userid },
                     }
                 )
@@ -209,7 +210,6 @@ module.exports = {
                     }
                 )
                 .then((results) => {
-
                     for (compra in results[0]) {
                         compras.push(results[0][compra])
                     }
@@ -300,9 +300,19 @@ module.exports = {
             }
             console.log(comprasFinais)
             return res.json(comprasFinais);
-
         } catch (error) {
             console.log(error);
         }
     },
+    async getLastCompras(req, res) {
+        await connection
+            .query(
+                "select * from compra order by compraid desc LIMIT 5;"
+            )
+            .then((results) => {
+                return res.json(results[0]);
+            });
+
+    }
+
 };

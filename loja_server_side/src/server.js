@@ -3,10 +3,8 @@ const routes = require('./routes');
 const cors = require('cors');
 require('./database');
 require('dotenv').config();
-
 require("./database");
 const app = express();
-
 app.use(cors());
 //Serve para lidar com json
 app.use(express.json());
