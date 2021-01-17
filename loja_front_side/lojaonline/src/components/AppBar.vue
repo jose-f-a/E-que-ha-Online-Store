@@ -1,25 +1,31 @@
  <template>
   <v-app-bar app>
     <v-app-bar-nav-icon @click="onClickDrawer"></v-app-bar-nav-icon>
-    <v-img
-      lazy-src="https://picsum.photos/id/11/10/6"
-      max-height="57"
-      max-width="134"
-      src="../assets/logo.png"
-    ></v-img>
+    <div class="logo">
+      <v-img
+        max-height="57"
+        max-width="134"
+        src="../assets/logo.png"
+        @click="goHome"
+      ></v-img>
+    </div>
+
     <v-spacer></v-spacer>
-    <v-responsive max-width="260">
-       <v-form @submit.prevent="onSubmit">
-          <v-text-field
-           v-model="query"
-            dense
-            flat
-            hide-details
-            rounded
-            solo-inverted
-          ></v-text-field>
-          </v-form>
-        </v-responsive>
+
+    <v-form @submit.prevent="onSubmit">
+      <v-text-field
+        v-model="query"
+        label="Pesquise"
+        flat
+        hide-details
+        rounded
+        clearable
+        solo-inverted
+        prepend-icon="mdi-magnify"
+      ></v-text-field>
+    </v-form>
+
+    <v-spacer></v-spacer>
     <div v-if="isLogin">
       <v-btn depressed @click="this.clickConta">
         <v-icon> mdi-account </v-icon>
@@ -28,12 +34,14 @@
         <v-icon> mdi-heart-outline </v-icon>
       </v-btn>
     </div>
+
     <div v-else>
       <v-btn depressed @click="onClickLoginButton">
         <v-icon> mdi-login </v-icon>
       </v-btn>
       <v-btn depressed @click="onClickRegistarButton"> Registar </v-btn>
     </div>
+
     <div v-if="!isCompra">
       <v-btn depressed @click="onClickCartButton">
         <v-icon> mdi-cart-outline </v-icon>
@@ -41,13 +49,13 @@
     </div>
   </v-app-bar>
 </template>
+
 <script>
 export default {
-   data: () => ({
-    query:null
+  data: () => ({
+    query: null,
   }),
-  props:{
-  },
+  props: {},
   methods: {
     clickConta() {
       this.$router.push("/perfil");
@@ -64,10 +72,14 @@ export default {
     onClickRegistarButton() {
       this.$store.commit("appbar/changeShowSignupDialog");
     },
-    onSubmit(){
-      this.$router.push("/pesquisa/"+encodeURI(this.query))
-      this.$router.go()
-    }
+    onSubmit() {
+      this.$router.push("/pesquisa/" + encodeURI(this.query));
+      this.$router.go();
+    },
+    goHome() {
+      this.$router.push("/");
+      this.$router.go();
+    },
   },
   computed: {
     isLogin() {
@@ -88,3 +100,15 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.logo {
+  cursor: pointer;
+  padding-left: 2rem;
+}
+.search-bar {
+  display: flex;
+  align-content: center;
+  align-items: center;
+}
+</style>

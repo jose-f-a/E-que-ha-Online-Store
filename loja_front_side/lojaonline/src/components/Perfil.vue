@@ -4,8 +4,7 @@
     max-height="85vh"
     min-height="85vh"
     rounded="lg"
-    elevation="3"
-  >
+    elevation="3">
     <v-container>
       <v-row>
         <v-col>
@@ -28,6 +27,8 @@ export default {
         return this.$store.getters["appbar/getUser"];
       },
     },
+    components: {
+  },
   },
 };
 </script>

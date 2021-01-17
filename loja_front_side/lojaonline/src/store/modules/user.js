@@ -5,6 +5,12 @@ const state = {
     user: null,
     login: null,
     listaCompras: null,
+
+    compraDialog: false,
+    comprasVisiveis: null,
+    paginas: null,
+    loading: null,
+    selectedCompra: null,
 };
 
 const getters = {
@@ -16,6 +22,22 @@ const getters = {
     },
     getListaCompras: (state) => {
         return state.listaCompras;
+    },
+
+    getCompraDialog: (state) => {
+        return state.compraDialog;
+    },
+    getPaginas: (state) => {
+        return state.paginas;
+    },
+    getComprasVisiveis: (state) => {
+        return state.comprasVisiveis;
+    },
+    getLoading: (state) => {
+        return state.loading;
+    },
+    getSelectedCompra: (state) => {
+        return state.selectedCompra
     },
 };
 
@@ -48,7 +70,8 @@ const actions = {
     },
 
     loadListCompras({ commit, state }, valor) {
-        console.log("aaaaa");
+        commit("setLoading", true)
+
         if (valor == 1) {
             const options = {
                 method: "POST",
@@ -61,8 +84,9 @@ const actions = {
             axios
                 .request(options)
                 .then((res) => {
-                    console.log(res.data);
                     commit("setListaCompras", res.data);
+                    commit("setComprasVisiveis", 1)
+                    commit("setLoading", false)
                 })
                 .catch((err) => {
                     console.log(err);
@@ -79,8 +103,10 @@ const actions = {
             axios
                 .request(options)
                 .then((res) => {
-                    console.log(res.data);
+                    console.log(res)
                     commit("setListaCompras", res.data);
+                    commit("setComprasVisiveis", 1)
+                    commit("setLoading", false)
                 })
                 .catch((err) => {
                     console.log(err);
@@ -95,16 +121,33 @@ const mutations = {
     setUser(state, val) {
         state.user = val;
     },
+    setLoading: (state, val) => {
+        state.loading = val;
+    },
+    setSelectedCompra: (state, val) => {
+        state.selectedCompra = val
+        console.log(val)
+    },
     setLogin(state, val) {
         state.login = val;
         console.log(state.login);
         if (val) {
-            console.log("dentro do if do setlogin");
             state.user = jwt.decode(localStorage.getItem("token"));
         }
     },
     setListaCompras(state, val) {
         state.listaCompras = val;
+    },
+    setComprasVisiveis(state, pagina) {
+        state.paginas = Math.ceil(state.listaCompras.length / 6)
+        state.comprasVisiveis = state.listaCompras.slice((pagina - 1) * 6, pagina * 6)
+    },
+    setCompraDialog(state, val) {
+        state.compraDialog = val;
+    },
+    changeCompraDialog(state) {
+
+        state.compraDialog = !state.compraDialog;
     },
 };
 
