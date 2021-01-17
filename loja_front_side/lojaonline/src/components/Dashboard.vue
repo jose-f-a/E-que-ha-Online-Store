@@ -1,21 +1,5 @@
 <template>
   <div>
-    <v-card class="mx-auto text-center">
-      <v-card-title>
-        <div class="display-1 font-weight-thin">
-          TOP 5 artigos mais comprados
-        </div>
-      </v-card-title>
-      <v-sparkline
-        :labels="labelsV"
-        :value="valueV"
-        height="100"
-        padding="24"
-        smooth
-        auto-draw
-      ></v-sparkline>
-      <v-divider></v-divider>
-    </v-card>
     <v-card class="mx-auto text-center" color="green">
       <v-card-title>
         <div class="display-1 font-weight-thin">Ultimas 5 compras</div>
@@ -33,6 +17,23 @@
         </v-sparkline>
       </v-sheet>
     </v-card>
+
+     <v-card class="review-card">
+      <v-card-title>
+        <div class="display-1 font-weight-thin">
+          Ultimas 5 reviews
+        </div>
+      </v-card-title>
+      <v-sparkline
+         class="review-sparkline"
+        :labels="labelsV"
+        :value="valueV"
+        padding="24"
+        smooth
+        auto-draw
+      ></v-sparkline>
+      <v-divider></v-divider>
+    </v-card>
   </div>
 </template>
 
@@ -40,8 +41,8 @@
 import axios from "axios";
 export default {
   data: () => ({
-    labelsV: ["Produto 1", "Produto 1", "Produto 1", "Produto 1", "Produto 1"],
-    valueV: [1, 446, 675, 510, 760],
+    labelsV: [],
+    valueV: [],
     valueC: [],
   }),
   components: {},
@@ -49,14 +50,33 @@ export default {
   created: function () {
     const options = {
       method: "GET",
-      url: "http://localhost:3342/api/get-last-compra",
+      url: "http://localhost:3342/api/get-last-review",
     };
 
     axios
       .request(options)
+      .then(response => {
+        for (var compra in response.data) {
+          this.valueV.push(
+            parseFloat(parseFloat(response.data[compra].rating).toFixed(2))
+          );
+          this.labelsV.push(response.data[compra].nome)
+        }
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+    const options2 = {
+      method: "GET",
+      url: "http://localhost:3342/api/get-last-compra",
+    };
+
+    axios
+      .request(options2)
       .then((response) => {
         for (var compra in response.data) {
-          console.log(parseFloat(response.data[compra].total).toFixed(2));
+          
 
           this.valueC.push(
             parseFloat(parseFloat(response.data[compra].total).toFixed(2))
@@ -69,3 +89,8 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+
+
+</style>

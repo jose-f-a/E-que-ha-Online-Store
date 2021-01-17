@@ -27,7 +27,7 @@
         </v-list-group>
         <v-btn text> Compras </v-btn>
         <v-btn text> Pagamentos </v-btn>
-        <v-btn text> Dashboard </v-btn>
+        <v-btn text @click="changeDashboard"> Dashboard </v-btn>
         <v-btn text> Finanças </v-btn>
         <v-spacer></v-spacer>
         <v-responsive max-width="260">
@@ -49,7 +49,10 @@
           <criarProduto> </criarProduto>
         </div>
         <login></login>
-        <dashboard> </dashboard>
+        <div v-if="dashboard">
+          <dashboard> </dashboard>
+        </div>
+        
         
        <bar-graph :points="points"/>
       </v-container>
@@ -64,6 +67,7 @@ import Dashboard from "../components/Dashboard.vue"
 export default {
   data: () => ({
     criarProduto:false,
+    dashboard:true,
     menuProduto:false,
           value: [
         423,
@@ -84,6 +88,11 @@ export default {
     changeCriarProduto(){
         this.criarProduto= !this.criarProduto
         this.menuProduto= !this.menuProduto
+        this.dashboard= false
+    },
+    changeDashboard(){
+        this.dashboard= !this.dashboard
+        this.criarProduto=false
     }
   },
   created: function(){

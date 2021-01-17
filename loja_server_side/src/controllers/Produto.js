@@ -276,6 +276,41 @@ module.exports = {
         } catch (err) {
             res.status(500).send(err);
         }
+    },
+    async getLastReview(req, res) {
+        var review;
+
+        var resu = []
+        await connection
+            .query(
+                "select * from review order by reviewid desc LIMIT 5;"
+            )
+            .then((results) => {
+                review = results[0]
+
+            });
+
+        for (i in review) {
+            await connection
+                .query(
+                    "select * from produto where produtoid =:id;", {
+                        replacements: {
+                            id: review[i].produtoid
+                        }
+                    }
+                )
+                .then((results) => {
+
+                    json_fi = {
+                        rating: review[i].rating,
+                        nome: '(' + review[i].rating + ')' + results[0][0].nome.split('-')[0]
+                    }
+                    resu.push(json_fi)
+                });
+        }
+
+        return res.json(resu);
+
     }
 };
 
