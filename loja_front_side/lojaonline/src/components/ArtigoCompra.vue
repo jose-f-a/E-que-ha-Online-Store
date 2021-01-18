@@ -1,17 +1,93 @@
 <template>
-  <v-card class="card" elevation="2" outlined>
-    <div class="produto">
-      <v-img class="image" :src="imgPath(artigo.produtoid)"></v-img>
-      <div>{{ this.artigo.nome }}</div>
-      <div>{{ this.artigo.preco }}€</div>
+  <v-card class="cartao" elevation="0">
+    <v-row>
+      <v-col cols="2">
+        <div class="imagem">
+          <v-img
+            class="image"
+            width="70"
+            height="70"
+            contain
+            :aspect-ratio="4 / 3"
+            :src="imgPath(artigo.produtoid)"
+          ></v-img>
+        </div>
+      </v-col>
+
+      <v-col cols="9">
+        <div class="produto-info">
+          <p class="text-left text-body-1">{{ this.artigo.nome }}</p>
+          <p class="text-left">{{ this.artigo.preco }}€</p>
+        </div>
+
+        <div class="quantidadeC">
+          <p class="text-subtitle-1">Quantidade:</p>
+
+          <div class="quantidade">
+            <p
+              class="text-subtitle-1 font-weight-bold input-quantidadeC text-left"
+            >
+              {{ this.artigo.quantidade }}
+            </p>
+          </div>
+          <!-- <v-text-field
+            class="input-quantidadeC"
+            v-model="this.artigo.quantidade"
+            type="number"
+            label="Quantidade"
+            dense
+            disabled
+          ></v-text-field> -->
+
+          <div class="butoes">
+            <v-btn
+              @click="this.menosQuantidade"
+              class="mx-1"
+              fab
+              x-small
+              color="primary"
+              elevation="1"
+            >
+              <v-icon x-small dark> mdi-minus </v-icon>
+            </v-btn>
+            <v-btn
+              @click="this.maisQuantidade"
+              class="mx-1"
+              fab
+              x-small
+              color="primary"
+              elevation="1"
+            >
+              <v-icon x-small dark> mdi-plus </v-icon>
+            </v-btn>
+          </div>
+        </div>
+      </v-col>
+    </v-row>
+
+    <!-- <div class="imagem">
+      <v-img
+        class="image"
+        contain
+        width="75"
+        :aspect-ratio="4 / 3"
+        :src="imgPath(artigo.produtoid)"
+      ></v-img>
     </div>
+
+    <div class="produto">
+      <p class="text-body-1">{{ this.artigo.nome }}</p>
+      <p class="text-left">{{ this.artigo.preco }}€</p>
+    </div>
+
     <div class="quantidadeC">
       <v-text-field
         class="input-quantidadeC"
         v-model="this.artigo.quantidade"
         type="number"
-        label="quantidade"
+        label="Quantidade"
       ></v-text-field>
+
       <v-btn
         @click="this.menosQuantidade"
         class="mx-1"
@@ -32,13 +108,16 @@
       >
         <v-icon x-small dark> mdi-plus </v-icon>
       </v-btn>
-    </div>
+    </div> -->
   </v-card>
 </template>
+
 <script>
 export default {
   props: ["artigo"],
-  data: () => ({}),
+  data: () => ({
+    // total: 0.0
+  }),
   methods: {
     maisQuantidade() {
       const id = this.artigo.produtoid;
@@ -59,34 +138,43 @@ export default {
 };
 </script>
 
-<style>
-.card {
+<style scoped>
+.cartao {
+  margin-top: 1rem;
+}
+.imagem {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.produto-info {
   display: flex;
   flex-direction: column;
-  height: auto;
-  padding: 5px;
-}
-.produto {
-  display: flex;
-  flex-direction: row;
-  width: fit-content;
-}
-.image {
-  width: 2rem;
-  height: 2rem;
+  line-height: 0.75rem;
 }
 
 .quantidadeC {
   display: flex;
   flex-direction: row;
-  align-items: center;
-  margin-top: 0.5rem;
+  align-items: baseline;
+  padding: 0;
+  margin: 0;
 }
-.input-quantidadeC input[type="number"] {
+.quantidade {
+  padding-left: 0.3rem;
+  margin: 0;
+}
+/* .input-quantidadeC input[type="number"] {
   -moz-appearance: textfield;
 }
 .input-quantidadeC input::-webkit-outer-spin-button,
 .input-quantidadeC input::-webkit-inner-spin-button {
   -webkit-appearance: none;
+} */
+.butoes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 2rem;
 }
 </style>
