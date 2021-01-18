@@ -127,6 +127,14 @@ const actions = {
         console.error(error);
       });
   },
+  totalCompra({ state }) {
+    setTimeout(function() {
+      console.log(state.artigos);
+      state.artigos.forEach((artigo) => {
+        state.total += artigo.quantidade * artigo.preco;
+      });
+    }, 3000);
+  },
 };
 
 const mutations = {

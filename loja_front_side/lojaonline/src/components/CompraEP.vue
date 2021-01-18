@@ -64,6 +64,10 @@ export default {
       },
     },
   },
+  mounted: function () {
+    console.log("montado");
+    this.$store.dispatch("compra/totalCompra");
+  },
   data: () => ({}),
   components: {
     artigo: ArtigoCompra,

@@ -134,12 +134,6 @@ export default {
     imgPath(id) {
       return require("../../public/imagens/" + id + "_1.webp");
     },
-    // calculaTotal() {
-    //   this.total = this.artigo.quantidade * this.artigo.preco;
-    //   console.log("Quantidade: " + this.artigo.quantidade);
-    //   console.log("Preco: " + this.artigo.preco);
-    //   this.$store.commit("compra/setTotal", this.total);
-    // },
   },
 };
 </script>
