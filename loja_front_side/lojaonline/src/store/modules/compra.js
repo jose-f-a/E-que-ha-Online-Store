@@ -1,5 +1,6 @@
 import axios from "axios";
 const jwt = require("jsonwebtoken");
+
 const state = {
   step: 1,
   artigos: [],
@@ -8,6 +9,7 @@ const state = {
   morada: null,
   pagamento: null,
   loading: null,
+  total: 0.0,
 };
 
 const getters = {
@@ -41,6 +43,9 @@ const getters = {
   },
   getLoading: (state) => {
     return state.loading;
+  },
+  getTotal: (state) => {
+    return state.total;
   },
 };
 
@@ -135,25 +140,30 @@ const mutations = {
     state.artigos = val;
   },
   setMaisQuantidade(state, val) {
+    state.total = 0;
+
     state.artigos.forEach((artigo) => {
       if (artigo.produtoid == val) {
         artigo.quantidade = artigo.quantidade + 1;
       }
+      state.total += artigo.quantidade * artigo.preco;
     });
   },
   setMenosQuantidade(state, id) {
     var position = 0;
     var elRemove = -1;
 
-    state.artigos.forEach((element) => {
-      if (element.produtoid == id) {
-        element.quantidade = element.quantidade - 1;
+    state.artigos.forEach((artigo) => {
+      if (artigo.produtoid == id) {
+        artigo.quantidade = artigo.quantidade - 1;
         //se a quantidade for 0 remove do carrinho
 
-        if (element.quantidade == 0) {
+        if (artigo.quantidade == 0) {
           elRemove = position;
         }
+        state.total = state.total - artigo.preco;
       }
+
       position++;
     });
 
@@ -172,6 +182,9 @@ const mutations = {
   },
   setLoading: (state, val) => {
     state.loading = val;
+  },
+  setTotal: (state, val) => {
+    state.total = val;
   },
 };
 

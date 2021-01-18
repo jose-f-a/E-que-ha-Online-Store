@@ -133,6 +133,10 @@
     </v-dialog>
 
     <div>
+      <p class="text-left text-h5 font-weight-bold total">
+        Total: {{ this.total }}€
+      </p>
+
       <v-btn class="ma-2" color="blue darken-2" @click="clickVoltar">
         Voltar
       </v-btn>
@@ -215,6 +219,14 @@ export default {
         this.$store.commit("compra/setMetodoPagamento", val);
       },
     },
+    total: {
+      get() {
+        return this.$store.getters["compra/getTotal"];
+      },
+      set(val) {
+        return this.$store.commit("compra/setTotal", val);
+      },
+    },
   },
   components: {},
 };
@@ -241,5 +253,8 @@ export default {
 .input-contacto input::-webkit-outer-spin-button,
 .input-contacto input::-webkit-inner-spin-button {
   -webkit-appearance: none;
+}
+.total {
+  padding-left: 2rem;
 }
 </style>

@@ -11,6 +11,13 @@
         </div>
       </v-card>
     </div>
+    <v-row>
+      <v-col>
+        <p class="text-left text-h5 font-weight-bold total">
+          Total: {{ this.total }}€
+        </p>
+      </v-col>
+    </v-row>
 
     <v-row>
       <v-col cols="6">
@@ -131,6 +138,14 @@ export default {
         this.$store.commit("compra/setMorada", val);
       },
     },
+    total: {
+      get() {
+        return this.$store.getters["compra/getTotal"];
+      },
+      set(val) {
+        return this.$store.commit("compra/setTotal", val);
+      },
+    },
   },
   components: {
     artigo: ArtigoCompra,
@@ -143,8 +158,8 @@ export default {
   overflow: scroll;
   overflow-x: hidden;
   height: auto;
-  height: 30rem;
-  min-height: 30rem;
+  height: fit-content;
+  min-height: fit-content;
   max-height: 30rem;
   padding: 5px;
 }
@@ -163,5 +178,8 @@ export default {
   min-height: 15rem;
   max-height: 15rem;
   padding: 5px;
+}
+.total {
+  padding-left: 2rem;
 }
 </style>

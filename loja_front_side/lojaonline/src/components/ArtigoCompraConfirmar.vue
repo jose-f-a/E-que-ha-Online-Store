@@ -21,13 +21,22 @@
         </div>
 
         <div class="quantidadeC">
-          <v-text-field
+          <p class="text-subtitle-1">Quantidade:</p>
+
+          <div class="quantidade">
+            <p
+              class="text-subtitle-1 font-weight-bold input-quantidadeC text-left"
+            >
+              {{ this.artigo.quantidade }}
+            </p>
+          </div>
+          <!-- <v-text-field
             class="input-quantidadeC"
             v-model="this.artigo.quantidade"
             type="number"
             label="Quantidade"
             dense
-          ></v-text-field>
+          ></v-text-field> -->
         </div>
       </v-col>
     </v-row>
@@ -77,16 +86,19 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-top: 0.5rem;
-  width: 45%;
-  padding: 0.7rem;
+  margin-top: 0;
+  padding: 0;
 }
-.input-quantidadeC input[type="number"] {
+.quantidade {
+  padding-left: 0.3rem;
+  margin: 0;
+}
+/* .input-quantidadeC input[type="number"] {
   -moz-appearance: textfield;
   min-width: 50px;
 }
 .input-quantidadeC input::-webkit-outer-spin-button,
 .input-quantidadeC input::-webkit-inner-spin-button {
   -webkit-appearance: none;
-}
+} */
 </style>

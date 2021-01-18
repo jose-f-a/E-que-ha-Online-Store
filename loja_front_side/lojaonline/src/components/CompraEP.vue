@@ -1,7 +1,6 @@
 <template>
   <v-card clas="container" elevation="3" outlined :loading="this.loading">
     <v-card-title> Editar Artigos</v-card-title>
-
     <div class="lista">
       <v-card elevation="3">
         <div v-for="item in this.artigos" v-bind:key="item.produtoid">
@@ -11,7 +10,10 @@
     </div>
 
     <div>
-      <p class="text-left text-h5 font-weight-bold total">Total:</p>
+      <p class="text-left text-h5 font-weight-bold total">
+        Total: {{ this.total }}€
+      </p>
+
       <v-btn
         class="ma-2"
         outlined
@@ -51,6 +53,14 @@ export default {
       },
       set(val) {
         return this.$store.commit("compra/setLoading", val);
+      },
+    },
+    total: {
+      get() {
+        return this.$store.getters["compra/getTotal"];
+      },
+      set(val) {
+        return this.$store.commit("compra/setTotal", val);
       },
     },
   },

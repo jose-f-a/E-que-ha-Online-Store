@@ -13,6 +13,7 @@
           ></v-img>
         </div>
       </v-col>
+
       <v-col cols="9">
         <div class="produto-info">
           <p class="text-left text-body-1">{{ this.artigo.nome }}</p>
@@ -20,13 +21,23 @@
         </div>
 
         <div class="quantidadeC">
-          <v-text-field
+          <p class="text-subtitle-1">Quantidade:</p>
+
+          <div class="quantidade">
+            <p
+              class="text-subtitle-1 font-weight-bold input-quantidadeC text-left"
+            >
+              {{ this.artigo.quantidade }}
+            </p>
+          </div>
+          <!-- <v-text-field
             class="input-quantidadeC"
             v-model="this.artigo.quantidade"
             type="number"
             label="Quantidade"
             dense
-          ></v-text-field>
+            disabled
+          ></v-text-field> -->
 
           <div class="butoes">
             <v-btn
@@ -35,6 +46,7 @@
               fab
               x-small
               color="primary"
+              elevation="1"
             >
               <v-icon x-small dark> mdi-minus </v-icon>
             </v-btn>
@@ -44,6 +56,7 @@
               fab
               x-small
               color="primary"
+              elevation="1"
             >
               <v-icon x-small dark> mdi-plus </v-icon>
             </v-btn>
@@ -102,7 +115,9 @@
 <script>
 export default {
   props: ["artigo"],
-  data: () => ({}),
+  data: () => ({
+    // total: 0.0
+  }),
   methods: {
     maisQuantidade() {
       const id = this.artigo.produtoid;
@@ -119,6 +134,12 @@ export default {
     imgPath(id) {
       return require("../../public/imagens/" + id + "_1.webp");
     },
+    // calculaTotal() {
+    //   this.total = this.artigo.quantidade * this.artigo.preco;
+    //   console.log("Quantidade: " + this.artigo.quantidade);
+    //   console.log("Preco: " + this.artigo.preco);
+    //   this.$store.commit("compra/setTotal", this.total);
+    // },
   },
 };
 </script>
@@ -141,22 +162,25 @@ export default {
 .quantidadeC {
   display: flex;
   flex-direction: row;
-  align-items: center;
-  margin-top: 0.5rem;
-  width: 45%;
-  padding: 0.7rem;
+  align-items: baseline;
+  padding: 0;
+  margin: 0;
 }
-.input-quantidadeC input[type="number"] {
+.quantidade {
+  padding-left: 0.3rem;
+  margin: 0;
+}
+/* .input-quantidadeC input[type="number"] {
   -moz-appearance: textfield;
 }
 .input-quantidadeC input::-webkit-outer-spin-button,
 .input-quantidadeC input::-webkit-inner-spin-button {
   -webkit-appearance: none;
-}
+} */
 .butoes {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 2rem;
+  padding-left: 2rem;
 }
 </style>

@@ -11,6 +11,10 @@
     </div>
 
     <div>
+      <p class="text-left text-h5 font-weight-bold total">
+        Total: {{ this.total }}€
+      </p>
+
       <v-btn class="ma-2" color="blue darken-2" @click="clickVoltar">
         Voltar
       </v-btn>
@@ -53,6 +57,14 @@ export default {
         this.$store.commit("compra/setArtigos", val);
       },
     },
+    total: {
+      get() {
+        return this.$store.getters["compra/getTotal"];
+      },
+      set(val) {
+        return this.$store.commit("compra/setTotal", val);
+      },
+    },
   },
   created: function () {
     this.$store.dispatch("compra/getArtigosById");
@@ -69,5 +81,8 @@ export default {
   min-height: 60vh;
   max-height: 60vh;
   padding: 2rem;
+}
+.total {
+  padding-left: 2rem;
 }
 </style>
