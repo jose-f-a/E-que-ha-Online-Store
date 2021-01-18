@@ -35,7 +35,8 @@ const actions = {
         };
 
         axios.request(options).then(function(res) {
-            if (res.data.length == 0) {
+            console.log(res.data)
+            if (res.data.mensagem) {
                 commit("setListaArtigos", [])
                 commit("setArtigosVisiveis", 1)
             } else {

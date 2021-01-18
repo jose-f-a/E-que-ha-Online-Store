@@ -13,54 +13,32 @@
         </v-list-item-content>
       </v-list-item>
 
-      <v-list-item-group>
-        <router-link class="link" to="/categoria/2">
-          <v-list-item> Casa de banho </v-list-item>
-        </router-link>
+      <v-list-item-group >
+        
+          <v-list-item @change="go(2)"> Casa de banho </v-list-item>
+        
+          <v-list-item @change="go(3)">Interior</v-list-item>
+  
+          <v-list-item @change="go(4)"> Jardim </v-list-item>
+  
+          <v-list-item @change="go(5)"> Cozinha </v-list-item>
+   
+          <v-list-item @change="go(6)"> Casa inteligente </v-list-item>
+  
+          <v-list-item @change="go(7)"> Mobilia </v-list-item>
 
-        <router-link class="link" to="/categoria/3">
-          <v-list-item>Interior</v-list-item>
-        </router-link>
-
-        <router-link class="link" to="/categoria/4">
-          <v-list-item> Jardim </v-list-item>
-        </router-link>
-
-        <router-link class="link" to="/categoria/5">
-          <v-list-item> Cozinha </v-list-item>
-        </router-link>
-
-        <router-link class="link" to="/categoria/6">
-          <v-list-item> Casa inteligente </v-list-item>
-        </router-link>
-
-        <router-link class="link" to="/categoria/7">
-          <v-list-item> Mobilia </v-list-item>
-        </router-link>
-
-        <router-link class="link" to="/categoria/8">
-          <v-list-item> Criança </v-list-item>
-        </router-link>
-
-        <router-link class="link" to="/categoria/10">
-          <v-list-item> Eletrodomésticos </v-list-item>
-        </router-link>
-
-        <router-link class="link" to="/categoria/11">
-          <v-list-item> Iluminação </v-list-item>
-        </router-link>
-
-        <router-link class="link" to="/categoria/12">
-          <v-list-item> Lazer e viagem </v-list-item>
-        </router-link>
-
-        <router-link class="link" to="/categoria/13">
-          <v-list-item> Verão </v-list-item>
-        </router-link>
-      
-        <router-link class="link" to="/categoria/14">
-          <v-list-item> Inverno </v-list-item>
-        </router-link>
+          <v-list-item @change="go(8)"> Criança </v-list-item>
+    
+          <v-list-item @change="go(10)"> Eletrodomésticos </v-list-item>
+   
+          <v-list-item @change="go(11)"> Iluminação </v-list-item>
+     
+          <v-list-item @change="go(12)"> Lazer e viagem </v-list-item>
+            
+          <v-list-item @change="go(13)"> Verão </v-list-item>
+       
+          <v-list-item @change="go(14)"> Inverno </v-list-item>
+       
       </v-list-item-group>
     </v-list>
   </v-navigation-drawer>
@@ -81,6 +59,10 @@ export default {
   methods: {
     goHome() {
       this.$router.push("/");
+      this.$router.go();
+    },
+    go(int) {
+      this.$router.push("/categoria/" + int);
       this.$router.go();
     },
   },
