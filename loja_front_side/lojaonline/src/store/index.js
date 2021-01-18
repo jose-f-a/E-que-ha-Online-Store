@@ -8,6 +8,8 @@ import carrinho from "./modules/carrinho";
 import compra from "./modules/compra";
 import user from "./modules/user";
 import admin from "./modules/admin"
+import pesquisa from "./modules/pesquisa"
+import categoria from "./modules/categoria"
 
 export default new Vuex.Store({
     modules: {
@@ -15,6 +17,8 @@ export default new Vuex.Store({
         carrinho,
         compra,
         user,
-        admin
+        admin,
+        pesquisa,
+        categoria
     },
 });

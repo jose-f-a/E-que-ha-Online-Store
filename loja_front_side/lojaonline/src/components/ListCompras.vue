@@ -29,7 +29,6 @@ export default {
       return {
         page: 1,
         name: "Compra",
-        perPage: 6,
       }
     },
   components: {

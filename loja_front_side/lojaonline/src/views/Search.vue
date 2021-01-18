@@ -4,14 +4,32 @@
     <menu-lateral> </menu-lateral>
     <carrinho> </carrinho>
     <v-main>
-      <v-container>
+      <v-container class="container">
         <login> </login>
         <signup></signup>
-        <v-row>
-          <v-col v-for="n in 24" :key="n" cols="4">
-            <v-card height="200"></v-card>
-          </v-col>
-        </v-row>
+        <div class="titulo">Resultado da pesquisa: ' {{ this.query }} '</div>
+        <div v-if="artigos.length > 0">
+          <v-row class="lista-artigos">
+            <v-col
+              v-for="artigo in artigos"
+              v-bind:key="artigo.id"
+              class="mt-2 artigo"
+              cols="4"
+            >
+              <artigo v-bind:artigo="artigo"> </artigo>
+            </v-col>
+          </v-row>
+          <v-pagination
+            v-model="page"
+            :length="paginas"
+            circle
+            class="my-4"
+            :total-visible="7"
+          ></v-pagination>
+        </div>
+        <div v-else>
+          <div class="titulo">Não foram encontrados resultados</div>
+        </div>
       </v-container>
     </v-main>
   </v-app>
@@ -22,15 +40,65 @@ import Login from "@/components/Login.vue";
 import Signup from "@/components/Signup.vue";
 import Menu from "@/components/Menu.vue";
 import Carrinho from "@/components/Carrinho.vue";
+import Artigo from "@/components/Artigo.vue";
 
 export default {
-  data: () => ({}),
+  data() {
+    return {
+      query: null,
+      page: 1,
+    };
+  },
+  watch: {
+    page: function () {
+      this.$store.commit("pesquisa/setArtigosVisiveis", this.page);
+    },
+  },
+  computed: {
+    artigos: {
+      get() {
+        return this.$store.getters["pesquisa/getArigosVisiveis"];
+      },
+      set(val) {
+        this.$store.commit("pesquisa/setArigosVisiveis", val);
+      },
+    },
+    paginas: {
+      get() {
+        return this.$store.getters["pesquisa/getPaginas"];
+      },
+    },
+  },
   components: {
     "app-bar": AppBar,
     login: Login,
     signup: Signup,
     "menu-lateral": Menu,
     carrinho: Carrinho,
+    artigo: Artigo,
+  },
+  methods: {},
+  created: function () {
+    this.query = this.$route.params.query;
+    this.$store.dispatch("pesquisa/loadListArtigos", this.query);
   },
 };
 </script>
+
+<style scoped>
+.titulo {
+}
+.container {
+  text-align: left;
+}
+.artigo {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.lista-artigos {
+  display: flex !important;
+  justify-items: center;
+  align-items: center;
+}
+</style>
