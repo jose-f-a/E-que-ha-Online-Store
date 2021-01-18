@@ -53,7 +53,7 @@ const actions = {
   getArtigosDoCarrinho({ commit, rootState }) {
     commit("setCompra", true);
     commit("setLoading", true);
-    setTimeout(function () {
+    setTimeout(function() {
       commit("setArtigos", rootState.carrinho.listaArtigos);
       commit("setLoading", false);
     }, 3000);
@@ -72,11 +72,11 @@ const actions = {
 
     axios
       .request(options)
-      .then(function (response) {
+      .then(function(response) {
         console.log(response.data);
         commit("setArtigos", response.data);
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.error(error);
       });
   },
@@ -91,14 +91,14 @@ const actions = {
 
     axios
       .request(options)
-      .then(function (response) {
+      .then(function(response) {
         if (response.data.length > 1) {
           commit("setMoradas", response.data);
         } else {
           commit("setMoradas", [response.data]);
         }
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.error(error);
       });
   },
@@ -120,15 +120,15 @@ const actions = {
 
     axios
       .request(options)
-      .then(function (response) {
+      .then(function(response) {
         console.log(response.data);
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.error(error);
       });
   },
   totalCompra({ state }) {
-    setTimeout(function () {
+    setTimeout(function() {
       console.log(state.artigos);
       state.artigos.forEach((artigo) => {
         state.total += artigo.quantidade * artigo.preco;

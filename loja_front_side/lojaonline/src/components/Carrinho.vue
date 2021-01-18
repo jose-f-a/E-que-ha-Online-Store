@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer v-model="isOpen" fixed temporary right>
+  <v-navigation-drawer v-model="isOpen" width="30rem" fixed temporary right>
     <div class="carrinho-top">
       <!-- <v-icon @click="">mdi-arrow-collapse-right</v-icon> -->
       <p class="text-left text-h5">Carrinho</p>
@@ -8,13 +8,21 @@
         mdi-trash-can
       </v-icon>
     </div>
+
     <div class="conteudo-artigos">
       <div v-for="item in this.artigos" v-bind:key="item.produtoid">
         <artigo :artigo="item" class="artigo"></artigo>
       </div>
     </div>
+
+    <div class="total">
+      <p class="text-left text-h6 font-weight-bold total">
+        Total: {{ this.total }}€
+      </p>
+    </div>
+
     <div class="buttons">
-      <v-btn class="ma-2" outline color="blue darken-2" @click="comprarArtigo">
+      <v-btn class="ma-2" outlined color="blue darken-2" @click="comprarArtigo">
         <v-icon>mdi-cart-outline</v-icon>
         Comprar
       </v-btn>
@@ -47,6 +55,14 @@ export default {
         console.log(val);
       },
     },
+    total: {
+      get() {
+        return this.$store.getters["carrinho/getTotal"];
+      },
+      set(val) {
+        return this.$store.commit("carrinho/setTotal", val);
+      },
+    },
   },
   watch: {
     isLogin() {
@@ -69,12 +85,12 @@ export default {
         this.$store.commit("carrinho/setListaArtigos", []);
       }
     },
-    fecharCarrinho() {},
   },
   //Sempre que este comonente é criado corre isto
   created: function () {
     console.log("criou carrinho");
     this.$store.dispatch("carrinho/loadArtigos");
+    this.$store.dispatch("carrinho/totalCompra");
   },
   components: {
     artigo: ArtigoCarrinho,
@@ -87,21 +103,25 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: baseline;
-  max-height: 3rem;
+  max-height: 2rem;
   margin-top: 1rem;
   padding-left: 1rem;
 }
 .icon-lixo {
-  margin-left: 4rem;
+  margin-right: 2rem;
 }
 .conteudo-artigos {
   overflow: scroll;
   overflow-x: hidden;
-  height: 85%;
+  height: 80%;
   padding: 10px;
 }
 .artigo {
   margin-top: 10px;
+}
+.total {
+  margin-top: 2rem;
+  padding-left: 10px;
 }
 .buttons {
   height: 5%;
