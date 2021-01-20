@@ -66,11 +66,14 @@ export default {
           if (response.status == 200) {
             const{isadmin} = jwt.decode(response.data.token)
             if(isadmin){
-              alert('Conda de admin nao entra aqui')
-            }else
-            {localStorage.setItem("token", response.data.token);
-            this.closeDialog()
-            this.$store.commit("appbar/setLogin",true)}
+              localStorage.setItem("tokenAdmin", response.data.token);
+              this.$router.push("/admin")
+              this.$router.go()
+            }else{
+              localStorage.setItem("token", response.data.token);
+              this.closeDialog()
+              this.$store.commit("appbar/setLogin",true)}
+
             
           }
         })
