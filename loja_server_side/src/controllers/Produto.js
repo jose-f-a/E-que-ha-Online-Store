@@ -324,7 +324,7 @@ module.exports = {
 
                     json_fi = {
                         rating: review[i].rating,
-                        nome: '(' + review[i].rating + ')' + results[0][0].nome.split('-')[0]
+                        nome: results[0][0].nome.split('-')[0]
                     }
                     resu.push(json_fi)
                 });

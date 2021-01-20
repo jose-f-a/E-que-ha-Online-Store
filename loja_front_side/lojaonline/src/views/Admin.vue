@@ -48,47 +48,50 @@
         <div v-if="criarProduto">
           <criarProduto> </criarProduto>
         </div>
-        <login></login>
+
         <div v-if="dashboard">
           <dashboard> </dashboard>
         </div>
-       <bar-graph :points="points"/>
+        <bar-graph :points="points" />
       </v-container>
     </v-main>
   </v-app>
 </template>
 <script>
-import CriarProduto from "../components/CriarProduto.vue"
-import login from "../components/LoginAdmin.vue"
-import Dashboard from "../components/Dashboard.vue"
+import CriarProduto from "../components/CriarProduto.vue";
+import Dashboard from "../components/Dashboard.vue";
 
 export default {
   data: () => ({
-    criarProduto:false,
-    dashboard:true,
-    menuProduto:false,
+    criarProduto: false,
+    dashboard: true,
+    menuProduto: false,
   }),
   components: {
-    criarProduto:CriarProduto,
-    login:login,
-    dashboard:Dashboard,
+    criarProduto: CriarProduto,
+    dashboard: Dashboard,
   },
-   mounted () {
-      this.fillData()
+  mounted() {
+    this.fillData();
+  },
+  methods: {
+    changeCriarProduto() {
+      this.criarProduto = !this.criarProduto;
+      this.menuProduto = !this.menuProduto;
+      this.dashboard = false;
     },
-  methods:{
-    changeCriarProduto(){
-        this.criarProduto= !this.criarProduto
-        this.menuProduto= !this.menuProduto
-        this.dashboard= false
+    changeDashboard() {
+      this.dashboard = !this.dashboard;
+      this.criarProduto = false;
     },
-    changeDashboard(){
-        this.dashboard= !this.dashboard
-        this.criarProduto=false
+  },
+  created: async function () {
+    await this.$store.dispatch("admin/verifySession");
+
+    if (!this.$store.getters["admin/getLogin"]) {
+      this.$router.push("/");
+      this.$router.go();
     }
   },
-  created: function(){
-    this.$store.dispatch("admin/verifySession")
-  }
 };
 </script>

@@ -1,9 +1,9 @@
 import axios from "axios";
-import jwt from "jsonwebtoken";
+
 
 const state = {
     login: false,
-    loginDialog: true,
+    loginDialog: false,
 };
 
 const getters = {
@@ -27,7 +27,7 @@ const getters = {
 };
 
 const actions = {
-    verifySession({ commit }) {
+    async verifySession({ commit }) {
         if (localStorage.getItem("tokenAdmin")) {
             const options = {
                 method: "POST",
@@ -37,12 +37,13 @@ const actions = {
                     token: localStorage.getItem("tokenAdmin"),
                 },
             };
-            axios
+            await axios
                 .request(options)
                 .then((response) => {
                     if (response.data.isadmin) {
+                        console.log("pos log")
                         commit("setLogin", true)
-                        commit('setShowLoginDialog', false)
+                            //commit('setShowLoginDialog', false)
                     }
                 })
                 .catch((error) => {
@@ -58,9 +59,6 @@ const actions = {
 const mutations = {
     setLogin(state, val) {
         state.login = val;
-        if (val) {
-            state.user = jwt.decode(localStorage.getItem("token"));
-        }
     },
     setShowLoginDialog(state, val) {
         state.loginDialog = val;
