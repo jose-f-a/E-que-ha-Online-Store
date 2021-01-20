@@ -103,7 +103,7 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: baseline;
-  max-height: 2rem;
+  max-height: 2%;
   margin-top: 1rem;
   padding-left: 1rem;
 }
@@ -113,7 +113,7 @@ export default {
 .conteudo-artigos {
   overflow: scroll;
   overflow-x: hidden;
-  height: 80%;
+  height: 75%;
   padding: 10px;
 }
 .artigo {
