@@ -30,18 +30,19 @@
       <v-btn depressed @click="this.clickConta">
         <v-icon> mdi-account </v-icon>
       </v-btn>
+      <v-btn depressed  @click="onClickLogout">
+        <v-icon> mdi-logout-variant</v-icon>
+      </v-btn>
       <v-btn depressed>
         <v-icon> mdi-heart-outline </v-icon>
       </v-btn>
     </div>
-
     <div v-else>
       <v-btn depressed @click="onClickLoginButton">
         <v-icon> mdi-login </v-icon>
       </v-btn>
       <v-btn depressed @click="onClickRegistarButton"> Registar </v-btn>
     </div>
-
     <div v-if="!isCompra">
       <v-btn depressed @click="onClickCartButton">
         <v-icon> mdi-cart-outline </v-icon>
@@ -63,6 +64,13 @@ export default {
     onClickCartButton() {
       this.$store.commit("appbar/changeOpenCarrinho");
     },
+    onClickLogout() {
+      //Remover cookie
+      localStorage.removeItem("token")
+      //Mudar no store
+      this.$store.commit("appbar/setLogin",false);
+    },
+    
     onClickDrawer() {
       this.$store.commit("appbar/changeOpenMenuLateral");
     },

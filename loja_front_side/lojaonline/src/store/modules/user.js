@@ -3,9 +3,8 @@ import jwt from "jsonwebtoken";
 
 const state = {
     user: null,
-    login: null,
+    login: false,
     listaCompras: null,
-
     compraDialog: false,
     comprasVisiveis: null,
     paginas: null,
@@ -130,6 +129,7 @@ const mutations = {
     },
     setLogin(state, val) {
         state.login = val;
+        console.log('setou User')
         console.log(state.login);
         if (val) {
             state.user = jwt.decode(localStorage.getItem("token"));
