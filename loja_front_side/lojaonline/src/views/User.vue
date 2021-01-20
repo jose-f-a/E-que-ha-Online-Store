@@ -11,7 +11,7 @@
         ></v-img>
 
         <v-spacer></v-spacer>
-        <v-btn text :ripple="false" @click="logout"> Logout </v-btn>
+        <v-btn text :ripple="false" @click="onClickLogout"> Logout </v-btn>
       </v-container>
     </v-app-bar>
 
@@ -86,6 +86,14 @@ export default {
       this.$router.push("/");
       this.$router.go();
     },
+    onClickLogout() {
+      //Remover cookie
+      localStorage.removeItem("token")
+      //Mudar no store
+      this.$store.commit("user/setLogin",false);
+      this.$router.push("/");
+      this.$router.go();
+    },
     togglePerfil() {
       this.showPerfil = true;
       this.showCompras = false;
@@ -104,8 +112,12 @@ export default {
   },
   created: async function () {
     await this.$store.dispatch("user/verifySession");
-    console.log(this.$store.getters["user/getLogin"] + "getter verify");
-    // this.verifyLogin();
+    console.log('logins');
+    console.log(this.$store.getters["user/getLogin"]);
+    if(!this.$store.getters["user/getLogin"]){
+      this.$router.push('/')
+      this.$router.go()
+    }
   },
   computed: {
     user: {
