@@ -1,5 +1,6 @@
 <template>
   <div>
+    <line-chart :chart-data="datacollection"></line-chart>
     <v-card class="mx-auto text-center" color="green">
       <v-card-title>
         <div class="display-1 font-weight-thin">Ultimas 5 compras</div>
@@ -39,28 +40,53 @@
 
 <script>
 import axios from "axios";
+import LineChart from './../components/Charts/LineChart';
 export default {
   data: () => ({
+    datacollection: null,
     labelsV: [],
     valueV: [],
     valueC: [],
+
   }),
-  components: {},
-  methods: {},
+  components: {
+    LineChart
+  },
+  methods: {
+    
+      getRandomInt () {
+        return Math.floor(Math.random() * (50 - 5 + 1)) + 5
+      }
+  },
   created: function () {
+     
     const options = {
       method: "GET",
       url: "http://localhost:3342/api/get-last-review",
     };
-
     axios
       .request(options)
       .then(response => {
+        var data=[]
+        var label=[]
+        //Set data in grafico
+        
+
         for (var compra in response.data) {
-          this.valueV.push(
+          data.push(
             parseFloat(parseFloat(response.data[compra].rating).toFixed(2))
           );
-          this.labelsV.push(response.data[compra].nome)
+          label.push(response.data[compra].nome)
+        }
+        this.datacollection = {
+          labels: label,
+          datasets: [ {
+              label: 'Data One',
+              borderWidth:1,
+              borderColor:"red",
+              data: data
+            },
+          ]
         }
         console.log(response.data);
       })

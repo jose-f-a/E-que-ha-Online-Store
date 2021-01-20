@@ -52,8 +52,6 @@
         <div v-if="dashboard">
           <dashboard> </dashboard>
         </div>
-        
-        
        <bar-graph :points="points"/>
       </v-container>
     </v-main>
@@ -69,21 +67,15 @@ export default {
     criarProduto:false,
     dashboard:true,
     menuProduto:false,
-          value: [
-        423,
-        446,
-        675,
-        510,
-        590,
-        610,
-        760,
-      ],
   }),
   components: {
     criarProduto:CriarProduto,
     login:login,
-    dashboard:Dashboard
+    dashboard:Dashboard,
   },
+   mounted () {
+      this.fillData()
+    },
   methods:{
     changeCriarProduto(){
         this.criarProduto= !this.criarProduto
