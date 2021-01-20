@@ -12,7 +12,7 @@
        
       </v-card-title>
       <v-stepper v-model="this.step" vertical>
-        <v-stepper-step :complete="this.step > 1" step="1">
+        <v-stepper-step :complete="this.step >= 1" step="1">
           Pedido Recebido
         </v-stepper-step>
         <v-stepper-content step="1">
@@ -22,7 +22,7 @@
             src="../../public/animations/packing3.gif"
           ></v-img>
         </v-stepper-content>
-        <v-stepper-step :complete="this.step > 2" step="2">
+        <v-stepper-step :complete="this.step >= 2" step="2">
           Produtos embalados
         </v-stepper-step>
         <v-stepper-content step="2">
@@ -34,7 +34,7 @@
             ></v-img>
           </v-card>
         </v-stepper-content>
-        <v-stepper-step :complete="this.step > 3" step="3"
+        <v-stepper-step :complete="this.step >= 3" step="3"
           >Produtos Enviados</v-stepper-step
         >
         <v-stepper-content step="3">

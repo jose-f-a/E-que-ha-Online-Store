@@ -40,7 +40,7 @@
             solo-inverted
           ></v-text-field>
         </v-responsive>
-        <v-btn text> Logout </v-btn>
+        <v-btn text @click="onClickLogout"> Logout </v-btn>
       </v-container>
     </v-app-bar>
     <v-main class="grey lighten-3">
@@ -85,6 +85,14 @@ export default {
     dashboard:Dashboard
   },
   methods:{
+    onClickLogout() {
+      //Remover cookie
+      localStorage.removeItem("tokenAdmin")
+      //Mudar no store
+      this.$store.commit("admin/setLogin",false);
+      this.$router.push("/");
+      this.$router.go();
+    },
     changeCriarProduto(){
         this.criarProduto= !this.criarProduto
         this.menuProduto= !this.menuProduto
