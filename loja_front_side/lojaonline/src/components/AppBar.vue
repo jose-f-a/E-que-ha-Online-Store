@@ -22,6 +22,8 @@
         clearable
         solo-inverted
         prepend-icon="mdi-magnify"
+        dense
+        single-line
       ></v-text-field>
     </v-form>
 
@@ -30,7 +32,7 @@
       <v-btn depressed @click="this.clickConta">
         <v-icon> mdi-account </v-icon>
       </v-btn>
-      <v-btn depressed  @click="onClickLogout">
+      <v-btn depressed @click="onClickLogout">
         <v-icon> mdi-logout-variant</v-icon>
       </v-btn>
       <v-btn depressed>
@@ -66,11 +68,11 @@ export default {
     },
     onClickLogout() {
       //Remover cookie
-      localStorage.removeItem("token")
+      localStorage.removeItem("token");
       //Mudar no store
-      this.$store.commit("appbar/setLogin",false);
+      this.$store.commit("appbar/setLogin", false);
     },
-    
+
     onClickDrawer() {
       this.$store.commit("appbar/changeOpenMenuLateral");
     },
