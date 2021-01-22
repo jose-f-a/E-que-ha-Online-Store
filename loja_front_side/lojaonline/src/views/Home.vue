@@ -27,50 +27,30 @@
                   <v-icon>mdi-chevron-right</v-icon>
                 </v-btn>
               </template>
-              <v-carousel-item>
-                <v-img src="..\..\public\imagens\16_1.webp"></v-img>
-              </v-carousel-item>
-              <v-carousel-item>
-                <v-img src="..\..\public\imagens\16_2.webp"></v-img>
-              </v-carousel-item>
-              <v-carousel-item>
-                <v-img src="..\..\public\imagens\16_3.webp"></v-img>
-              </v-carousel-item>
-              <v-carousel-item>
-                <v-img src="..\..\public\imagens\17_1.webp"></v-img>
-              </v-carousel-item>
-              <v-carousel-item>
-                <v-img src="..\..\public\imagens\17_2.webp"></v-img>
+
+              <v-carousel-item
+                v-for="artigo in artigosTrending"
+                :key="artigo.id"
+              >
+                <v-img :src="imgPath(artigo.produtoid)" contain></v-img>
               </v-carousel-item>
             </v-carousel>
           </v-col>
         </v-row>
 
         <v-row>
-          <v-col>
-            <p class="titulos text-h3">Trending</p>
+          <v-col class="coluna">
+            <p class="titulos text-h4 text-left font-weight-medium">
+              Sugestões
+            </p>
           </v-col>
         </v-row>
-        <v-row>
-          <v-col>
-            <v-slide-group show-arrows>
-              <v-slide-item v-for="artigo in artigos" v-bind:key="artigo.id">
-                <artigo-home-trending v-bind:artigo="artigo">
-                </artigo-home-trending>
-              </v-slide-item>
-            </v-slide-group>
-          </v-col>
-        </v-row>
-
-        <v-row>
-          <v-col>
-            <p class="titulos text-h3">Sugeridos</p>
-          </v-col>
-        </v-row>
-
-        <v-row>
+        <v-row class="slide-group">
           <v-slide-group show-arrows>
-            <v-slide-item v-for="artigo in artigos" v-bind:key="artigo.id">
+            <v-slide-item
+              v-for="artigo in artigosSugeridos"
+              v-bind:key="artigo.id"
+            >
               <artigo-home-sugeridos v-bind:artigo="artigo">
               </artigo-home-sugeridos>
             </v-slide-item>
@@ -78,13 +58,35 @@
         </v-row>
 
         <v-row>
-          <v-col>
-            <p class="titulos text-h3">Produtos melhor avaliados</p>
+          <v-col class="coluna">
+            <p class="titulos text-h4 text-left font-weight-medium">Trending</p>
           </v-col>
         </v-row>
-        <v-row>
+        <v-row class="slide-group">
           <v-slide-group show-arrows>
-            <v-slide-item v-for="artigo in artigos" v-bind:key="artigo.id">
+            <v-slide-item
+              v-for="artigo in artigosTrending"
+              v-bind:key="artigo.id"
+            >
+              <artigo-home-trending v-bind:artigo="artigo">
+              </artigo-home-trending>
+            </v-slide-item>
+          </v-slide-group>
+        </v-row>
+
+        <v-row>
+          <v-col class="coluna">
+            <p class="titulos text-h4 text-left font-weight-medium">
+              Produtos melhor avaliados
+            </p>
+          </v-col>
+        </v-row>
+        <v-row class="slide-group">
+          <v-slide-group show-arrows>
+            <v-slide-item
+              v-for="artigo in artigoMelhorAvaliado"
+              v-bind:key="artigo.id"
+            >
               <artigo-home-melhor-avaliado v-bind:artigo="artigo">
               </artigo-home-melhor-avaliado>
             </v-slide-item>
@@ -101,18 +103,13 @@ import Login from "@/components/Login.vue";
 import Signup from "@/components/Signup.vue";
 import Menu from "@/components/Menu.vue";
 import Carrinho from "@/components/Carrinho.vue";
-// import Artigo from "@/components/Artigo.vue";
 import ArtigoHomeTrending from "@/components/ArtigoHomeTrending";
 import ArtigoHomeSugeridos from "@/components/ArtigoHomeSugeridos";
 import ArtigoHomeMelhorAvaliado from "@/components/ArtigoHomeMelhorAvaliado";
 
-import axios from "axios";
-
 export default {
   data() {
-    return {
-      artigos: [],
-    };
+    return {};
   },
   components: {
     "app-bar": AppBar,
@@ -120,34 +117,51 @@ export default {
     signup: Signup,
     "menu-lateral": Menu,
     carrinho: Carrinho,
-    // artigo: Artigo,
     "artigo-home-trending": ArtigoHomeTrending,
     "artigo-home-sugeridos": ArtigoHomeSugeridos,
     "artigo-home-melhor-avaliado": ArtigoHomeMelhorAvaliado,
   },
-  methods: {},
+  methods: {
+    imgPath(id) {
+      return require("../../public/imagens/" + id + "_1.webp");
+    },
+  },
+  computed: {
+    artigos: {
+      get() {
+        return this.$store.getters["homepage/getArtigos"];
+      },
+    },
+    artigoMelhorAvaliado: {
+      get() {
+        return this.$store.getters["homepage/getArtigosMelhorAvaliados"];
+      },
+    },
+    artigosTrending: {
+      get() {
+        return this.$store.getters["homepage/getArtigosTrending"];
+      },
+    },
+    artigosSugeridos: {
+      get() {
+        return this.$store.getters["homepage/getArtigosSugeridos"];
+      },
+    },
+  },
   created: function () {
-    this.$nextTick(function () {
-      const options = {
-        method: "GET",
-        url: "http://localhost:3342/api/getArtigo",
-        headers: { "Content-Type": "application/json" },
-      };
-
-      axios
-        .request(options)
-        .then((res) => {
-          this.artigos = res.data;
-          console.log(this.artigos);
-        })
-        .catch((err) => console.log(err));
-    });
+    this.$store.dispatch("homepage/loadArtigosMelhorClassificados");
+    this.$store.dispatch("homepage/loadArtigosTrending");
+    this.$store.dispatch("homepage/loadArtigosSugeridos");
   },
 };
 </script>
 
 <style scoped>
 .titulos {
-  margin-top: 4rem;
+  margin-top: 10rem;
+  margin-left: 6rem;
+}
+.slide-group {
+  justify-content: center;
 }
 </style>

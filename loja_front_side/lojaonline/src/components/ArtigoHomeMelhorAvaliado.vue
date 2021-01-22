@@ -1,24 +1,31 @@
 <template>
-  <v-card
-    width="250"
-    tile
-    elevation="0"
-    :ripple="false"
-    class="artigo"
-    @click="goToProduto(artigo.produtoid)"
-  >
-    <v-img
-      :src="imgPath()"
+  <v-hover v-slot="{ hover }">
+    <v-card
       width="250"
-      contain
-      class="align-end"
-      gradient="to bottom, rgba(0,0,0,0.03), rgba(0,0,0,.01)"
+      tile
+      elevation="0"
+      :ripple="false"
+      class="artigo"
+      @click="goToProduto(artigo.produtoid)"
     >
+      <v-img :src="imgPath()" width="250" contain>
+        <v-fade-transition>
+          <div
+            v-if="hover"
+            class="transition-fast-in v-card--reveal"
+            style="height: 100%"
+          >
+            <v-img :src="imgPath2()" width="250" contain></v-img>
+          </div>
+        </v-fade-transition>
+      </v-img>
       <div class="info-produto">
-        <p class="text-h6 text-left texto">{{ artigo.nome }}</p>
+        <p class="text-subtitle-1 text-left texto font-weight-bold">
+          {{ artigo.nome }}
+        </p>
         <div class="rating">
           <v-rating
-            v-model="artigo.rating.review"
+            v-model="artigo.media"
             background-color="black"
             color="black"
             dense
@@ -26,11 +33,10 @@
             readonly
             size="15"
           ></v-rating>
-          <p class="text-body-2">({{ artigo.rating.total }})</p>
         </div>
       </div>
-    </v-img>
-  </v-card>
+    </v-card>
+  </v-hover>
 </template>
 
 <script>
@@ -42,6 +48,11 @@ export default {
       return require("../../public/imagens/" +
         this.artigo.produtoid +
         "_1.webp");
+    },
+    imgPath2() {
+      return require("../../public/imagens/" +
+        this.artigo.produtoid +
+        "_2.webp");
     },
     goToProduto(id) {
       this.$router.push("/produto/" + id);
@@ -57,16 +68,8 @@ export default {
 <style scoped>
 .artigo {
   cursor: pointer;
-  padding: 0.5rem;
-  margin: 2rem;
-}
-.info-produto {
-  /* background-color: #b8c6db; */
-  background-image: linear-gradient(
-    315deg,
-    rgba(184, 198, 219, 0.35) 0%,
-    rgba(245, 247, 250, 0.35) 74%
-  );
+  padding: 1rem;
+  margin: 0 1rem 1rem 1rem;
 }
 .rating {
   display: flex;

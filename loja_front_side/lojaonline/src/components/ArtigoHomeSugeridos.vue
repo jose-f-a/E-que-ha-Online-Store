@@ -1,24 +1,29 @@
 <template>
-  <v-card
-    width="250"
-    tile
-    elevation="0"
-    :ripple="false"
-    class="artigo"
-    @click="goToProduto(artigo.produtoid)"
-  >
-    <v-img
-      :src="imgPath()"
-      width="250"
-      contain
-      class="align-end"
-      gradient="to bottom, rgba(0,0,0,0.03), rgba(0,0,0,.01)"
+  <v-hover v-slot="{ hover }">
+    <v-card
+      width="200"
+      :ripple="false"
+      :elevation="0"
+      class="artigo"
+      @click="goToProduto(artigo.produtoid)"
     >
-      <p class="text-h6 text-left texto">{{ artigo.nome }}</p>
-      <p class="text-h6 text-left texto">{{ artigo.descricao }}</p>
+      <v-img :src="imgPath()" width="200" contain class="align-end">
+        <v-fade-transition>
+          <div
+            v-if="hover"
+            class="transition-fast-in v-card--reveal"
+            style="height: 100%"
+          >
+            <v-img :src="imgPath2()" width="200" contain></v-img>
+          </div>
+        </v-fade-transition>
+      </v-img>
+      <p class="text-subtitle-1 text-left texto font-weight-bold">
+        {{ artigo.nome }}
+      </p>
       <p class="text-subtitle-1 text-left texto">{{ artigo.preco }}€</p>
-    </v-img>
-  </v-card>
+    </v-card>
+  </v-hover>
 </template>
 
 <script>
@@ -30,6 +35,11 @@ export default {
       return require("../../public/imagens/" +
         this.artigo.produtoid +
         "_1.webp");
+    },
+    imgPath2() {
+      return require("../../public/imagens/" +
+        this.artigo.produtoid +
+        "_2.webp");
     },
     goToProduto(id) {
       this.$router.push("/produto/" + id);
@@ -45,11 +55,10 @@ export default {
 <style scoped>
 .artigo {
   cursor: pointer;
-  padding: 0.5rem;
-  margin: 2rem;
+  padding: 1rem;
+  margin: 0 2rem 0.5rem 2rem;
 }
 .texto {
   margin: 0;
-  margin-left: 0.75rem;
 }
 </style>
