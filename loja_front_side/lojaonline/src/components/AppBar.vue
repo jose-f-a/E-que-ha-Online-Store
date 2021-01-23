@@ -20,8 +20,11 @@
         hide-details
         rounded
         clearable
-        solo-inverted
+        filled
+        solo
+        dense
         prepend-icon="mdi-magnify"
+        class="search-bar"
       ></v-text-field>
     </v-form>
 
@@ -30,7 +33,7 @@
       <v-btn depressed @click="this.clickConta">
         <v-icon> mdi-account </v-icon>
       </v-btn>
-      <v-btn depressed  @click="onClickLogout">
+      <v-btn depressed @click="onClickLogout">
         <v-icon> mdi-logout-variant</v-icon>
       </v-btn>
       <v-btn depressed>
@@ -66,11 +69,11 @@ export default {
     },
     onClickLogout() {
       //Remover cookie
-      localStorage.removeItem("token")
+      localStorage.removeItem("token");
       //Mudar no store
-      this.$store.commit("appbar/setLogin",false);
+      this.$store.commit("appbar/setLogin", false);
     },
-    
+
     onClickDrawer() {
       this.$store.commit("appbar/changeOpenMenuLateral");
     },
@@ -115,8 +118,6 @@ export default {
   padding-left: 2rem;
 }
 .search-bar {
-  display: flex;
-  align-content: center;
-  align-items: center;
+  width: 45rem;
 }
 </style>
