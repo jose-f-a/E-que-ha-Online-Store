@@ -20,10 +20,12 @@
         hide-details
         rounded
         clearable
-        solo-inverted
-        prepend-icon="mdi-magnify"
+        filled
+        solo
         dense
+        prepend-icon="mdi-magnify"
         single-line
+        class="search-bar"
       ></v-text-field>
     </v-form>
 
@@ -117,8 +119,6 @@ export default {
   padding-left: 2rem;
 }
 .search-bar {
-  display: flex;
-  align-content: center;
-  align-items: center;
+  width: 45rem;
 }
 </style>
