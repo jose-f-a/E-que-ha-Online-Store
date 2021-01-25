@@ -28,6 +28,7 @@ routes.post("/api/getFinishedCompras", compra.getFinishedCompras);
 routes.post("/api/getPendingCompras", compra.getPendingCompras);
 routes.get("/api/get-last-compra", compra.getLastCompras);
 routes.post("/api/get-compras-last-month", compra.getComprasLastCompras);
+routes.get("/api/get-compras-por-categoria", compra.getComprasPorCategoria);
 
 routes.post("/api/createAnalise", analises.fazerReview);
 routes.get("/api/get-review-byid", analises.getReviewById);

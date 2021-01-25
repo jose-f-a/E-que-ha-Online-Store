@@ -310,9 +310,35 @@ module.exports = {
     const { initDate } = req.body;
     try {
       await connection
-        .query("SELECT * FROM compra WHERE criadaem >= :mes", {
-          replacements: { mes: initDate },
-        })
+        .query(
+          "SELECT date_trunc('day', compra.criadaem) AS dia, SUM(total) AS total " +
+            "FROM compra " +
+            "WHERE criadaem >= :mes " +
+            "GROUP BY dia " +
+            "ORDER BY dia ",
+          {
+            replacements: { mes: initDate },
+          }
+        )
+        .then((result) => {
+          return res.json(result[0]);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  async getComprasPorCategoria(req, res) {
+    try {
+      await connection
+        .query(
+          "SELECT SUM(compra.total) AS total, categoria.categoriaid, categoria.nome " +
+            "FROM compra, linhacompra, produto, categoriaproduto, categoria " +
+            "WHERE compra.compraid = linhacompra.compraid AND " +
+            "linhacompra.produtoid = produto.produtoid AND " +
+            "produto.produtoid = categoriaproduto.produtoid and " +
+            "categoriaproduto.categoriaid = categoria.categoriaid " +
+            "GROUP BY categoria.categoriaid"
+        )
         .then((result) => {
           return res.json(result[0]);
         });
@@ -321,3 +347,11 @@ module.exports = {
     }
   },
 };
+
+/**
+  SELECT * FROM compra, linhacompra, produto, categoriaproduto, categoria 
+WHERE compra.compraid = linhacompra.compraid AND
+		linhacompra.produtoid = produto.produtoid AND
+		produto.produtoid = categoriaproduto.produtoid and
+		categoriaproduto.categoriaid = categoria.categoriaid
+ */

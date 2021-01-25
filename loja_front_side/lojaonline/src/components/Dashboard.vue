@@ -1,66 +1,70 @@
 <template>
-  <v-sheet
-    class="grey lighten-5"
-    max-height="85vh"
-    min-height="85vh"
-    rounded="lg"
-    elevation="3"
-  >
-    <v-container>
-      <v-row>
-        <v-col class="mt-2" cols="4">
-          <v-card class="grafico-1">
-            <v-card-title>Ultimas 5 Reviews</v-card-title>
-            <line-chart
-              :chart-data="datacollection1"
-              :options="options"
-            ></line-chart>
-          </v-card>
-        </v-col>
+  <v-container>
+    <v-row>
+      <v-col class="mt-2" cols="4">
+        <v-card class="graficos" tile elevation="1">
+          <v-card-title>Ultimas 5 Reviews</v-card-title>
+          <line-chart
+            :chart-data="datacollection1"
+            :options="options"
+          ></line-chart>
+        </v-card>
+      </v-col>
 
-        <v-col class="mt-2" cols="4">
-          <v-card class="grafico-2">
-            <v-card-title>Ultimas 5 Compras</v-card-title>
-            <bar :chart-data="datacollection2" :options="options"></bar>
-          </v-card>
-        </v-col>
+      <v-col class="mt-2" cols="4">
+        <v-card class="graficos" tile elevation="1">
+          <v-card-title>Ultimas 5 Compras</v-card-title>
+          <bar :chart-data="datacollection2" :options="options"></bar>
+        </v-card>
+      </v-col>
 
-        <v-col class="mt-2" cols="4">
-          <v-card class="grafico-3">
-            <v-card-title> Compras do ultimo mes</v-card-title>
-            <line-chart
-              :chart-data="datacollection3"
-              :options="options"
-            ></line-chart>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-sheet>
+      <v-col class="mt-2" cols="4">
+        <v-card class="graficos" tile elevation="1">
+          <v-card-title> Compras no ultimo mes</v-card-title>
+
+          <line-chart :chart-data="datacollection3" :options="options">
+          </line-chart>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col class="mt-2" cols="4">
+        <v-card class="graficos" tile elevation="1">
+          <v-card-title> Compras por categoria</v-card-title>
+
+          <pie-chart :chart-data="datacollection4" :options="options">
+          </pie-chart>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
 import axios from "axios";
 import LineChart from "./../components/Charts/LineChart";
 import BarChart from "./../components/Charts/BarChart";
+import PieChart from "./../components/Charts/PieChart";
 
 export default {
   data: () => ({
     datacollection1: null,
     datacollection2: null,
     datacollection3: null,
+    datacollection4: null,
+    labelsV: [],
+    valueV: [],
+    valueC: [],
     options: {
       responsive: true,
       cutoutPercentage: 80,
       maintainAspectRatio: false,
     },
-    labelsV: [],
-    valueV: [],
-    valueC: [],
   }),
   components: {
     LineChart,
     bar: BarChart,
+    pieChart: PieChart,
   },
   methods: {
     // getRandomInt() {
@@ -68,6 +72,7 @@ export default {
     // },
   },
   created: function () {
+    /** Grafico 1- Ultimas 5 reviews */
     const options = {
       method: "GET",
       url: "http://localhost:3342/api/get-last-review",
@@ -77,14 +82,15 @@ export default {
       .then((response) => {
         var data = [];
         var label = [];
-        //Set data in grafico
 
+        //Set data in grafico
         for (var compra in response.data) {
           data.push(
             parseFloat(parseFloat(response.data[compra].rating).toFixed(2))
           );
           label.push(response.data[compra].nome);
         }
+
         this.datacollection1 = {
           labels: label,
           datasets: [
@@ -96,29 +102,29 @@ export default {
             },
           ],
         };
-        console.log(response.data);
       })
       .catch(function (error) {
         console.error(error);
       });
 
+    /** Grafico 2- Ultimas 5 compras */
     const options2 = {
       method: "GET",
       url: "http://localhost:3342/api/get-last-compra",
     };
-
     axios
       .request(options2)
       .then((response) => {
         var label = [];
         var data = [];
-        console.log(response.data);
+
         for (var compra in response.data) {
           label.push(response.data[compra].compraid);
           data.push(
             parseFloat(parseFloat(response.data[compra].total).toFixed(2))
           );
         }
+
         this.datacollection2 = {
           labels: label,
           datasets: [
@@ -135,9 +141,11 @@ export default {
         console.error(error);
       });
 
+    /** Grafico 3- Compras no ultimo mes */
     var x = new Date();
     x.setDate(1);
     x.setMonth(x.getMonth() - 1);
+    console.log(x);
 
     const options3 = {
       method: "POST",
@@ -147,12 +155,12 @@ export default {
     axios
       .request(options3)
       .then((response) => {
-        console.log(response.data);
         var label = [];
         var data = [];
 
         for (var compra in response.data) {
-          var date = new Date(response.data[compra].criadaem);
+          /** Tratamento da data */
+          var date = new Date(response.data[compra].dia);
           var year = date.getFullYear();
           var month = date.getMonth() + 1;
           var dt = date.getDate();
@@ -169,11 +177,12 @@ export default {
             parseFloat(parseFloat(response.data[compra].total).toFixed(2))
           );
         }
+
         this.datacollection3 = {
           labels: label,
           datasets: [
             {
-              label: "Compras no ultimo mes",
+              label: "Valor faturado",
               borderWidth: 1,
               borderColor: "green",
               data: data,
@@ -184,12 +193,46 @@ export default {
       .catch((error) => {
         console.log(error);
       });
+
+    /** Grafico 4- Compras por categoria */
+    const options4 = {
+      method: "GET",
+      url: "http://localhost:3342/api/get-compras-por-categoria",
+    };
+    axios
+      .request(options4)
+      .then((response) => {
+        var label = [];
+        var data = [];
+
+        for (var categoria in response.data) {
+          label.push(response.data[0].nome);
+          data.push(
+            parseFloat(parseFloat(response.data[categoria].total).toFixed(2))
+          );
+        }
+
+        this.datacollection4 = {
+          labels: label,
+          datasets: [
+            {
+              label: "Total",
+              borderWidth: 1,
+              borderColor: "blue",
+              data: data,
+            },
+          ],
+        };
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
   },
 };
 </script>
 
 <style scoped>
-.grafico-1 {
+.graficos {
   height: 30rem;
   width: 30rem;
 }

@@ -7,6 +7,7 @@
           max-width="134"
           @click="goHome"
           src="../assets/logo.png"
+          class="logo"
         ></v-img>
 
         <!-- <v-list-group v-model="menuProduto" prepend-icon="mdi-cart-outline">
@@ -151,3 +152,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.logo {
+  cursor: pointer;
+}
+</style>
