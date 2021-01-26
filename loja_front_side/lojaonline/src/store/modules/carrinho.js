@@ -230,6 +230,7 @@ const actions = {
   },
   totalCompra({ state }) {
     setTimeout(function() {
+      state.total = 0;
       state.listaArtigos.forEach((artigo) => {
         state.total += artigo.quantidade * artigo.preco;
       });

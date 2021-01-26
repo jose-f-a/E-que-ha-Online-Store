@@ -68,16 +68,22 @@ export default {
     isLogin() {
       this.$store.dispatch("carrinho/loadArtigos");
     },
+    artigos: function () {
+      this.$store.dispatch("carrinho/totalCompra");
+    },
   },
   methods: {
     comprarArtigo() {
-      this.$router.push("/compra");
-      this.$router.go();
+      if (this.$store.getters["appbar/getLogin"]) {
+        this.$router.push("/compra");
+        this.$router.go();
+      } else {
+        this.$store.commit("appbar/setShowLoginDialog", true);
+      }
     },
     removerCarrinho() {
       console.log(this.$store.getters["appbar/getLogin"]);
       if (this.$store.getters["appbar/getLogin"]) {
-        console.log("eeeeee");
         this.$store.dispatch("carrinho/removerDB");
         this.$store.commit("carrinho/setListaArtigos", []);
       } else {

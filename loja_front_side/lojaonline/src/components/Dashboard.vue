@@ -145,7 +145,6 @@ export default {
     var x = new Date();
     x.setDate(1);
     x.setMonth(x.getMonth() - 1);
-    console.log(x);
 
     const options3 = {
       method: "POST",

@@ -1,5 +1,8 @@
 require("dotenv").config();
 const connection = require("../database");
+const sequelize = require("sequelize");
+require("dotenv").config();
+const KEY = process.env.KEY;
 
 module.exports = {
   async getArtigo(req, res) {
@@ -275,34 +278,76 @@ module.exports = {
   },
 
   async createProduct(req, res) {
-    console.log(req.body);
+    const { nome, preco, stock, descricao, categoriaid } = req.body;
+
     try {
-      /* Introduzir o produto na bd */
-
-      /* Com o id mudar o nome das imagens recebidas e dar save na pasta certa */
-      let data = [];
-
-      //loop all files
-      _.forEach(_.keysIn(req.files.photos), (key) => {
-        let photo = req.files.photos[key];
-
-        //move photo to uploads directory
-        photo.mv("./uploads/" + photo.name);
-
-        //push file details
-        data.push({
-          name: photo.name,
-          mimetype: photo.mimetype,
-          size: photo.size,
+      /** Introduzir o produto na bd */
+      /** Inserir produto na tabela produto */
+      await connection
+        .query(
+          "INSERT INTO produto(nome, preco, desconto, stock, descricao) " +
+            "VALUES (:nome, :preco, :desconto, :stock, :descricao)RETURNING*;",
+          {
+            replacements: {
+              nome: nome,
+              preco: preco,
+              desconto: 0,
+              stock: stock,
+              descricao: descricao,
+            },
+            type: sequelize.QueryTypes.INSERT,
+          }
+        )
+        .then((results) => {
+          console.log("inseriu no produto");
+          console.log(results);
+          produtoid = results[0][0].produtoid;
         });
-      });
+      console.log(produtoid);
+      /** Inserir produto na categoriaproduto */
+      await connection
+        .query(
+          "INSERT INTO categoriaproduto(categoriaid, produtoid) " +
+            "VALUES (:categoria, :produto)RETURNING*;",
+          {
+            replacements: {
+              categoria: categoriaid,
+              produto: produtoid,
+            },
+            type: sequelize.QueryTypes.INSERT,
+          }
+        )
+        .then((results) => {
+          console.log("inseriu no categoriaproduto");
+          console.log(results);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      //   /* Com o id mudar o nome das imagens recebidas e dar save na pasta certa */
+      //   let data = [];
 
-      //return response
-      res.send({
-        status: true,
-        message: "Files are uploaded",
-        data: data,
-      });
+      //   /* Loop all files */
+      //   _.forEach(_.keysIn(req.files.photos), (key) => {
+      //     let photo = req.files.photos[key];
+
+      //     //move photo to uploads directory
+      //     photo.mv("./uploads/" + photo.name);
+
+      //     /* Push file details */
+      //     data.push({
+      //       name: photo.name,
+      //       mimetype: photo.mimetype,
+      //       size: photo.size,
+      //     });
+      //   });
+
+      //   //return response
+      //   res.send({
+      //     status: true,
+      //     message: "Files are uploaded",
+      //     data: data,
+      //   });
     } catch (err) {
       res.status(500).send(err);
     }
@@ -350,7 +395,6 @@ module.exports = {
 
     /* Vai buscar todos os produtos e separar as variantes */
     try {
-      console.log("resultdsas");
       await connection
         .query(
           "Select produto.preco,produto.desconto,produto.stock,produto.descricao,produto.nome,produto.produtoid from produto,categoria, categoriaproduto where (UPPER(produto.nome) like :query) or" +
@@ -371,7 +415,6 @@ module.exports = {
       }
 
       /* Vair percorrer todos os produtos e vai procurar as suas variantes */
-
       for (const produto of todosProdutos) {
         const nomeProduto = produto.nome.split("-")[0];
 
@@ -401,6 +444,7 @@ module.exports = {
               //Todos os produtos aqui são as variantes
               variantes = results[0];
             });
+
           var review;
           var total;
           for (var i in variantes) {
@@ -411,6 +455,7 @@ module.exports = {
             };
             variantes.push(json_variantes);
           }
+
           // CALCULAR AS REVEIEW AQUI
           var querySQL =
             "Select CAST(AVG(rating)AS DECIMAL(3,2))as review, count(*)total from review where produtoid =:idmain ";
@@ -440,7 +485,6 @@ module.exports = {
           produtosFinais.push(json_produto);
         }
       }
-
       return res.json(produtosFinais);
     } catch (error) {
       console.log(error);
@@ -473,7 +517,6 @@ module.exports = {
       }
 
       /* Vair percorrer todos os produtos e vai procurar as suas variantes */
-
       for (const produto of todosProdutos) {
         const nomeProduto = produto.nome.split("-")[0];
 
@@ -503,6 +546,7 @@ module.exports = {
               //Todos os produtos aqui são as variantes
               variantes = results[0];
             });
+
           var review;
           var total;
           for (var i in variantes) {
@@ -538,17 +582,14 @@ module.exports = {
                 variantes: variantes,
               };
             });
-
           produtosFinais.push(json_produto);
         }
       }
-
       return res.json(produtosFinais);
     } catch (error) {
       console.log(error);
     }
   },
-
   async getArtigoMelhorRating(req, res) {
     try {
       await connection
@@ -564,8 +605,3 @@ module.exports = {
     }
   },
 };
-
-// Select produto.produtoid, nome, preco, produto.descricao, avg(rating)
-// 	from produto, review
-// 	where produto.produtoid = review.produtoid
-// 	group by produto.produtoid

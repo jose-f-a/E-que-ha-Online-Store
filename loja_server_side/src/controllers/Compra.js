@@ -347,11 +347,3 @@ module.exports = {
     }
   },
 };
-
-/**
-  SELECT * FROM compra, linhacompra, produto, categoriaproduto, categoria 
-WHERE compra.compraid = linhacompra.compraid AND
-		linhacompra.produtoid = produto.produtoid AND
-		produto.produtoid = categoriaproduto.produtoid and
-		categoriaproduto.categoriaid = categoria.categoriaid
- */

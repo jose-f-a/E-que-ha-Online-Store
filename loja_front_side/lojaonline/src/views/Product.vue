@@ -202,8 +202,12 @@ export default {
         nome: this.nome,
       };
       this.$store.dispatch("carrinho/adicionarProduto", artigo);
-      this.$router.push("/compra");
-      this.$router.go();
+      if (this.$store.getters["appbar/getLogin"]) {
+        this.$router.push("/compra");
+        this.$router.go();
+      } else {
+        this.$store.commit("appbar/setShowLoginDialog", true);
+      }
     },
     imgPath(id) {
       return require("../../public/imagens/" + id + "_1.webp");
