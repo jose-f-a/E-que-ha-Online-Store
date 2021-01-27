@@ -46,13 +46,17 @@ export default {
   props: ["artigo"],
   methods: {
     imgPath() {
-      return require("../../public/imagens/" +
-        this.artigo.produtoid +
-        "_1.webp");
+       if (this.artigo.produtoid <= 30) {
+        return require("../../public/imagens/" + this.artigo.produtoid + "_1.webp");
+      } else {
+        //Coluna da bd
+        
+        return require("../../public/imagens/" + this.artigo.imagens.split("||")[0]);
+      }
     },
     goToProduto(id) {
       this.$router.push("/produto/" + id);
-      this.$router.go();
+       
     },
   },
   data: () => ({

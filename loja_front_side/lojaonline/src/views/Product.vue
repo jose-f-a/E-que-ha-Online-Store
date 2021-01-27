@@ -56,7 +56,7 @@
                     class="variante-item"
                     @click="clickVariavel(item.produtoid)"
                   >
-                    <v-img :src="imgPath(item.produtoid)"></v-img>
+                    <v-img :src="imgPath(item.produtoid,item.imagens)"></v-img>
                     <div>{{ item.cor }}</div>
                   </div>
                 </v-col>
@@ -160,6 +160,7 @@ export default {
     desc: "",
     preco: null, //Hard coded,mudar
     imagens: [],
+    imagensString: "",
     variantes: [], //Vai ter os ids,depois vai vai se buscar as imagens e mete-se um evento de click
     rating: null,
     reviewNumber: null,
@@ -184,69 +185,94 @@ export default {
       this.$router.push("/produto/" + id);
       this.$router.go();
     },
-    adicionarCarrinho() {
+    async adicionarCarrinho() {
+      
+      console.log(this.imagensString)
       const artigo = {
         produtoid: this.produtoId,
         quantidade: this.quantidade,
         preco: this.preco,
         nome: this.nome,
+        imagens:this.imagensString
       };
-      this.$store.dispatch("carrinho/adicionarProduto", artigo);
+      await this.$store.dispatch("carrinho/adicionarProduto", artigo);
       alert("Adicionou");
     },
-    comprarArtigo() {
+    async comprarArtigo() {
       const artigo = {
         produtoid: this.produtoId,
         quantidade: this.quantidade,
         preco: this.preco,
         nome: this.nome,
+        imagens:this.imagensString
       };
-      this.$store.dispatch("carrinho/adicionarProduto", artigo);
+      await this.$store.dispatch("carrinho/adicionarProduto", artigo);
+
       if (this.$store.getters["appbar/getLogin"]) {
         this.$router.push("/compra");
-        this.$router.go();
       } else {
         this.$store.commit("appbar/setShowLoginDialog", true);
       }
     },
-    imgPath(id) {
-      return require("../../public/imagens/" + id + "_1.webp");
+    imgPath(id, img) {
+      if (id <= 30) {
+        return require("../../public/imagens/" + id + "_1.webp");
+      } else {
+        //Coluna da bd
+        return require("../../public/imagens/" + img.split("||")[0]);
+      }
     },
     setImagensProduto() {
-      var i;
-      for (i = 1; i < 4; i++) {
-        try {
-          require("../../public/imagens/" + this.produtoId + "_" + i + ".webp");
-          this.imagens.push(
+      if (this.produtoId <= 30) {
+        var i;
+        for (i = 1; i < 4; i++) {
+          try {
             require("../../public/imagens/" +
               this.produtoId +
               "_" +
               i +
-              ".webp")
-          );
-        } catch (e) {
-          console.log(e);
+              ".webp");
+            this.imagens.push(
+              require("../../public/imagens/" +
+                this.produtoId +
+                "_" +
+                i +
+                ".webp")
+            );
+          } catch (e) {
+            console.log(e);
+          }
+        }
+      } else {
+        var img = this.imagensString.split("||");
+        for (i = 0; i < img.length; i++) {
+          try {
+            require("../../public/imagens/" +img[i]);
+            this.imagens.push(
+              require("../../public/imagens/" +img[i])
+            );
+          } catch (e) {
+            console.log(e);
+          }
         }
       }
     },
-    getDadosDB() {
+    async getDadosDB() {
       const options = {
         method: "GET",
         url: "http://localhost:3342/api/produto-por-id",
         params: { id: this.produtoId },
       };
-      console.log("ddddddd");
-      axios
+      await axios
         .request(options)
         .then((response) => {
-          console.log("ddddddd");
-          console.log(response);
           this.nome = response.data.produto.nome;
           this.desc = response.data.produto.descricao;
           this.variantes = response.data.variantes;
           this.preco = response.data.produto.preco;
           this.rating = parseFloat(response.data.rating.review);
           this.reviewNumber = response.data.rating.total;
+          this.imagensString = response.data.produto.imagens;
         })
         .catch(function (error) {
           console.error(error);
@@ -258,7 +284,7 @@ export default {
         params: { produtoid: this.produtoId },
       };
 
-      axios
+      await axios
         .request(options2)
         .then((response) => {
           console.log(response.data);
@@ -276,10 +302,13 @@ export default {
     "menu-lateral": Menu,
     carrinho: Carrinho,
   },
-  created: function () {
+  created: async function () {
+    console.log('criou')
     this.produtoId = this.$route.params.id;
+    console.log('criou')
+    await this.getDadosDB();
+    console.log('criou')
     this.setImagensProduto();
-    this.getDadosDB();
   },
 };
 </script>

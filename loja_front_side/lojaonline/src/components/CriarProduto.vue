@@ -163,8 +163,12 @@ export default {
   methods: {
     submit() {
       if (!(this.nome || this.desc || this.preco || this.stock || this.e1)) {
-        // this.snackbarErro = true;
+        this.snackbarErro = true;
       } else {
+        var imgString = "";
+        for (var i = 0; i < this.imagens.length; i++) {
+          imgString = imgString + this.imagens[i].name + "||";
+        }
         const options = {
           method: "POST",
           url: "http://localhost:3342/api/create-product",
@@ -175,22 +179,24 @@ export default {
             stock: this.stock,
             descricao: this.desc,
             categoriaid: this.e1,
+            imagem: imgString,
           },
         };
-
         axios
           .request(options)
-          .then(function () {
-            // this.snackbarSucesso = true;
+          .then(() => {
+            this.nome = null;
+            this.desc = null;
+            this.preco = null;
+            this.stock = null;
+            this.imagens = null;
+            this.snackbarSucesso = true;
           })
-          .catch(function (error) {
-            // this.snackbarErro = true;
+          .catch((error) => {
+            this.snackbarErro = true;
             console.error(error);
           });
       }
-      //console.log(this.imagens[0]);
-      //var fs = require('browserify-fs');
-      //fs.writeFile('./teste.txt', "sadsad")
       //console.log('sadasd')
     },
   },

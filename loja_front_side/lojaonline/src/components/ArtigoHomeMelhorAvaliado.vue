@@ -44,19 +44,30 @@ export default {
   name: "ArtigoHomeMelhorAvaliado",
   props: ["artigo"],
   methods: {
-    imgPath() {
-      return require("../../public/imagens/" +
-        this.artigo.produtoid +
-        "_1.webp");
+     imgPath() {
+      console.log('assssMELHORAVAssssssss')
+      console.log(this.artigo)
+
+      if (this.artigo.produtoid <= 30) {
+        return require("../../public/imagens/" + this.artigo.produtoid + "_1.webp");
+      } else {
+        
+        //Coluna da bd
+        return require("../../public/imagens/" + this.artigo.imagens.split("||")[0]);
+      }
     },
     imgPath2() {
-      return require("../../public/imagens/" +
-        this.artigo.produtoid +
-        "_2.webp");
+      if (this.artigo.produtoid <= 30) {
+        return require("../../public/imagens/" + this.artigo.produtoid + "_2.webp");
+      } else {
+        
+        //Coluna da bd
+        return require("../../public/imagens/" + this.artigo.imagens.split("||")[1]);
+      }
     },
     goToProduto(id) {
       this.$router.push("/produto/" + id);
-      this.$router.go();
+       
     },
   },
   data: () => ({

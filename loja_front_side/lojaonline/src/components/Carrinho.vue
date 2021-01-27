@@ -76,7 +76,7 @@ export default {
     comprarArtigo() {
       if (this.$store.getters["appbar/getLogin"]) {
         this.$router.push("/compra");
-        this.$router.go();
+         
       } else {
         this.$store.commit("appbar/setShowLoginDialog", true);
       }

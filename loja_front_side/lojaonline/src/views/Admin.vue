@@ -121,7 +121,7 @@ export default {
   methods: {
     goHome() {
       this.$router.push("/");
-      this.$router.go();
+       
     },
     onClickLogout() {
       //Remover cookie
@@ -129,7 +129,7 @@ export default {
       //Mudar no store
       this.$store.commit("admin/setLogin", false);
       this.$router.push("/");
-      this.$router.go();
+       
     },
     changeCriarProduto() {
       this.criarProduto = !this.criarProduto;
@@ -147,7 +147,7 @@ export default {
 
     if (!this.$store.getters["admin/getLogin"]) {
       this.$router.push("/");
-      this.$router.go();
+       
     }
   },
 };

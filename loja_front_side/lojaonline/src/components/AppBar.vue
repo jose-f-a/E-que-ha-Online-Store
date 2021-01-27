@@ -86,11 +86,13 @@ export default {
     },
     onSubmit() {
       this.$router.push("/pesquisa/" + encodeURI(this.query));
-      this.$router.go();
+       
     },
     goHome() {
+      
+      this.$store.commit("compra/setCompra",false);
       this.$router.push("/");
-      this.$router.go();
+       
     },
   },
   computed: {

@@ -115,8 +115,11 @@ export default {
     //   this.$router.push("/");
     //   this.$router.go();
     // }
-    this.$store.dispatch("compra/getArtigosDoCarrinho");
   },
+  mounted: function(){
+    this.$store.commit("compra/setArtigos",[])
+    this.$store.dispatch("compra/getArtigosDoCarrinho");
+  }
 };
 </script>
 
