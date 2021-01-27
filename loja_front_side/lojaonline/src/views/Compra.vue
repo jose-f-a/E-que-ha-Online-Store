@@ -107,10 +107,19 @@ export default {
       },
     },
   },
-  created: function () {
-    //Vai ler o valor recebido com parametro e preencher com o carrinho
-    this.$store.dispatch("compra/getArtigosDoCarrinho");
+  created: async function () {
+    await this.$store.dispatch("appbar/verifySession");
+    console.log(this.$store.getters["appbar/getLogin"]);
+
+    // if (!this.$store.getters["appbar/getLogin"]) {
+    //   this.$router.push("/");
+    //   this.$router.go();
+    // }
   },
+  mounted: function(){
+    this.$store.commit("compra/setArtigos",[])
+    this.$store.dispatch("compra/getArtigosDoCarrinho");
+  }
 };
 </script>
 

@@ -88,9 +88,9 @@ export default {
     },
     onClickLogout() {
       //Remover cookie
-      localStorage.removeItem("token")
+      localStorage.removeItem("token");
       //Mudar no store
-      this.$store.commit("user/setLogin",false);
+      this.$store.commit("user/setLogin", false);
       this.$router.push("/");
       this.$router.go();
     },
@@ -112,11 +112,9 @@ export default {
   },
   created: async function () {
     await this.$store.dispatch("user/verifySession");
-    console.log('logins');
-    console.log(this.$store.getters["user/getLogin"]);
-    if(!this.$store.getters["user/getLogin"]){
-      this.$router.push('/')
-      this.$router.go()
+    if (!this.$store.getters["user/getLogin"]) {
+      this.$router.push("/");
+      this.$router.go();
     }
   },
   computed: {

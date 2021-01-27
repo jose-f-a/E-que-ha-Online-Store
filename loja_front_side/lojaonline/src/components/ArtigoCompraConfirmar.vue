@@ -9,7 +9,7 @@
             height="125"
             contain
             :aspect-ratio="4 / 3"
-            :src="imgPath(artigo.produtoid)"
+            :src="imgPath(artigo.produtoid,artigo.imagens)"
           ></v-img>
         </div>
       </v-col>
@@ -61,8 +61,14 @@ export default {
   props: ["artigo"],
   data: () => ({}),
   methods: {
-    imgPath(id) {
-      return require("../../public/imagens/" + id + "_1.webp");
+     imgPath(id, img) {
+      if (id <= 30) {
+        return require("../../public/imagens/" + id + "_1.webp");
+      } else {
+        
+        //Coluna da bd
+        return require("../../public/imagens/" + img.split("||")[0]);
+      }
     },
   },
 };

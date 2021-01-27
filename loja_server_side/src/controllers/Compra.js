@@ -12,15 +12,15 @@ module.exports = {
 
         console.log(moradaid);
         /*  ESTADOS DE COMPRA
-          1-Pedido Recebido -> inicial
-          2-Produtos Embalados
-          3-Produtos Enviados
-          4-Produtos Entregues
-        */
+              1-Pedido Recebido -> inicial
+              2-Produtos Embalados
+              3-Produtos Enviados
+              4-Produtos Entregues
+            */
 
         /*  ESTADO TRANSAÇÃO
-          1-Confirmada
-        */
+              1-Confirmada
+            */
 
         /*  Criar transação */
         await connection
@@ -101,24 +101,22 @@ module.exports = {
             await connection
                 .query(
                     "SELECT * FROM compra, utilizador WHERE compra.userid = utilizador.userid AND (compra.estadocompraid = 1 OR compra.estadocompraid = 2 OR compra.estadocompraid = 3);", {
-
                         replacements: { userid: userid },
                     }
                 )
                 .then((results) => {
                     for (compra in results[0]) {
-                        compras.push(results[0][compra])
+                        compras.push(results[0][compra]);
                     }
                 });
             /* Tratamento dos dados */
             var json_final;
-            var comprasFinais = []
+            var comprasFinais = [];
             var json_Morada;
             var json_pagamento;
             for (compra in compras) {
-
                 //Ir buscar linha de produtos
-                var produtos = []
+                var produtos = [];
                 await connection
                     .query(
                         "SELECT * FROM linhacompra, produto WHERE linhacompra.compraid = :compraid and linhacompra.produtoid=produto.produtoid;", {
@@ -129,23 +127,21 @@ module.exports = {
                         for (produto in results[0]) {
                             json_produto = {
                                 produtoid: results[0][produto].produtoid,
-                                nome: results[0][produto].nome.split('-')[0],
-                                cor: results[0][produto].nome.split('-')[0],
+                                nome: results[0][produto].nome.split("-")[0],
+                                cor: results[0][produto].nome.split("-")[0],
                                 preco: results[0][produto].preco,
                                 quantidade: results[0][produto].quantidade,
-                                descricao: results[0][produto].descricao
-                            }
-                            produtos.push(json_produto)
+                                descricao: results[0][produto].descricao,
+                                imagens: results[0][produto].imagens
+                            };
+                            produtos.push(json_produto);
                         }
-
-                    })
-                    //Ir buscar morada
+                    });
+                //Ir buscar morada
                 await connection
-                    .query(
-                        "SELECT * FROM morada WHERE moradaid = :moradaid;", {
-                            replacements: { moradaid: compras[compra].moradaid },
-                        }
-                    )
+                    .query("SELECT * FROM morada WHERE moradaid = :moradaid;", {
+                        replacements: { moradaid: compras[compra].moradaid },
+                    })
                     .then((results) => {
                         json_Morada = {
                             moradaid: results[0][0].moradaid,
@@ -153,48 +149,45 @@ module.exports = {
                             cidade: results[0][0].cidade,
                             codigo_postal: results[0][0].codigo_postal,
                             pais: results[0][0].pais,
-                            descricao: results[0][0].descricao
+                            descricao: results[0][0].descricao,
+                        };
+                    });
 
+                /*
+                await connection
+                    .query(
+                        "SELECT * FROM transacao,metodopagameto,estadotransacao WHERE transacao.transacaoid = :transacaoid and transacao.metopagamentoid = metodopagamento.metodopagamentoid and transacao.estadotransacaoid = estadotransacao.estadotransacaoid;", {
+                            replacements: { transacaoid: compras[compra].transacaoid },
                         }
+                    )
+                    .then((results) => {
+                        console.log(results[0])
+                        json_pagamento = {
+                            moradaid: results[0][0].moradaid,
+                            rua: results[0][0].rua,
+                            cidade: results[0][0].cidade,
+                            codigo_postal: results[0][0].codigo_postal,
+                            pais: results[0][0].pais,
+                            descricao: results[0][0].des
+                        }
+                    }) 
+                */
 
-
-                    })
-                    /*
-                                    await connection
-                                        .query(
-                                            "SELECT * FROM transacao,metodopagameto,estadotransacao WHERE transacao.transacaoid = :transacaoid and transacao.metopagamentoid = metodopagamento.metodopagamentoid and transacao.estadotransacaoid = estadotransacao.estadotransacaoid;", {
-                                                replacements: { transacaoid: compras[compra].transacaoid },
-                                            }
-                                        )
-                                        .then((results) => {
-                                            console.log(results[0])
-                                            json_pagamento = {
-                                                moradaid: results[0][0].moradaid,
-                                                rua: results[0][0].rua,
-                                                cidade: results[0][0].cidade,
-                                                codigo_postal: results[0][0].codigo_postal,
-                                                pais: results[0][0].pais,
-                                                descricao: results[0][0].descricao
-
-                                            }
-                                        }) */
                 json_compra = {
                     compraid: compras[compra].compraid,
                     criadaem: compras[compra].criadaem,
-                    estadoCompra: compras[compra].estadocompraid
-                }
+                    estadoCompra: compras[compra].estadocompraid,
+                };
                 json_final = {
                     compra: json_compra,
                     produtos: produtos,
                     morada: json_Morada,
+                };
 
-                }
-
-                comprasFinais.push(json_final)
+                comprasFinais.push(json_final);
             }
 
             return res.json(comprasFinais);
-
         } catch (error) {
             console.log(error);
         }
@@ -211,20 +204,19 @@ module.exports = {
                 )
                 .then((results) => {
                     for (compra in results[0]) {
-                        compras.push(results[0][compra])
+                        compras.push(results[0][compra]);
                     }
-
-
                 });
+
             /* Tratamento dos dados */
             var json_final;
-            var comprasFinais = []
+            var comprasFinais = [];
             var json_Morada;
             var json_pagamento;
-            for (compra in compras) {
 
+            for (compra in compras) {
                 //Ir buscar linha de produtos
-                var produtos = []
+                var produtos = [];
                 await connection
                     .query(
                         "SELECT * FROM linhacompra, produto WHERE linhacompra.compraid = :compraid and linhacompra.produtoid=produto.produtoid;", {
@@ -235,23 +227,22 @@ module.exports = {
                         for (produto in results[0]) {
                             json_produto = {
                                 produtoid: results[0][produto].produtoid,
-                                nome: results[0][produto].nome.split('-')[0],
-                                cor: results[0][produto].nome.split('-')[0],
+                                nome: results[0][produto].nome.split("-")[0],
+                                cor: results[0][produto].nome.split("-")[0],
                                 preco: results[0][produto].preco,
                                 quantidade: results[0][produto].quantidade,
-                                descricao: results[0][produto].descricao
-                            }
-                            produtos.push(json_produto)
+                                descricao: results[0][produto].descricao,
+                                imagens: results[0][produto].imagens
+                            };
+                            produtos.push(json_produto);
                         }
+                    });
 
-                    })
-                    //Ir buscar morada
+                //Ir buscar morada
                 await connection
-                    .query(
-                        "SELECT * FROM morada WHERE moradaid = :moradaid;", {
-                            replacements: { moradaid: compras[compra].moradaid },
-                        }
-                    )
+                    .query("SELECT * FROM morada WHERE moradaid = :moradaid;", {
+                        replacements: { moradaid: compras[compra].moradaid },
+                    })
                     .then((results) => {
                         json_Morada = {
                             moradaid: results[0][0].moradaid,
@@ -259,46 +250,44 @@ module.exports = {
                             cidade: results[0][0].cidade,
                             codigo_postal: results[0][0].codigo_postal,
                             pais: results[0][0].pais,
-                            descricao: results[0][0].descricao
+                            descricao: results[0][0].descricao,
+                        };
+                    });
 
+                /*
+                await connection
+                    .query(
+                        "SELECT * FROM transacao,metodopagameto,estadotransacao WHERE transacao.transacaoid = :transacaoid and transacao.metopagamentoid = metodopagamento.metodopagamentoid and transacao.estadotransacaoid = estadotransacao.estadotransacaoid;", {
+                            replacements: { transacaoid: compras[compra].transacaoid },
                         }
+                    )
+                    .then((results) => {
+                        console.log(results[0])
+                        json_pagamento = {
+                            moradaid: results[0][0].moradaid,
+                            rua: results[0][0].rua,
+                            cidade: results[0][0].cidade,
+                            codigo_postal: results[0][0].codigo_postal,
+                            pais: results[0][0].pais,
+                            descricao: results[0][0].des
+                        }
+                }) 
+                */
 
-
-                    })
-                    /*
-                                    await connection
-                                        .query(
-                                            "SELECT * FROM transacao,metodopagameto,estadotransacao WHERE transacao.transacaoid = :transacaoid and transacao.metopagamentoid = metodopagamento.metodopagamentoid and transacao.estadotransacaoid = estadotransacao.estadotransacaoid;", {
-                                                replacements: { transacaoid: compras[compra].transacaoid },
-                                            }
-                                        )
-                                        .then((results) => {
-                                            console.log(results[0])
-                                            json_pagamento = {
-                                                moradaid: results[0][0].moradaid,
-                                                rua: results[0][0].rua,
-                                                cidade: results[0][0].cidade,
-                                                codigo_postal: results[0][0].codigo_postal,
-                                                pais: results[0][0].pais,
-                                                descricao: results[0][0].descricao
-
-                                            }
-                                        }) */
                 json_compra = {
                     compraid: compras[compra].compraid,
                     criadaem: compras[compra].criadaem,
-                    estadoCompra: compras[compra].estadocompraid
-                }
+                    estadoCompra: compras[compra].estadocompraid,
+                };
                 json_final = {
                     compra: json_compra,
                     produtos: produtos,
                     morada: json_Morada,
+                };
 
-                }
-
-                comprasFinais.push(json_final)
+                comprasFinais.push(json_final);
             }
-            console.log(comprasFinais)
+            console.log(comprasFinais);
             return res.json(comprasFinais);
         } catch (error) {
             console.log(error);
@@ -306,13 +295,48 @@ module.exports = {
     },
     async getLastCompras(req, res) {
         await connection
-            .query(
-                "select * from compra order by compraid desc LIMIT 5;"
-            )
+            .query("select * from compra order by compraid desc LIMIT 5;")
             .then((results) => {
                 return res.json(results[0]);
             });
-
-    }
-
+    },
+    async getComprasLastCompras(req, res) {
+        const { initDate } = req.body;
+        try {
+            await connection
+                .query(
+                    "SELECT date_trunc('day', compra.criadaem) AS dia, SUM(total) AS total " +
+                    "FROM compra " +
+                    "WHERE criadaem >= :mes " +
+                    "GROUP BY dia " +
+                    "ORDER BY dia ", {
+                        replacements: { mes: initDate },
+                    }
+                )
+                .then((result) => {
+                    return res.json(result[0]);
+                });
+        } catch (error) {
+            console.log(error);
+        }
+    },
+    async getComprasPorCategoria(req, res) {
+        try {
+            await connection
+                .query(
+                    "SELECT SUM(compra.total) AS total, categoria.categoriaid, categoria.nome " +
+                    "FROM compra, linhacompra, produto, categoriaproduto, categoria " +
+                    "WHERE compra.compraid = linhacompra.compraid AND " +
+                    "linhacompra.produtoid = produto.produtoid AND " +
+                    "produto.produtoid = categoriaproduto.produtoid and " +
+                    "categoriaproduto.categoriaid = categoria.categoriaid " +
+                    "GROUP BY categoria.categoriaid"
+                )
+                .then((result) => {
+                    return res.json(result[0]);
+                });
+        } catch (error) {
+            console.log(error);
+        }
+    },
 };

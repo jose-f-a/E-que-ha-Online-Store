@@ -98,7 +98,7 @@ export default {
             if (isadmin) {
               localStorage.setItem("tokenAdmin", response.data.token);
               this.$router.push("/admin");
-              this.$router.go();
+               
             } else {
               localStorage.setItem("token", response.data.token);
               this.closeDialog();

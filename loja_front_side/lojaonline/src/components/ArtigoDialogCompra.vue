@@ -1,7 +1,7 @@
 <template>
   <v-card class="card-principal" elevation="2" outlined>
     <div class="produto">
-      <v-img class="image" :src="imgPath(artigo.produtoid)"></v-img>
+      <v-img class="image" :src="imgPath(artigo.produtoid,artigo.imagens)"></v-img>
       <div class="produto-txt">
         <div>
           {{ this.artigo.nome }}
@@ -56,8 +56,14 @@ export default {
     desc: null,
   }),
   methods: {
-    imgPath(id) {
-      return require("../../public/imagens/" + id + "_1.webp");
+     imgPath(id, img) {
+      if (id <= 30) {
+        return require("../../public/imagens/" + id + "_1.webp");
+      } else {
+        
+        //Coluna da bd
+        return require("../../public/imagens/" + img.split("||")[0]);
+      }
     },
     sendReview() {
       if (this.desc && this.ratingValue > 0) {

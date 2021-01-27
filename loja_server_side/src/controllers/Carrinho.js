@@ -51,6 +51,7 @@ module.exports = {
                             quantidade: parseInt(produto.quantidade),
                             preco: parseFloat(results[0][0].preco),
                             nome: results[0][0].nome.split('-')[0],
+                            imagens: results[0][0].imagens
                         }
                         produtosFinal.push(json_)
 

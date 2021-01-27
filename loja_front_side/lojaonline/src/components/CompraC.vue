@@ -110,7 +110,7 @@ export default {
       // Remove o carrinho da bd depois da compra
       this.$store.dispatch("carrinho/removerDB");
       this.$router.push("/");
-      this.$router.go();
+       
     },
   },
   computed: {

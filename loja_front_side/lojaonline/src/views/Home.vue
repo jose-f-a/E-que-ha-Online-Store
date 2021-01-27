@@ -32,7 +32,7 @@
                 v-for="artigo in artigosTrending"
                 :key="artigo.id"
               >
-                <v-img :src="imgPath(artigo.produtoid)" contain></v-img>
+                <v-img :src="imgPath(artigo.produtoid,artigo.imagens)" contain></v-img>
               </v-carousel-item>
             </v-carousel>
           </v-col>
@@ -122,8 +122,13 @@ export default {
     "artigo-home-melhor-avaliado": ArtigoHomeMelhorAvaliado,
   },
   methods: {
-    imgPath(id) {
-      return require("../../public/imagens/" + id + "_1.webp");
+   imgPath(id, img) {
+      if (id <= 30) {
+        return require("../../public/imagens/" + id + "_1.webp");
+      } else {
+        //Coluna da bd
+        return require("../../public/imagens/" + img.split("||")[0]);
+      }
     },
   },
   computed: {

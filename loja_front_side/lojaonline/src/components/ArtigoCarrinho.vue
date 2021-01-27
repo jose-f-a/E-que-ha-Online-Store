@@ -8,7 +8,7 @@
           width="75"
           height="75"
           :aspect-ratio="4 / 3"
-          :src="imgPath(artigo.produtoid)"
+          :src="imgPath(artigo.produtoid,artigo.imagens)"
         ></v-img>
       </v-col>
       <v-col>
@@ -82,8 +82,14 @@ export default {
       //Vai ao store editar o artigo em questao
       //this.quantidade = this.quantidade - 1;
     },
-    imgPath(id) {
-      return require("../../public/imagens/" + id + "_1.webp");
+    imgPath(id, img) {
+      if (id <= 30) {
+        return require("../../public/imagens/" + id + "_1.webp");
+      } else {
+        
+        //Coluna da bd
+        return require("../../public/imagens/" + img.split("||")[0]);
+      }
     },
   },
 };
