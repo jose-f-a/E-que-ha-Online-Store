@@ -7,7 +7,8 @@
       <v-container class="container">
         <login> </login>
         <signup></signup>
-        <div class="titulo">Resultado da pesquisa: ' {{ this.query }} '</div>
+        <p class="text-h6">Resultado da pesquisa: '{{ this.query }}'</p>
+
         <div v-if="artigos.length > 0">
           <v-row class="lista-artigos">
             <v-col
@@ -28,12 +29,13 @@
           ></v-pagination>
         </div>
         <div v-else>
-          <div class="titulo">Não foram encontrados resultados</div>
+          <p class="text-subtitle-1">Não foram encontrados resultados</p>
         </div>
       </v-container>
     </v-main>
   </v-app>
 </template>
+
 <script>
 import AppBar from "@/components/AppBar.vue";
 import Login from "@/components/Login.vue";
@@ -86,8 +88,6 @@ export default {
 </script>
 
 <style scoped>
-.titulo {
-}
 .container {
   text-align: left;
 }

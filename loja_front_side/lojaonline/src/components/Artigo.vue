@@ -1,43 +1,54 @@
 <template>
-  <v-card
-    :ripple="false"
-    elevation="0"
-    tile
-    class="artigo center"
-    @click="goToProduto(artigo.produtoid)"
-  >
-    <v-img :src="imgPath()" width="200" contain :aspect-ratio="4 / 3"> </v-img>
-    <v-card-title>{{ artigo.nome }}</v-card-title>
-    <v-card-text>
-      <v-row align="center" class="mx-0">
-        <v-rating
-          v-model="artigo.rating.review"
-          color="black"
-          dense
-          half-increments
-          readonly
-          size="15"
-        ></v-rating>
-        <div class="grey--text ml-4">{{artigo.rating.total}}</div>
-      </v-row>
-    </v-card-text>
-    <v-card-text>
-      <v-row align="left" class="mx-1">
-        <div class="text-subtitle-2 text-left">{{ artigo.descricao }}</div>
-        <v-list-item-title class="text-h6 text-left">
-          {{ artigo.preco }}€
-        </v-list-item-title>
-      </v-row>
-    </v-card-text>
+  <v-hover v-slot="{ hover }">
+    <v-card
+      :ripple="false"
+      elevation="0"
+      tile
+      class="artigo center"
+      @click="goToProduto(artigo.produtoid)"
+    >
+      <v-img :src="imgPath()" width="200" contain :aspect-ratio="4 / 3">
+        <v-fade-transition>
+          <div
+            v-if="hover"
+            class="transition-fast-in v-card--reveal"
+            style="height: 100%"
+          >
+            <v-img
+              :src="imgPath2()"
+              width="200"
+              contain
+              :aspect-ratio="4 / 3"
+            ></v-img>
+          </div>
+        </v-fade-transition>
+      </v-img>
 
-    <v-row align="center" class="mx-1">
-      <p
-        class="text-caption text-left font-weight-medium grey--text text--darken-1 variante"
-      >
-        Mais opcoes
-      </p>
-    </v-row>
-  </v-card>
+      <v-card-title>{{ artigo.nome }}</v-card-title>
+      <v-card-text>
+        <v-row align="center" class="mx-0">
+          <v-rating
+            v-model="artigo.rating.review"
+            background-color="black"
+            color="black"
+            dense
+            half-increments
+            readonly
+            size="15"
+          ></v-rating>
+          <div class="grey--text ml-4">{{ artigo.rating.total }}</div>
+        </v-row>
+      </v-card-text>
+
+      <v-card-text>
+        <v-row align="left" class="mx-1">
+          <v-list-item-title class="text-subtitle-1 text-left">
+            {{ artigo.preco }}€
+          </v-list-item-title>
+        </v-row>
+      </v-card-text>
+    </v-card>
+  </v-hover>
 </template>
 
 <script>
@@ -50,26 +61,24 @@ export default {
         this.artigo.produtoid +
         "_1.webp");
     },
+    imgPath2() {
+      return require("../../public/imagens/" +
+        this.artigo.produtoid +
+        "_2.webp");
+    },
     goToProduto(id) {
       this.$router.push("/produto/" + id);
       this.$router.go();
     },
   },
-  data: () => ({
-    
-  }),
+  data: () => ({}),
 };
 </script>
 
 <style scoped>
 .artigo {
   cursor: pointer;
-  width: 15rem;
-}
-
-.variante {
-  margin-top: 1%;
-  margin-left: 1rem;
-  text-decoration: underline;
+  padding: 1rem;
+  margin: 0 1rem 1rem 1rem;
 }
 </style>
