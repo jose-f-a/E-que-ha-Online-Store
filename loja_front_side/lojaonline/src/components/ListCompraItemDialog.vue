@@ -1,16 +1,16 @@
 <template>
   <v-dialog v-model="isOpen" max-width="75%">
-    
     <v-card>
       <v-card-title class="headline">
-        <div> 
-          Encomenda Nº{{ compra.compra.compraid }}
-          </div>
-            <div> 
-         <v-btn text @click="this.closeDialog"> Fechar </v-btn>
-          </div>
-       
+        <p class="text-h5">Encomenda Nº{{ compra.compra.compraid }}</p>
+
+        <v-spacer></v-spacer>
+
+        <v-btn color="error" fab depressed x-small @click="this.closeDialog">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
       </v-card-title>
+
       <v-stepper v-model="this.step" vertical>
         <v-stepper-step :complete="this.step >= 1" step="1">
           Pedido Recebido
@@ -22,6 +22,7 @@
             src="../../public/animations/packing3.gif"
           ></v-img>
         </v-stepper-content>
+
         <v-stepper-step :complete="this.step >= 2" step="2">
           Produtos embalados
         </v-stepper-step>
@@ -34,6 +35,7 @@
             ></v-img>
           </v-card>
         </v-stepper-content>
+
         <v-stepper-step :complete="this.step >= 3" step="3"
           >Produtos Enviados</v-stepper-step
         >
@@ -46,22 +48,21 @@
             ></v-img>
           </v-card>
         </v-stepper-content>
-        
+
         <v-stepper-step :complete="this.step == 4" step="4"
           >Produtos Recebidos</v-stepper-step
         >
-
         <v-stepper-content step="4">
-            <v-img
-              max-height="180"
-              max-width="270"
-              src="../../public/animations/recebido.gif"
-            ></v-img>
+          <v-img
+            max-height="180"
+            max-width="270"
+            src="../../public/animations/recebido.gif"
+          ></v-img>
         </v-stepper-content>
       </v-stepper>
-      <v-card-text> </v-card-text>
+
       <v-card>
-        <v-card-title class="headline">Produtos</v-card-title>
+        <v-card-title class="text-h6">Produtos</v-card-title>
         <div v-for="item in this.listProduto" v-bind:key="item.produtoid">
           <artigo :artigo="item" :step="step"></artigo>
         </div>
@@ -69,8 +70,10 @@
     </v-card>
   </v-dialog>
 </template>
+
 <script>
 import ArtigoCompra from "@/components/ArtigoDialogCompra.vue";
+
 export default {
   data: () => ({
     step: 1,
@@ -85,7 +88,7 @@ export default {
     compra: function () {
       this.step = this.compra.compra.estadoCompra;
       console.log("Altera compra dialog");
-      this.listProduto = this.compra.produtos
+      this.listProduto = this.compra.produtos;
     },
   },
   computed: {

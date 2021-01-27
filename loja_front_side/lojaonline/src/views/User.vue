@@ -27,27 +27,35 @@
                     <v-icon>mdi-account-outline</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content>
-                    <v-list-item-title>Perfil</v-list-item-title>
+                    <v-list-item-title class="text-left">
+                      Perfil
+                    </v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
 
                 <v-list-group :value="false" prepend-icon="mdi-cart-outline">
                   <template v-slot:activator>
-                    <v-list-item-title>Encomendas</v-list-item-title>
+                    <v-list-item-title class="text-left">
+                      Encomendas
+                    </v-list-item-title>
                   </template>
 
                   <v-list-item @click="toggleCompras('1')">
                     <v-list-item-icon>
                       <v-icon>mdi-dots-horizontal</v-icon>
                     </v-list-item-icon>
-                    <v-list-item-title>A decorrer</v-list-item-title>
+                    <v-list-item-title class="text-left">
+                      A decorrer
+                    </v-list-item-title>
                   </v-list-item>
 
                   <v-list-item @click="toggleCompras('2')">
                     <v-list-item-icon>
                       <v-icon>mdi-check</v-icon>
                     </v-list-item-icon>
-                    <v-list-item-title>Concluidas</v-list-item-title>
+                    <v-list-item-title class="text-left">
+                      Concluidas
+                    </v-list-item-title>
                   </v-list-item>
                 </v-list-group>
               </v-list-item-group>
@@ -88,9 +96,9 @@ export default {
     },
     onClickLogout() {
       //Remover cookie
-      localStorage.removeItem("token")
+      localStorage.removeItem("token");
       //Mudar no store
-      this.$store.commit("user/setLogin",false);
+      this.$store.commit("user/setLogin", false);
       this.$router.push("/");
       this.$router.go();
     },
@@ -112,11 +120,11 @@ export default {
   },
   created: async function () {
     await this.$store.dispatch("user/verifySession");
-    console.log('logins');
+    console.log("logins");
     console.log(this.$store.getters["user/getLogin"]);
-    if(!this.$store.getters["user/getLogin"]){
-      this.$router.push('/')
-      this.$router.go()
+    if (!this.$store.getters["user/getLogin"]) {
+      this.$router.push("/");
+      this.$router.go();
     }
   },
   computed: {

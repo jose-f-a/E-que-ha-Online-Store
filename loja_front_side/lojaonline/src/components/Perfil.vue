@@ -4,11 +4,12 @@
     max-height="85vh"
     min-height="85vh"
     rounded="lg"
-    elevation="3">
+    elevation="3"
+  >
     <v-container>
       <v-row>
         <v-col>
-          <p class="text-h5 text-left">perfil</p>
+          <p class="text-h6 text-left">Bem-vindo {{ user.name }}</p>
         </v-col>
       </v-row>
       <v-row>
@@ -24,11 +25,10 @@ export default {
   computed: {
     user: {
       get() {
-        return this.$store.getters["appbar/getUser"];
+        return this.$store.getters["user/getUser"];
       },
     },
-    components: {
-  },
+    components: {},
   },
 };
 </script>
