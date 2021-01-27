@@ -230,10 +230,11 @@ const actions = {
     },
     totalCompra({ state }) {
         setTimeout(function() {
-            state.total = 0;
+            state.total = 0.0;
             state.listaArtigos.forEach((artigo) => {
-                state.total += artigo.quantidade * artigo.preco;
+                state.total += +(artigo.quantidade * artigo.preco).toFixed(2)
             });
+            state.total = state.total.toFixed(2)
         }, 1000);
     },
 };
@@ -245,7 +246,7 @@ const mutations = {
     alterarMenosQuantidade(state, id) {
         var position = 0;
         var elRemove = -1;
-
+        state.total = 0.0
         state.listaArtigos.forEach((element) => {
             if (element.produtoid == id) {
                 element.quantidade = element.quantidade - 1;
@@ -253,24 +254,26 @@ const mutations = {
                 if (element.quantidade == 0) {
                     elRemove = position;
                 }
-                state.total = state.total - element.preco;
+
             }
+            state.total += +((element.quantidade * element.preco).toFixed(2))
             position++;
         });
-
+        state.total = state.total.toFixed(2)
         if (elRemove > -1) {
             state.listaArtigos.splice(elRemove, 1);
         }
     },
     alterarMaisQuantidade(state, id) {
-        state.total = 0;
+        state.total = 0.0;
         state.listaArtigos.forEach((element) => {
             if (element.produtoid == id) {
                 element.quantidade = element.quantidade + 1;
                 //se a quantidade for 0 remove do carrinho
             }
-            state.total += element.quantidade * element.preco;
+            state.total += +((element.quantidade * element.preco).toFixed(2))
         });
+        state.total = state.total.toFixed(2)
     },
     setTotal: (state, val) => {
         state.total = val;

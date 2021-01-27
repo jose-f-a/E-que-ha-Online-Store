@@ -142,7 +142,7 @@ const mutations = {
         state.artigos = val;
         state.total = 0
         state.artigos.forEach((artigo) => {
-            state.total += artigo.quantidade * artigo.preco;
+            state.total += +(artigo.quantidade * artigo.preco).toFixed(2)
         });
     },
     setMaisQuantidade(state, val) {
@@ -152,13 +152,14 @@ const mutations = {
             if (artigo.produtoid == val) {
                 artigo.quantidade = artigo.quantidade + 1;
             }
-            state.total += artigo.quantidade * artigo.preco;
+            state.total += +(artigo.quantidade * artigo.preco).toFixed(2)
         });
+        state.total = state.total.toFixed(2)
     },
     setMenosQuantidade(state, id) {
         var position = 0;
         var elRemove = -1;
-
+        state.total = 0
         state.artigos.forEach((artigo) => {
             if (artigo.produtoid == id) {
                 artigo.quantidade = artigo.quantidade - 1;
@@ -167,15 +168,16 @@ const mutations = {
                 if (artigo.quantidade == 0) {
                     elRemove = position;
                 }
-                state.total = state.total - artigo.preco;
-            }
 
+            }
+            state.total += +(artigo.quantidade * artigo.preco).toFixed(2)
             position++;
         });
 
         if (elRemove > -1) {
             state.artigos.splice(elRemove, 1);
         }
+        state.total = state.total.toFixed(2)
     },
     setMorada(state, val) {
         state.morada = val;
