@@ -5,7 +5,6 @@
       v-model="valid"
       method="POST"
       action="http://localhost:3342/api/create-product"
-      class=""
     >
       <v-container>
         <v-row>
@@ -69,13 +68,26 @@
               solo
               dense
             ></v-text-field>
+            <v-select
+              v-model="e1"
+              :items="items"
+              item-text="categoria"
+              item-value="valor"
+              label="Categoria"
+              prepend-icon="mdi-format-list-bulleted"
+              hide-details
+              single-line
+              rounded
+              dense
+              clearable
+            ></v-select>
             <v-file-input
               v-model="imagens"
               label="Insira as imagens"
               counter
               multiple
               truncate-length="7"
-              accept="image/png, image/jpeg,image/webp"
+              accept="image/webp"
               flat
               hide-details
               rounded
@@ -93,17 +105,55 @@
         </v-row>
       </v-container>
     </v-form>
+    <v-snackbar
+      v-model="snackbarErro"
+      :timeout="timeout"
+      bottom
+      color="red"
+      elevation="15"
+    >
+      Erro na criação. Verifique os campos.
+    </v-snackbar>
+    <v-snackbar
+      v-model="snackbarSucesso"
+      :timeout="timeout"
+      bottom
+      color="green"
+      elevation="15"
+    >
+      Produto criado com sucesso!
+    </v-snackbar>
   </v-card>
 </template>
+
 <script>
-//import axios from "axios";
+import axios from "axios";
+
 export default {
   data: () => ({
+    snackbarSucesso: false,
+    snackbarErro: false,
+    timeout: 2000,
     nome: null,
     desc: null,
     preco: null,
     stock: null,
     imagens: null,
+    e1: null,
+    items: [
+      { categoria: "Casa de banho", valor: "2" },
+      { categoria: "Interior", valor: "3" },
+      { categoria: "Jardim", valor: "4" },
+      { categoria: "Cozinha", valor: "5" },
+      { categoria: "Casa inteligente", valor: "6" },
+      { categoria: "Mobilia", valor: "7" },
+      { categoria: "Criança", valor: "8" },
+      { categoria: "Eletrodomésticos", valor: "9" },
+      { categoria: "Iluminação", valor: "10" },
+      { categoria: "Lazer e viagem", valor: "11" },
+      { categoria: "Verão", valor: "12" },
+      { categoria: "Inverno", valor: "13" },
+    ],
     descRules: [
       (v) => !!v || "Descrição é necessaria",
       (v) =>
@@ -112,32 +162,38 @@ export default {
   }),
   methods: {
     submit() {
-      console.log(this.stock + this.nome + this.desc);
+      if (!(this.nome || this.desc || this.preco || this.stock || this.e1)) {
+        // this.snackbarErro = true;
+      } else {
+        const options = {
+          method: "POST",
+          url: "http://localhost:3342/api/create-product",
+          headers: { "Content-Type": "application/json" },
+          data: {
+            nome: this.nome,
+            preco: this.preco,
+            stock: this.stock,
+            descricao: this.desc,
+            categoriaid: this.e1,
+          },
+        };
+
+        axios
+          .request(options)
+          .then(function () {
+            // this.snackbarSucesso = true;
+          })
+          .catch(function (error) {
+            // this.snackbarErro = true;
+            console.error(error);
+          });
+      }
       //console.log(this.imagens[0]);
       //var fs = require('browserify-fs');
       //fs.writeFile('./teste.txt', "sadsad")
       //console.log('sadasd')
-
-      /*
-      const options = {
-        method: "POST",
-        url: "http://localhost:3342/api/create-product",
-        headers: { "Content-Type": "application/json" },
-        data: this.imagens,
-      };
-
-      axios
-        .request(options)
-        .then(function (response) {
-          console.log(response.data);
-        })
-        .catch(function (error) {
-          console.error(error);
-        }); */
     },
   },
-  computed: {},
-  components: {},
 };
 </script>
 

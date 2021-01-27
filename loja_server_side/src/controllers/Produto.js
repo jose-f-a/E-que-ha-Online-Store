@@ -299,11 +299,13 @@ module.exports = {
           }
         )
         .then((results) => {
-          console.log("inseriu no produto");
           console.log(results);
           produtoid = results[0][0].produtoid;
+        })
+        .catch((error) => {
+          console.log(error);
         });
-      console.log(produtoid);
+
       /** Inserir produto na categoriaproduto */
       await connection
         .query(
@@ -318,12 +320,14 @@ module.exports = {
           }
         )
         .then((results) => {
-          console.log("inseriu no categoriaproduto");
           console.log(results);
+          res.status(200).send(results);
         })
         .catch((error) => {
           console.log(error);
+          res.status(500).send(error);
         });
+
       //   /* Com o id mudar o nome das imagens recebidas e dar save na pasta certa */
       //   let data = [];
 
