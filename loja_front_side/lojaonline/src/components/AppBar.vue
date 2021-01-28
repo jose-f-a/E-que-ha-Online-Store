@@ -52,6 +52,16 @@
         <v-icon> mdi-cart-outline </v-icon>
       </v-btn>
     </div>
+     <v-snackbar
+      v-model="snackbar"
+      :timeout="timeout"
+      bottom
+      right
+      color="green"
+      elevation="15"
+    >
+      Logout com sucesso
+    </v-snackbar>
   </v-app-bar>
 </template>
 
@@ -59,6 +69,8 @@
 export default {
   data: () => ({
     query: null,
+    snackbar:false,
+    timeout:2000
   }),
   props: {},
   methods: {
@@ -71,6 +83,7 @@ export default {
     onClickLogout() {
       //Remover cookie
       localStorage.removeItem("token");
+      this.snackbar=true
       //Mudar no store
       this.$store.commit("appbar/setLogin", false);
     },
@@ -86,7 +99,7 @@ export default {
     },
     onSubmit() {
       this.$router.push("/pesquisa/" + encodeURI(this.query));
-       
+      this.$router.go()
     },
     goHome() {
       

@@ -156,6 +156,7 @@ module.exports = {
                                 varianteNova.produtoid = variantes[i].produtoid;
                                 varianteNova.nome = variantes[i].nome.split("-")[0];
                                 varianteNova.cor = variantes[i].nome.split("-")[1];
+                                varianteNova.imagens = variantes[i].imagens
                                 variantes2.push(varianteNova);
                             }
 

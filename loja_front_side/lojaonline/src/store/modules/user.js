@@ -10,11 +10,29 @@ const state = {
     paginas: null,
     loading: null,
     selectedCompra: null,
+    showPerfil: true,
+    showCompras: false,
+    snackbar: false,
+    timeout: 2000,
 };
 
 const getters = {
+    getSnackbar: (state) => {
+        return state.snackbar
+    },
+    getTimeout: (state) => {
+        return state.timeout
+    },
     getUser: (state) => {
         return state.user;
+    },
+    getShowPerfil: (state) => {
+
+        return state.showPerfil
+    },
+    getShowCompras: (state) => {
+
+        return state.showCompras
     },
     getLogin: (state) => {
         return state.login;
@@ -70,7 +88,7 @@ const actions = {
 
     loadListCompras({ commit, state }, valor) {
         commit("setLoading", true)
-
+        commit("setUser", jwt.decode(localStorage.getItem("token")))
         if (valor == 1) {
             const options = {
                 method: "POST",
@@ -119,6 +137,20 @@ const actions = {
 const mutations = {
     setUser(state, val) {
         state.user = val;
+    },
+    setSnackbar: (state, val) => {
+        state.snackbar = val
+    },
+    setTimeout: (state, val) => {
+        state.timeout = val
+    },
+    setShowPerfil: (state, val) => {
+
+        state.showPerfil = val
+    },
+    setShowCompras: (state, val) => {
+
+        state.showCompras = val
     },
     setLoading: (state, val) => {
         state.loading = val;

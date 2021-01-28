@@ -49,7 +49,7 @@
               v-for="artigo in artigos"
               v-bind:key="artigo.id"
               class="mt-2 artigo"
-              cols="4"
+              cols="3"
             >
               <artigo v-bind:artigo="artigo" > </artigo>
             </v-col>

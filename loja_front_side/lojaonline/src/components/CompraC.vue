@@ -100,17 +100,32 @@
 import ArtigoCompra from "@/components/ArtigoCompraConfirmar.vue";
 
 export default {
+  data: () => ({
+  }),
   methods: {
     clickVoltar() {
       this.$store.commit("compra/setStep", 4);
       this.$store.commit("compra/setMetodoPagamento", null);
     },
     clickFinalizar() {
+      this.snackbar=true
       this.$store.dispatch("compra/criarCompra");
       // Remove o carrinho da bd depois da compra
+      this.$store.commit("compra/setCompra",false);
       this.$store.dispatch("carrinho/removerDB");
-      this.$router.push("/");
-       
+      
+      this.$store.commit("compra/setCompra",false);
+      this.$store.dispatch("user/loadListCompras", 1);
+      this.$store.commit("user/setShowCompras", true);
+      this.$store.commit("compra/setStep",1)
+      this.$store.commit("compra/setArtigos",[])
+      this.$store.commit("compra/setMoradas",[])
+      this.$store.commit("compra/setMorada",null)
+      this.$store.commit("compra/setMetodoPagamento",null)
+      this.$store.commit("compra/setLoading",null)
+      this.$store.commit("compra/setTotal",0.0)
+      this.$store.commit("user/setShowPerfil", false);
+      this.$router.push("/perfil");
     },
   },
   computed: {

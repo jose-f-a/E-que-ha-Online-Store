@@ -1,10 +1,11 @@
 <template>
   <v-hover v-slot="{ hover }">
     <v-card
-      :ripple="false"
-      elevation="0"
+       width="250"
       tile
-      class="artigo center"
+      elevation="0"
+      :ripple="false"
+      class="artigo"
       @click="goToProduto(artigo.produtoid)"
     >
       <v-img :src="imgPath()" width="200" contain :aspect-ratio="4 / 3">
@@ -66,9 +67,13 @@ export default {
       }
     },
     imgPath2() {
-      return require("../../public/imagens/" +
-        this.artigo.produtoid +
-        "_2.webp");
+      if (this.artigo.produtoid <= 30) {
+        return require("../../public/imagens/" + this.artigo.produtoid + "_2.webp");
+      } else {
+        
+        //Coluna da bd
+        return require("../../public/imagens/" + this.artigo.imagens.split("||")[1]);
+      }
     },
     goToProduto(id) {
       this.$router.push("/produto/" + id);

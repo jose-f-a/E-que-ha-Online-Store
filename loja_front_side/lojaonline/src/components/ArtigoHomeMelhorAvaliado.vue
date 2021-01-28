@@ -45,8 +45,6 @@ export default {
   props: ["artigo"],
   methods: {
      imgPath() {
-      console.log('assssMELHORAVAssssssss')
-      console.log(this.artigo)
 
       if (this.artigo.produtoid <= 30) {
         return require("../../public/imagens/" + this.artigo.produtoid + "_1.webp");

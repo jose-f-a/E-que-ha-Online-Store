@@ -25,8 +25,10 @@ const getters = {
 };
 const actions = {
     async loadArtigos({ commit, rootState }) {
+
         //Verificar se tem login com o store da appbar
         if (rootState.appbar.login) {
+
             //se sim ir buscar a bd e guardar no store
             //Verificar se tem no localstore artigos, comprar com a bd e adicionar os que falta
             const { userid } = jwt.decode(localStorage.getItem("token"));
@@ -35,15 +37,17 @@ const actions = {
                 url: "http://localhost:3342/api/get-carrinho",
                 params: { userid: userid },
             };
-
             await axios
                 .request(options)
                 .then(async function(response) {
-                    //Colocar o que se tem no localstore e bd juntos
+                    console.log('carrinho db vazio')
+                        //Colocar o que se tem no localstore e bd juntos
                     const local = JSON.parse(localStorage.getItem("carrinho"));
                     if (response.data.produtos.length > 0) {
+
                         var artigosAdd = response.data.produtos;
                         if (local && local.length > 0) {
+
                             local.forEach((localEl) => {
                                 var notAdd = false;
                                 response.data.produtos.forEach((dbEl) => {
@@ -63,12 +67,12 @@ const actions = {
                                 url: "http://localhost:3342/api/set-carrinho",
                                 headers: { "Content-Type": "application/json" },
                                 data: {
-                                    userid: 1,
+                                    userid: userid,
                                     produtos: artigosAdd,
                                 },
                             };
 
-                            axios
+                            await axios
                                 .request(options2)
                                 .then(function(response2) {
                                     console.log(response2.data);
@@ -81,6 +85,24 @@ const actions = {
                     } else {
                         if (local) {
                             commit("setListaArtigos", local);
+                            const options2 = {
+                                method: "POST",
+                                url: "http://localhost:3342/api/set-carrinho",
+                                headers: { "Content-Type": "application/json" },
+                                data: {
+                                    userid: userid,
+                                    produtos: local,
+                                },
+                            };
+
+                            await axios
+                                .request(options2)
+                                .then(function(response2) {
+                                    console.log(response2.data);
+                                })
+                                .catch(function(error) {
+                                    console.error(error);
+                                });
                         } else {
                             commit("setListaArtigos", []);
                         }

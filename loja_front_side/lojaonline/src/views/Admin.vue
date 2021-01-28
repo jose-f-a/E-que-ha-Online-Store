@@ -121,6 +121,7 @@ export default {
   methods: {
     goHome() {
       this.$router.push("/");
+      this.$store.commit("appbar/setShowLoginDialog",false)
        
     },
     onClickLogout() {
@@ -129,6 +130,7 @@ export default {
       //Mudar no store
       this.$store.commit("admin/setLogin", false);
       this.$router.push("/");
+      this.$store.commit("appbar/setShowLoginDialog",false)
        
     },
     changeCriarProduto() {

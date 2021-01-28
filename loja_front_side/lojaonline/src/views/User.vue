@@ -69,6 +69,15 @@
         </v-row>
       </v-container>
     </v-main>
+     <v-snackbar
+      v-model="snackbar"
+      :timeout="timeout"
+      bottom
+      color="green"
+      elevation="15"
+    >
+      Compra feita com sucesso
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -79,10 +88,7 @@ import listCompraItemDialog from "../components/ListCompraItemDialog.vue";
 
 export default {
   data() {
-    return {
-      showPerfil: true,
-      showCompras: false,
-    };
+    return {};
   },
   components: {
     perfil,
@@ -92,7 +98,6 @@ export default {
   methods: {
     goHome() {
       this.$router.push("/");
-      this.$router.go();
     },
     onClickLogout() {
       //Remover cookie
@@ -100,7 +105,6 @@ export default {
       //Mudar no store
       this.$store.commit("user/setLogin", false);
       this.$router.push("/");
-      this.$router.go();
     },
     togglePerfil() {
       this.showPerfil = true;
@@ -114,7 +118,6 @@ export default {
     verifyLogin() {
       if (!this.$store.getters["user/getLogin"]) {
         this.$router.push("/");
-        this.$router.go();
       }
     },
   },
@@ -131,6 +134,38 @@ export default {
     user: {
       get() {
         return this.$store.getters["user/getUser"];
+      },
+    },
+    showPerfil: {
+      get() {
+        return this.$store.getters["user/getShowPerfil"];
+      },
+      set(val) {
+        this.$store.commit("user/setShowPerfil", val);
+      },
+    },
+    showCompras: {
+      get() {
+        return this.$store.getters["user/getShowCompras"];
+      },
+      set(val) {
+        this.$store.commit("user/setShowCompras", val);
+      },
+    },
+    snackbar: {
+      get() {
+        return this.$store.getters["user/getSnackbar"];
+      },
+      set(val) {
+        this.$store.commit("user/setSnackbar", val);
+      },
+    },
+    timeout: {
+      get() {
+        return this.$store.getters["user/getTimeout"];
+      },
+      set(val) {
+        this.$store.commit("user/setTimeout", val);
       },
     },
   },

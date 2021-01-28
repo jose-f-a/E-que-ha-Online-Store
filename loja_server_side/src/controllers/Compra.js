@@ -100,7 +100,7 @@ module.exports = {
             var compras = [];
             await connection
                 .query(
-                    "SELECT * FROM compra, utilizador WHERE compra.userid = utilizador.userid AND (compra.estadocompraid = 1 OR compra.estadocompraid = 2 OR compra.estadocompraid = 3);", {
+                    "SELECT * FROM compra, utilizador WHERE compra.userid = utilizador.userid AND (compra.estadocompraid = 1 OR compra.estadocompraid = 2 OR compra.estadocompraid = 3) ORDER BY compraid DESC;", {
                         replacements: { userid: userid },
                     }
                 )
@@ -198,7 +198,7 @@ module.exports = {
             var compras = [];
             await connection
                 .query(
-                    "SELECT * FROM compra, utilizador WHERE compra.estadocompraid = 4 AND compra.userid = utilizador.userid;", {
+                    "SELECT * FROM compra, utilizador WHERE compra.estadocompraid = 4 AND compra.userid = utilizador.userid ORDER BY compraid DESC", {
                         replacements: { userid: userid },
                     }
                 )

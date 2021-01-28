@@ -142,6 +142,15 @@
         </v-card>
       </v-container>
     </v-main>
+      <v-snackbar
+      v-model="snackbar"
+      :timeout="timeout"
+      bottom
+      color="green"
+      elevation="15"
+    >
+      Produto adicionado
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -155,6 +164,8 @@ import axios from "axios";
 
 export default {
   data: () => ({
+    timeout:2000,
+    snackbar:false,
     produtoId: null,
     nome: "",
     desc: "",
@@ -196,7 +207,7 @@ export default {
         imagens:this.imagensString
       };
       await this.$store.dispatch("carrinho/adicionarProduto", artigo);
-      alert("Adicionou");
+      this.snackbar=true
     },
     async comprarArtigo() {
       const artigo = {
@@ -215,6 +226,7 @@ export default {
       }
     },
     imgPath(id, img) {
+      console.log(img)
       if (id <= 30) {
         return require("../../public/imagens/" + id + "_1.webp");
       } else {
@@ -266,6 +278,7 @@ export default {
       await axios
         .request(options)
         .then((response) => {
+          console.log(response.data)
           this.nome = response.data.produto.nome;
           this.desc = response.data.produto.descricao;
           this.variantes = response.data.variantes;
