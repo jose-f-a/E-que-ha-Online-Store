@@ -63,7 +63,7 @@
           ></v-pagination>
         </div>
         <div v-else>
-          <div class="titulo">Não existe produtos</div>
+          <div class="titulo">Não existem produtos</div>
         </div>
          
       </v-container>

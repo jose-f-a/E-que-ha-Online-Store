@@ -15,7 +15,6 @@
               hide-delimiter-background
               cycle
               delimiter-icon="mdi-minus"
-              height="350"
             >
               <template v-slot:prev="{ on, attrs }">
                 <v-btn v-bind="attrs" v-on="on" icon>
@@ -28,11 +27,40 @@
                 </v-btn>
               </template>
 
-              <v-carousel-item
-                v-for="artigo in artigosTrending"
-                :key="artigo.id"
-              >
-                <v-img :src="imgPath(artigo.produtoid,artigo.imagens)" contain></v-img>
+              <v-carousel-item>
+                <v-img
+                  src="../../public/imagens/banner1.webp"
+                  contain
+                  @click="goToCategoria(1)"
+                ></v-img>
+              </v-carousel-item>
+              <v-carousel-item>
+                <v-img
+                  src="../../public/imagens/banner2.webp"
+                  contain
+                  @click="goToCategoria(2)"
+                ></v-img>
+              </v-carousel-item>
+              <v-carousel-item>
+                <v-img
+                  src="../../public/imagens/banner3.webp"
+                  contain
+                  @click="goToCategoria(3)"
+                ></v-img>
+              </v-carousel-item>
+              <v-carousel-item>
+                <v-img
+                  src="../../public/imagens/banner4.webp"
+                  contain
+                  @click="goToCategoria(4)"
+                ></v-img>
+              </v-carousel-item>
+              <v-carousel-item>
+                <v-img
+                  src="../../public/imagens/banner5.webp"
+                  contain
+                  @click="goToCategoria(5)"
+                ></v-img>
               </v-carousel-item>
             </v-carousel>
           </v-col>
@@ -122,12 +150,33 @@ export default {
     "artigo-home-melhor-avaliado": ArtigoHomeMelhorAvaliado,
   },
   methods: {
-   imgPath(id, img) {
+    imgPath(id, img) {
       if (id <= 30) {
         return require("../../public/imagens/" + id + "_1.webp");
       } else {
         //Coluna da bd
         return require("../../public/imagens/" + img.split("||")[0]);
+      }
+    },
+    goToCategoria(val) {
+      switch (val) {
+        case 1:
+          this.$router.push("/categoria/" + "4");
+          break;
+        case 2:
+          this.$router.push("/categoria/" + "11");
+          break;
+        case 3:
+          this.$router.push("/categoria/" + "5");
+          break;
+        case 4:
+          this.$router.push("/categoria/" + "2");
+          break;
+        case 5:
+          this.$router.push("/categoria/" + "10");
+          break;
+        default:
+          break;
       }
     },
   },

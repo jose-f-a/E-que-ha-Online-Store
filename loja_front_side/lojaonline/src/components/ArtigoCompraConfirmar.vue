@@ -1,22 +1,22 @@
 <template>
-  <v-card class="card" elevation="0" outlined>
+  <v-card class="cartao" elevation="0" outlined>
     <v-row>
-      <v-col cols="3">
+      <v-col cols="2">
         <div class="imagem">
           <v-img
             class="image"
-            width="125"
-            height="125"
+            width="100"
+            height="100"
             contain
             :aspect-ratio="4 / 3"
-            :src="imgPath(artigo.produtoid,artigo.imagens)"
+            :src="imgPath(artigo.produtoid, artigo.imagens)"
           ></v-img>
         </div>
       </v-col>
 
       <v-col cols="9">
-        <div class="produto">
-          <p class="text-body-1">{{ this.artigo.nome }}</p>
+        <div class="produto-info">
+          <p class="text-left text-body-1">{{ this.artigo.nome }}</p>
           <p class="text-left">{{ this.artigo.preco }}€</p>
         </div>
 
@@ -30,42 +30,20 @@
               {{ this.artigo.quantidade }}
             </p>
           </div>
-          <!-- <v-text-field
-            class="input-quantidadeC"
-            v-model="this.artigo.quantidade"
-            type="number"
-            label="Quantidade"
-            dense
-          ></v-text-field> -->
         </div>
       </v-col>
     </v-row>
-    <!-- <div class="produto">
-      <v-img class="image" :src="imgPath(artigo.produtoid)"></v-img>
-      <div>{{ this.artigo.nome }}</div>
-      <div>{{ this.artigo.preco }}€</div>
-    </div>
-    <div class="quantidadeC">
-      <v-text-field
-        class="input-quantidadeC"
-        v-model="this.artigo.quantidade"
-        type="number"
-        label="quantidade"
-      ></v-text-field>
-    </div> -->
   </v-card>
 </template>
 
 <script>
 export default {
   props: ["artigo"],
-  data: () => ({}),
   methods: {
-     imgPath(id, img) {
+    imgPath(id, img) {
       if (id <= 30) {
         return require("../../public/imagens/" + id + "_1.webp");
       } else {
-        
         //Coluna da bd
         return require("../../public/imagens/" + img.split("||")[0]);
       }
@@ -74,37 +52,36 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .cartao {
   margin-top: 1rem;
 }
 .imagem {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
 }
-.produto {
+.produto-info {
   display: flex;
   flex-direction: column;
+  line-height: 0.75rem;
 }
 
 .quantidadeC {
   display: flex;
   flex-direction: row;
-  align-items: center;
-  margin-top: 0;
+  align-items: baseline;
   padding: 0;
+  margin: 0;
 }
 .quantidade {
   padding-left: 0.3rem;
   margin: 0;
 }
-/* .input-quantidadeC input[type="number"] {
-  -moz-appearance: textfield;
-  min-width: 50px;
+.butoes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 2rem;
 }
-.input-quantidadeC input::-webkit-outer-spin-button,
-.input-quantidadeC input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-} */
 </style>

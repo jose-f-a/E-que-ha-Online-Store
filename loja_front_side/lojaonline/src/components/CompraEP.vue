@@ -1,6 +1,7 @@
 <template>
   <v-card clas="container" elevation="3" outlined :loading="this.loading">
     <v-card-title> Editar Artigos</v-card-title>
+
     <div class="lista">
       <v-card elevation="3">
         <div v-for="item in this.artigos" v-bind:key="item.produtoid">

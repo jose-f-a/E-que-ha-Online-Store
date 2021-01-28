@@ -1,15 +1,15 @@
 <template>
-  <v-card class="cartao" elevation="0">
+  <v-card class="cartao" elevation="0" outlined>
     <v-row>
       <v-col cols="2">
         <div class="imagem">
           <v-img
             class="image"
-            width="70"
-            height="70"
+            width="100"
+            height="100"
             contain
             :aspect-ratio="4 / 3"
-            :src="imgPath(artigo.produtoid,artigo.imagens)"
+            :src="imgPath(artigo.produtoid, artigo.imagens)"
           ></v-img>
         </div>
       </v-col>
@@ -30,14 +30,6 @@
               {{ this.artigo.quantidade }}
             </p>
           </div>
-          <!-- <v-text-field
-            class="input-quantidadeC"
-            v-model="this.artigo.quantidade"
-            type="number"
-            label="Quantidade"
-            dense
-            disabled
-          ></v-text-field> -->
 
           <div class="butoes">
             <v-btn
@@ -64,51 +56,6 @@
         </div>
       </v-col>
     </v-row>
-
-    <!-- <div class="imagem">
-      <v-img
-        class="image"
-        contain
-        width="75"
-        :aspect-ratio="4 / 3"
-        :src="imgPath(artigo.produtoid)"
-      ></v-img>
-    </div>
-
-    <div class="produto">
-      <p class="text-body-1">{{ this.artigo.nome }}</p>
-      <p class="text-left">{{ this.artigo.preco }}€</p>
-    </div>
-
-    <div class="quantidadeC">
-      <v-text-field
-        class="input-quantidadeC"
-        v-model="this.artigo.quantidade"
-        type="number"
-        label="Quantidade"
-      ></v-text-field>
-
-      <v-btn
-        @click="this.menosQuantidade"
-        class="mx-1"
-        fab
-        dark
-        x-small
-        color="primary"
-      >
-        <v-icon x-small dark> mdi-minus </v-icon>
-      </v-btn>
-      <v-btn
-        @click="this.maisQuantidade"
-        class="mx-1"
-        fab
-        dark
-        x-small
-        color="primary"
-      >
-        <v-icon x-small dark> mdi-plus </v-icon>
-      </v-btn>
-    </div> -->
   </v-card>
 </template>
 
@@ -131,11 +78,10 @@ export default {
       //Vai ao store editar o artigo em questao
       //this.quantidade = this.quantidade - 1;
     },
-     imgPath(id, img) {
+    imgPath(id, img) {
       if (id <= 30) {
         return require("../../public/imagens/" + id + "_1.webp");
       } else {
-        
         //Coluna da bd
         return require("../../public/imagens/" + img.split("||")[0]);
       }
@@ -151,7 +97,8 @@ export default {
 .imagem {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
+  justify-items: center;
 }
 .produto-info {
   display: flex;
