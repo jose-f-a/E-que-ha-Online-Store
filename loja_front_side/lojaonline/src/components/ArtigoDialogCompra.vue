@@ -1,19 +1,22 @@
 <template>
   <v-card class="card-principal" elevation="2" outlined>
     <div class="produto">
-      <v-img class="image" :src="imgPath(artigo.produtoid,artigo.imagens)"></v-img>
+      <v-img class="image" 
+        height="50"
+        contain 
+        :src="imgPath(artigo.produtoid,artigo.imagens)">
+      </v-img>
+      
       <div class="produto-txt">
-        <div>
-          {{ this.artigo.nome }}
-        </div>
-        <div>{{ this.artigo.preco }} €/uni</div>
-
-        <div class="quantidadeC">Qtd: {{ this.artigo.quantidade }}</div>
+        <p class="text-subtitle-2 texto">{{ this.artigo.nome }}</p>
+        <p class="text-subtitle-2 texto">{{ this.artigo.preco }}€</p>
       </div>
     </div>
+
     <div v-if="this.step == 4 && this.showAnalise">
       <div class="analise">
-        Avalie o artigo
+        <p class="text-h6 text-left">Avalie o artigo</p>
+
         <div class="rating">
           <v-rating
             v-model="ratingValue"
@@ -24,9 +27,10 @@
             length="5"
             size="15"
           ></v-rating>
-          ({{ this.ratingValue }})
+          <p class="text-subtitle-2">({{ this.ratingValue }})</p>
         </div>
-        <div>
+
+        <div class="comentario">
           <v-textarea
             v-model="desc"
             rows="2"
@@ -36,24 +40,46 @@
             label="Comentario"
           ></v-textarea>
         </div>
+
         <div @click="this.sendReview">
-          <v-btn>
-            <v-icon> mdi-check-outline </v-icon>
-          </v-btn>
+          <v-btn color="blue darken-1" depressed block> Avaliar </v-btn>
         </div>
       </div>
     </div>
+    <v-snackbar
+      v-model="snackbarErro"
+      :timeout="timeout"
+      bottom
+      color="red"
+      elevation="15"
+    >
+      Preencha todos os campos para avaliar o produto {{ this.artigo.nome }}.
+    </v-snackbar>
+    <v-snackbar
+      v-model="snackbarSucesso"
+      :timeout="timeout"
+      bottom
+      color="green"
+      elevation="15"
+    >
+      Avaliação feita. Obrigado pela sua opinião!
+    </v-snackbar>
   </v-card>
 </template>
+
 <script>
 import axios from "axios";
+
 export default {
   props: ["artigo", "step"],
 
   data: () => ({
     ratingValue: 0,
-    showAnalise:true,
+    showAnalise: true,
     desc: null,
+    snackbarErro: false,
+    snackbarSucesso: false,
+    timeout: 2000,
   }),
   methods: {
      imgPath(id, img) {
@@ -67,8 +93,7 @@ export default {
     },
     sendReview() {
       if (this.desc && this.ratingValue > 0) {
-
-        const user = this.$store.getters["user/getUser"].name
+        const user = this.$store.getters["user/getUser"].name;
 
         const options = {
           method: "POST",
@@ -83,20 +108,15 @@ export default {
         };
         axios
           .request(options)
-          .then(response => {
-           
-            this.showAnalise=false
-            console.log(response)
-            //Meter aqui um snack
-            
-
+          .then(() => {
+            this.showAnalise = false;
+            this.snackbarSucesso = true;
           })
           .catch(function (error) {
             console.error(error);
           });
       } else {
-        //Por aqui o snack a bar a dizer que tem de selecionar as cenas
-        alert('dasd')
+        this.snackbarErro = true;
       }
     },
   },
@@ -112,9 +132,11 @@ export default {
   flex-direction: row;
   align-items: center;
 }
-.produto {
-  display: flex;
-  flex-direction: row;
+.produto-txt {
+  margin-top: 1rem;
+}
+.texto {
+  line-height: 0.5rem;
 }
 .produto-txt {
   display: flex;
@@ -139,5 +161,9 @@ export default {
 .rating {
   display: flex;
   flex-direction: row;
+  align-items: baseline;
+}
+.comentario {
+  padding-left: 8px;
 }
 </style>

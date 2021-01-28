@@ -8,39 +8,42 @@
   >
     <v-card :loading="this.loading">
       <v-card-title>As suas encomendas</v-card-title>
+
       <div v-for="compra in listaComprasVisiveis" v-bind:key="compra.compraid">
         <ListComprasItem v-bind:compra="compra"></ListComprasItem>
       </div>
+
       <div class="text-center">
-    <v-pagination
-      v-model="page"
-      :length="paginas" circle class="my-4"
-      :total-visible="7"
-    ></v-pagination>
-  </div>
+        <v-pagination
+          v-model="page"
+          :length="paginas"
+          circle
+          class="my-4"
+          :total-visible="7"
+        ></v-pagination>
+      </div>
     </v-card>
   </v-sheet>
 </template>
+
 <script>
 import ListComprasItem from "./ListComprasItem";
 
 export default {
-  data () {
-      return {
-        page: 1,
-        name: "Compra",
-      }
-    },
+  data() {
+    return {
+      page: 1,
+      name: "Compra",
+    };
+  },
   components: {
     ListComprasItem,
   },
-  methods:{
-    
-  },
-  watch:{
-    page:function(){
-      this.$store.commit("user/setComprasVisiveis",this.page)
-    }
+  methods: {},
+  watch: {
+    page: function () {
+      this.$store.commit("user/setComprasVisiveis", this.page);
+    },
   },
   computed: {
     user: {
@@ -53,25 +56,22 @@ export default {
         return this.$store.getters["user/getComprasVisiveis"];
       },
     },
-    loading:{
-      get(){
-        return this.$store.getters["user/getLoading"]
+    loading: {
+      get() {
+        return this.$store.getters["user/getLoading"];
       },
-      set(val){
-        return this.$store.commit("user/setLoading",val)
-      }
+      set(val) {
+        return this.$store.commit("user/setLoading", val);
+      },
     },
-    paginas:{
-        get(){
-           return this.$store.getters["user/getPaginas"];
-        }
-    }
+    paginas: {
+      get() {
+        return this.$store.getters["user/getPaginas"];
+      },
+    },
   },
 };
 </script>
 
 <style scoped>
-.lista {
-  padding: 25px;
-}
 </style>
