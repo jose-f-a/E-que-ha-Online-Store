@@ -60,6 +60,20 @@ export default {
       cutoutPercentage: 80,
       maintainAspectRatio: false,
     },
+    backgroundColors: [
+      "rgba(244, 208, 111, 0.65)",
+      "rgba(34, 124, 157, 0.65)",
+      "rgba(217, 240, 255, 0.65)",
+      "rgba(196, 166, 157, 0.65)",
+      "rgba(152, 168, 134, 0.65)",
+    ],
+    borderColors: [
+      "rgba(244, 208, 111, 1)",
+      "rgba(34, 124, 157, 1)",
+      "rgba(217, 240, 255, 1)",
+      "rgba(196, 166, 157, 1)",
+      "rgba(152, 168, 134, 1)",
+    ],
   }),
   components: {
     LineChart,
@@ -131,7 +145,8 @@ export default {
             {
               label: "Compras",
               borderWidth: 1,
-              borderColor: "blue",
+              borderColor: this.borderColors,
+              backgroundColor: this.backgroundColors,
               data: data,
             },
           ],
@@ -204,8 +219,10 @@ export default {
         var label = [];
         var data = [];
 
+        console.log(response.data);
+
         for (var categoria in response.data) {
-          label.push(response.data[0].nome);
+          label.push(response.data[categoria].nome);
           data.push(
             parseFloat(parseFloat(response.data[categoria].total).toFixed(2))
           );
@@ -217,7 +234,8 @@ export default {
             {
               label: "Total",
               borderWidth: 1,
-              borderColor: "blue",
+              borderColor: this.borderColors,
+              backgroundColor: this.backgroundColors,
               data: data,
             },
           ],

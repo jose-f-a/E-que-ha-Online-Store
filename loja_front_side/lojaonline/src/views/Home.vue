@@ -164,7 +164,7 @@ export default {
           this.$router.push("/categoria/" + "4");
           break;
         case 2:
-          this.$router.push("/categoria/" + "11");
+          this.$router.push("/categoria/" + "10");
           break;
         case 3:
           this.$router.push("/categoria/" + "5");
@@ -173,7 +173,7 @@ export default {
           this.$router.push("/categoria/" + "2");
           break;
         case 5:
-          this.$router.push("/categoria/" + "10");
+          this.$router.push("/categoria/" + "9");
           break;
         default:
           break;

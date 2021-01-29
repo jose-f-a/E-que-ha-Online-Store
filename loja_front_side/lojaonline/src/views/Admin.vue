@@ -10,29 +10,6 @@
           class="logo"
         ></v-img>
 
-        <!-- <v-list-group v-model="menuProduto" prepend-icon="mdi-cart-outline">
-          <template v-slot:activator>
-            <v-list-item-title>Produtos</v-list-item-title>
-          </template>
-          <v-list-item @click="this.changeCriarProduto">
-            <v-list-item-icon>
-              <v-icon>mdi-plus</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Criar</v-list-item-title>
-          </v-list-item>
-          <v-list-item @click="toggleCompras('2')">
-            <v-list-item-icon>
-              <v-icon>mdi-pencil</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Editar</v-list-item-title>
-          </v-list-item>
-        </v-list-group> -->
-
-        <!-- <v-btn text @click="changeDashboard"> Dashboard </v-btn>
-        <v-btn text> Compras </v-btn>
-        <v-btn text> Pagamentos </v-btn>
-        <v-btn text> Finanças </v-btn> -->
-
         <v-spacer></v-spacer>
 
         <v-btn text @click="onClickLogout"> Logout </v-btn>
@@ -121,8 +98,7 @@ export default {
   methods: {
     goHome() {
       this.$router.push("/");
-      this.$store.commit("appbar/setShowLoginDialog",false)
-       
+      this.$store.commit("appbar/setShowLoginDialog", false);
     },
     onClickLogout() {
       //Remover cookie
@@ -130,8 +106,7 @@ export default {
       //Mudar no store
       this.$store.commit("admin/setLogin", false);
       this.$router.push("/");
-      this.$store.commit("appbar/setShowLoginDialog",false)
-       
+      this.$store.commit("appbar/setShowLoginDialog", false);
     },
     changeCriarProduto() {
       this.criarProduto = !this.criarProduto;
@@ -149,7 +124,6 @@ export default {
 
     if (!this.$store.getters["admin/getLogin"]) {
       this.$router.push("/");
-       
     }
   },
 };

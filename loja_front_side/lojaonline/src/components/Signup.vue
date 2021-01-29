@@ -119,14 +119,21 @@ export default {
 
   methods: {
     closeDialog() {
+      this.nome = "";
+      this.contacto = "";
+      this.email = "";
+      this.password = "";
       this.$store.commit("appbar/changeShowSignupDialog");
     },
     signup() {
-      console.log(this.password);
-
-      if (this.nome || this.contacto || this.email || this.password == null) {
+      if (
+        this.nome == null ||
+        this.contacto == null ||
+        this.email == null ||
+        this.password == null ||
+        this.password.length < 8
+      ) {
         this.snackbar = true;
-        return;
       } else {
         const options = {
           method: "POST",
@@ -139,15 +146,10 @@ export default {
             password: this.password,
           },
         };
-
         axios
           .request(options)
-          .then((response) => {
-            if (response.status == 200) {
-              this.closeDialog();
-            } else {
-              this.snackbar = true;
-            }
+          .then(() => {
+            this.closeDialog();
           })
           .catch(function (error) {
             this.snackbar = true;
