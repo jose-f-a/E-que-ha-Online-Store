@@ -13,32 +13,30 @@
         </v-list-item-content>
       </v-list-item>
 
-      <v-list-item-group >
-        
-          <v-list-item @change="go(2)"> Casa de banho </v-list-item>
-        
-          <v-list-item @change="go(3)">Interior</v-list-item>
-  
-          <v-list-item @change="go(4)"> Jardim </v-list-item>
-  
-          <v-list-item @change="go(5)"> Cozinha </v-list-item>
-   
-          <v-list-item @change="go(6)"> Casa inteligente </v-list-item>
-  
-          <v-list-item @change="go(7)"> Mobilia </v-list-item>
+      <v-list-item-group>
+        <v-list-item @change="go(2)"> Casa de banho </v-list-item>
 
-          <v-list-item @change="go(8)"> Criança </v-list-item>
-    
-          <v-list-item @change="go(10)"> Eletrodomésticos </v-list-item>
-   
-          <v-list-item @change="go(11)"> Iluminação </v-list-item>
-     
-          <v-list-item @change="go(12)"> Lazer e viagem </v-list-item>
-            
-          <v-list-item @change="go(13)"> Verão </v-list-item>
-       
-          <v-list-item @change="go(14)"> Inverno </v-list-item>
-       
+        <v-list-item @change="go(3)">Interior</v-list-item>
+
+        <v-list-item @change="go(4)"> Jardim </v-list-item>
+
+        <v-list-item @change="go(5)"> Cozinha </v-list-item>
+
+        <v-list-item @change="go(6)"> Casa inteligente </v-list-item>
+
+        <v-list-item @change="go(7)"> Mobilia </v-list-item>
+
+        <v-list-item @change="go(8)"> Criança </v-list-item>
+
+        <v-list-item @change="go(9)"> Eletrodomésticos </v-list-item>
+
+        <v-list-item @change="go(10)"> Iluminação </v-list-item>
+
+        <v-list-item @change="go(11)"> Lazer e viagem </v-list-item>
+
+        <!-- <v-list-item @change="go(12)"> Verão </v-list-item>
+
+        <v-list-item @change="go(13)"> Inverno </v-list-item> -->
       </v-list-item-group>
     </v-list>
   </v-navigation-drawer>

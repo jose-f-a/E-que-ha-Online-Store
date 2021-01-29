@@ -7,51 +7,53 @@
       <v-container class="container">
         <login> </login>
         <signup></signup>
-        <div v-if="id==2">
+
+        <div v-if="id == 2">
           <div class="titulo">Categoria Casa de Banho</div>
         </div>
-        <div v-if="id==3">
+        <div v-if="id == 3">
           <div class="titulo">Categoria Interior</div>
         </div>
-        <div v-if="id==4">
+        <div v-if="id == 4">
           <div class="titulo">Categoria Jardim</div>
         </div>
-        <div v-if="id==5">
-         <div class="titulo">Categoria Cozinha</div>
+        <div v-if="id == 5">
+          <div class="titulo">Categoria Cozinha</div>
         </div>
-        <div v-if="id==6">
-         <div class="titulo">Categoria Casa Inteligente</div>
+        <div v-if="id == 6">
+          <div class="titulo">Categoria Casa Inteligente</div>
         </div>
-        <div v-if="id==7">
+        <div v-if="id == 7">
           <div class="titulo">Categoria Mobilia</div>
         </div>
-        <div v-if="id==8">
+        <div v-if="id == 8">
           <div class="titulo">Categoria Criança</div>
         </div>
-        <div v-if="id==10">
+        <div v-if="id == 9">
           <div class="titulo">Categoria Eletrodomesticos</div>
         </div>
-        <div v-if="id==11">
+        <div v-if="id == 10">
           <div class="titulo">Categoria Iluminação</div>
         </div>
-        <div v-if="id==12">
+        <div v-if="id == 11">
           <div class="titulo">Categoria Lazer e Viagem</div>
         </div>
-        <div v-if="id==13">
+        <!-- <div v-if="id == 12">
           <div class="titulo">Categoria Verão</div>
         </div>
-        <div v-if="id==14">
+        <div v-if="id == 13">
           <div class="titulo">Categoria Inverno</div>
-        </div>
-        <div v-if="artigos.length>0">
-           <v-row class="lista-artigos">
+        </div> -->
+
+        <div v-if="artigos.length > 0">
+          <v-row class="lista-artigos">
             <v-col
               v-for="artigo in artigos"
               v-bind:key="artigo.id"
               class="mt-2 artigo"
               cols="3"
             >
-              <artigo v-bind:artigo="artigo" > </artigo>
+              <artigo v-bind:artigo="artigo"> </artigo>
             </v-col>
           </v-row>
           <v-pagination
@@ -65,7 +67,6 @@
         <div v-else>
           <div class="titulo">Não existem produtos</div>
         </div>
-         
       </v-container>
     </v-main>
   </v-app>
