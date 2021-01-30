@@ -15,6 +15,7 @@
               hide-delimiter-background
               cycle
               delimiter-icon="mdi-minus"
+              class="carroco"
             >
               <template v-slot:prev="{ on, attrs }">
                 <v-btn v-bind="attrs" v-on="on" icon>
@@ -211,6 +212,9 @@ export default {
 </script>
 
 <style scoped>
+.carroco {
+  cursor: pointer;
+}
 .titulos {
   margin-top: 10rem;
   margin-left: 6rem;
