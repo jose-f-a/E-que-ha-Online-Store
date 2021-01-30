@@ -158,11 +158,12 @@ const mutations = {
     var position = 0;
     var elRemove = -1;
     state.total = 0;
+
     state.artigos.forEach((artigo) => {
       if (artigo.produtoid == id) {
         artigo.quantidade = artigo.quantidade - 1;
-        //se a quantidade for 0 remove do carrinho
 
+        //se a quantidade for 0 remove do carrinho
         if (artigo.quantidade == 0) {
           elRemove = position;
         }

@@ -15,7 +15,6 @@ module.exports = {
       .then((results) => {
         if (results[0].length != 0) {
           //Return json with jwt token
-
           if (results[0][0].isadmin) {
             console.log("Admin");
             return res.status(200).json({

@@ -69,7 +69,7 @@
         </v-row>
       </v-container>
     </v-main>
-     <v-snackbar
+    <v-snackbar
       v-model="snackbar"
       :timeout="timeout"
       bottom
@@ -123,8 +123,7 @@ export default {
   },
   created: async function () {
     await this.$store.dispatch("user/verifySession");
-    console.log("logins");
-    console.log(this.$store.getters["user/getLogin"]);
+
     if (!this.$store.getters["user/getLogin"]) {
       this.$router.push("/");
       this.$router.go();

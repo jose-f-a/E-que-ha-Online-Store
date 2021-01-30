@@ -56,7 +56,7 @@
                     class="variante-item"
                     @click="clickVariavel(item.produtoid)"
                   >
-                    <v-img :src="imgPath(item.produtoid,item.imagens)"></v-img>
+                    <v-img :src="imgPath(item.produtoid, item.imagens)"></v-img>
                     <div>{{ item.cor }}</div>
                   </div>
                 </v-col>
@@ -142,7 +142,7 @@
         </v-card>
       </v-container>
     </v-main>
-      <v-snackbar
+    <v-snackbar
       v-model="snackbar"
       :timeout="timeout"
       bottom
@@ -164,8 +164,8 @@ import axios from "axios";
 
 export default {
   data: () => ({
-    timeout:2000,
-    snackbar:false,
+    timeout: 2000,
+    snackbar: false,
     produtoId: null,
     nome: "",
     desc: "",
@@ -197,17 +197,16 @@ export default {
       this.$router.go();
     },
     async adicionarCarrinho() {
-      
-      console.log(this.imagensString)
+      console.log(this.imagensString);
       const artigo = {
         produtoid: this.produtoId,
         quantidade: this.quantidade,
         preco: this.preco,
         nome: this.nome,
-        imagens:this.imagensString
+        imagens: this.imagensString,
       };
       await this.$store.dispatch("carrinho/adicionarProduto", artigo);
-      this.snackbar=true
+      this.snackbar = true;
     },
     async comprarArtigo() {
       const artigo = {
@@ -215,7 +214,7 @@ export default {
         quantidade: this.quantidade,
         preco: this.preco,
         nome: this.nome,
-        imagens:this.imagensString
+        imagens: this.imagensString,
       };
       await this.$store.dispatch("carrinho/adicionarProduto", artigo);
 
@@ -226,7 +225,7 @@ export default {
       }
     },
     imgPath(id, img) {
-      console.log(img)
+      console.log(img);
       if (id <= 30) {
         return require("../../public/imagens/" + id + "_1.webp");
       } else {
@@ -259,10 +258,8 @@ export default {
         var img = this.imagensString.split("||");
         for (i = 0; i < img.length; i++) {
           try {
-            require("../../public/imagens/" +img[i]);
-            this.imagens.push(
-              require("../../public/imagens/" +img[i])
-            );
+            require("../../public/imagens/" + img[i]);
+            this.imagens.push(require("../../public/imagens/" + img[i]));
           } catch (e) {
             console.log(e);
           }
@@ -278,7 +275,6 @@ export default {
       await axios
         .request(options)
         .then((response) => {
-          console.log(response.data)
           this.nome = response.data.produto.nome;
           this.desc = response.data.produto.descricao;
           this.variantes = response.data.variantes;
@@ -316,11 +312,8 @@ export default {
     carrinho: Carrinho,
   },
   created: async function () {
-    console.log('criou')
     this.produtoId = this.$route.params.id;
-    console.log('criou')
     await this.getDadosDB();
-    console.log('criou')
     this.setImagensProduto();
   },
 };

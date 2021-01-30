@@ -30,6 +30,7 @@
     </v-form>
 
     <v-spacer></v-spacer>
+
     <div v-if="isLogin">
       <v-btn depressed @click="this.clickConta">
         <v-icon> mdi-account </v-icon>
@@ -52,7 +53,8 @@
         <v-icon> mdi-cart-outline </v-icon>
       </v-btn>
     </div>
-     <v-snackbar
+
+    <v-snackbar
       v-model="snackbar"
       :timeout="timeout"
       bottom
@@ -69,10 +71,9 @@
 export default {
   data: () => ({
     query: null,
-    snackbar:false,
-    timeout:2000
+    snackbar: false,
+    timeout: 2000,
   }),
-  props: {},
   methods: {
     clickConta() {
       this.$router.push("/perfil");
@@ -83,7 +84,7 @@ export default {
     onClickLogout() {
       //Remover cookie
       localStorage.removeItem("token");
-      this.snackbar=true
+      this.snackbar = true;
       //Mudar no store
       this.$store.commit("appbar/setLogin", false);
     },
@@ -99,13 +100,11 @@ export default {
     },
     onSubmit() {
       this.$router.push("/pesquisa/" + encodeURI(this.query));
-      this.$router.go()
+      this.$router.go();
     },
     goHome() {
-      
-      this.$store.commit("compra/setCompra",false);
+      this.$store.commit("compra/setCompra", false);
       this.$router.push("/");
-       
     },
   },
   computed: {

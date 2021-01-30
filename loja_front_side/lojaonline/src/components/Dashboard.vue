@@ -82,11 +82,7 @@ export default {
     bar: BarChart,
     pieChart: PieChart,
   },
-  methods: {
-    // getRandomInt() {
-    //   return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
-    // },
-  },
+  methods: {},
   created: function () {
     /** Grafico 1- Ultimas 5 reviews */
     const options = {
@@ -159,6 +155,7 @@ export default {
       });
 
     /** Grafico 3- Compras no ultimo mes */
+    /** Obter o ultimo mes */
     var x = new Date();
     x.setDate(1);
     x.setMonth(x.getMonth() - 1);

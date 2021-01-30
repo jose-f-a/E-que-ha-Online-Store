@@ -87,7 +87,6 @@ export default {
   watch: {
     compra: function () {
       this.step = this.compra.compra.estadoCompra;
-      console.log("Altera compra dialog");
       this.listProduto = this.compra.produtos;
     },
   },
@@ -114,6 +113,7 @@ export default {
     for (var i in this.compra.produtos) {
       total = total + parseFloat(this.compra.produtos[i].preco);
     }
+
     this.total = total;
     this.data =
       this.compra.compra.criadaem.split("T")[0] +

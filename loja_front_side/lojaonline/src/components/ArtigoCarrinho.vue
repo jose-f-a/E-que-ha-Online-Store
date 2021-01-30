@@ -8,9 +8,10 @@
           width="75"
           height="75"
           :aspect-ratio="4 / 3"
-          :src="imgPath(artigo.produtoid,artigo.imagens)"
+          :src="imgPath(artigo.produtoid, artigo.imagens)"
         ></v-img>
       </v-col>
+
       <v-col>
         <div class="produto-info">
           <p class="text-left text-body-1">{{ this.artigo.nome }}</p>
@@ -27,13 +28,6 @@
               {{ this.artigo.quantidade }}
             </p>
           </div>
-
-          <!-- <v-text-field
-            class="input-quantidadeC"
-            v-model="this.artigo.quantidade"
-            type="number"
-            label="quantidade"
-          ></v-text-field> -->
 
           <div class="butoes">
             <v-btn
@@ -71,22 +65,19 @@ export default {
   data: () => ({}),
   methods: {
     maisQuantidade() {
+      //Vai ao store editar o artigo em questao
       const id = this.artigo.produtoid;
       this.$store.dispatch("carrinho/alterarMaisArtigo", id);
-      //Vai ao store editar o artigo em questao
-      //this.quantidade = this.quantidade + 1;
     },
     menosQuantidade() {
+      //Vai ao store editar o artigo em questao
       const id = this.artigo.produtoid;
       this.$store.dispatch("carrinho/alterarMenosArtigo", id);
-      //Vai ao store editar o artigo em questao
-      //this.quantidade = this.quantidade - 1;
     },
     imgPath(id, img) {
       if (id <= 30) {
         return require("../../public/imagens/" + id + "_1.webp");
       } else {
-        
         //Coluna da bd
         return require("../../public/imagens/" + img.split("||")[0]);
       }
@@ -96,8 +87,6 @@ export default {
 </script>
 
 <style>
-.cartao {
-}
 .produto-info {
   display: flex;
   flex-direction: column;
@@ -107,13 +96,6 @@ export default {
   display: flex;
   flex-direction: row;
 }
-/* .input-quantidadeC input[type="number"] {
-  -moz-appearance: textfield;
-}
-.input-quantidadeC input::-webkit-outer-spin-button,
-.input-quantidadeC input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-} */
 .butoes {
   display: flex;
   align-items: center;

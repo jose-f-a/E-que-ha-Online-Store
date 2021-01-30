@@ -71,6 +71,7 @@
     </v-main>
   </v-app>
 </template>
+
 <script>
 import AppBar from "@/components/AppBar.vue";
 import Login from "@/components/Login.vue";
@@ -123,8 +124,6 @@ export default {
 </script>
 
 <style scoped>
-.titulo {
-}
 .container {
   text-align: left;
 }

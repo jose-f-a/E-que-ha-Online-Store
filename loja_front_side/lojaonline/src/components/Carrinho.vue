@@ -1,7 +1,6 @@
 <template>
   <v-navigation-drawer v-model="isOpen" width="30rem" fixed temporary right>
     <div class="carrinho-top">
-      <!-- <v-icon @click="">mdi-arrow-collapse-right</v-icon> -->
       <p class="text-left text-h5">Carrinho</p>
       <v-spacer></v-spacer>
       <v-icon @click="removerCarrinho" class="icon-lixo">
@@ -76,7 +75,6 @@ export default {
     comprarArtigo() {
       if (this.$store.getters["appbar/getLogin"]) {
         this.$router.push("/compra");
-         
       } else {
         this.$store.commit("appbar/setShowLoginDialog", true);
       }

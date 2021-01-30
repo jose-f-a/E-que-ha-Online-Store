@@ -1,12 +1,14 @@
 <template>
   <v-card class="card-principal" elevation="2" outlined>
     <div class="produto">
-      <v-img class="image" 
+      <v-img
+        class="image"
         height="50"
-        contain 
-        :src="imgPath(artigo.produtoid,artigo.imagens)">
+        contain
+        :src="imgPath(artigo.produtoid, artigo.imagens)"
+      >
       </v-img>
-      
+
       <div class="produto-txt">
         <p class="text-subtitle-2 texto">{{ this.artigo.nome }}</p>
         <p class="text-subtitle-2 texto">{{ this.artigo.preco }}€</p>
@@ -46,6 +48,7 @@
         </div>
       </div>
     </div>
+
     <v-snackbar
       v-model="snackbarErro"
       :timeout="timeout"
@@ -82,11 +85,10 @@ export default {
     timeout: 2000,
   }),
   methods: {
-     imgPath(id, img) {
+    imgPath(id, img) {
       if (id <= 30) {
         return require("../../public/imagens/" + id + "_1.webp");
       } else {
-        
         //Coluna da bd
         return require("../../public/imagens/" + img.split("||")[0]);
       }
@@ -120,7 +122,6 @@ export default {
       }
     },
   },
-  components: {},
 };
 </script>
 

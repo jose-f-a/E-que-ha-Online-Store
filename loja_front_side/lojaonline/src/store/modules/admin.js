@@ -6,7 +6,6 @@ const state = {
 };
 
 const getters = {
-  // getAll: (state) => state.data
   getAll: (state) => {
     return [
       state.openMenuLateral,
@@ -39,7 +38,6 @@ const actions = {
         .request(options)
         .then((response) => {
           if (response.data.isadmin) {
-            console.log("pos log");
             commit("setLogin", true);
             //commit('setShowLoginDialog', false)
           }

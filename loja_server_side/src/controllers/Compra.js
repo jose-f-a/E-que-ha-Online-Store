@@ -10,17 +10,16 @@ module.exports = {
     var compraid;
     var total = 0;
 
-    console.log(moradaid);
-    /*  ESTADOS DE COMPRA
-              1-Pedido Recebido -> inicial
-              2-Produtos Embalados
-              3-Produtos Enviados
-              4-Produtos Entregues
-            */
+    /* ESTADOS DE COMPRA
+        1-Pedido Recebido -> inicial
+        2-Produtos Embalados
+        3-Produtos Enviados
+        4-Produtos Entregues
+    */
 
-    /*  ESTADO TRANSAÇÃO
-              1-Confirmada
-            */
+    /* ESTADO TRANSAÇÃO
+        1-Confirmada
+    */
 
     /*  Criar transação */
     await connection
@@ -79,9 +78,6 @@ module.exports = {
           });
       })
     );
-
-    //return res.json({ total: total })
-    console.log(total);
 
     /*  Update compra com o total */
     await connection
@@ -164,26 +160,6 @@ module.exports = {
             };
           });
 
-        /*
-                await connection
-                    .query(
-                        "SELECT * FROM transacao,metodopagameto,estadotransacao WHERE transacao.transacaoid = :transacaoid and transacao.metopagamentoid = metodopagamento.metodopagamentoid and transacao.estadotransacaoid = estadotransacao.estadotransacaoid;", {
-                            replacements: { transacaoid: compras[compra].transacaoid },
-                        }
-                    )
-                    .then((results) => {
-                        console.log(results[0])
-                        json_pagamento = {
-                            moradaid: results[0][0].moradaid,
-                            rua: results[0][0].rua,
-                            cidade: results[0][0].cidade,
-                            codigo_postal: results[0][0].codigo_postal,
-                            pais: results[0][0].pais,
-                            descricao: results[0][0].des
-                        }
-                    }) 
-                */
-
         json_compra = {
           compraid: compras[compra].compraid,
           criadaem: compras[compra].criadaem,
@@ -197,12 +173,12 @@ module.exports = {
 
         comprasFinais.push(json_final);
       }
-
       return res.json(comprasFinais);
     } catch (error) {
       console.log(error);
     }
   },
+
   async getFinishedCompras(req, res) {
     try {
       const { userid } = req.body;
@@ -267,26 +243,6 @@ module.exports = {
             };
           });
 
-        /*
-                await connection
-                    .query(
-                        "SELECT * FROM transacao,metodopagameto,estadotransacao WHERE transacao.transacaoid = :transacaoid and transacao.metopagamentoid = metodopagamento.metodopagamentoid and transacao.estadotransacaoid = estadotransacao.estadotransacaoid;", {
-                            replacements: { transacaoid: compras[compra].transacaoid },
-                        }
-                    )
-                    .then((results) => {
-                        console.log(results[0])
-                        json_pagamento = {
-                            moradaid: results[0][0].moradaid,
-                            rua: results[0][0].rua,
-                            cidade: results[0][0].cidade,
-                            codigo_postal: results[0][0].codigo_postal,
-                            pais: results[0][0].pais,
-                            descricao: results[0][0].des
-                        }
-                }) 
-                */
-
         json_compra = {
           compraid: compras[compra].compraid,
           criadaem: compras[compra].criadaem,
@@ -300,12 +256,12 @@ module.exports = {
 
         comprasFinais.push(json_final);
       }
-      console.log(comprasFinais);
       return res.json(comprasFinais);
     } catch (error) {
       console.log(error);
     }
   },
+
   async getLastCompras(req, res) {
     await connection
       .query("select * from compra order by compraid desc LIMIT 5;")
@@ -313,6 +269,7 @@ module.exports = {
         return res.json(results[0]);
       });
   },
+
   async getComprasLastCompras(req, res) {
     const { initDate } = req.body;
     try {
@@ -334,6 +291,7 @@ module.exports = {
       console.log(error);
     }
   },
+
   async getComprasPorCategoria(req, res) {
     try {
       await connection

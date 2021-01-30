@@ -33,30 +33,31 @@ export default {
   methods: {
     imgPath() {
       if (this.artigo.produtoid <= 30) {
-        return require("../../public/imagens/" + this.artigo.produtoid + "_1.webp");
+        return require("../../public/imagens/" +
+          this.artigo.produtoid +
+          "_1.webp");
       } else {
-        
         //Coluna da bd
-        return require("../../public/imagens/" + this.artigo.imagens.split("||")[0]);
+        return require("../../public/imagens/" +
+          this.artigo.imagens.split("||")[0]);
       }
     },
     imgPath2() {
       if (this.artigo.produtoid <= 30) {
-        return require("../../public/imagens/" + this.artigo.produtoid + "_2.webp");
+        return require("../../public/imagens/" +
+          this.artigo.produtoid +
+          "_2.webp");
       } else {
-        
         //Coluna da bd
-        return require("../../public/imagens/" + this.artigo.imagens.split("||")[1]);
+        return require("../../public/imagens/" +
+          this.artigo.imagens.split("||")[1]);
       }
     },
     goToProduto(id) {
       this.$router.push("/produto/" + id);
-       
     },
   },
-  data: () => ({
-    //
-  }),
+  data: () => ({}),
 };
 </script>
 

@@ -109,18 +109,12 @@ export default {
   },
   created: async function () {
     await this.$store.dispatch("appbar/verifySession");
-    
-
-    // if (!this.$store.getters["appbar/getLogin"]) {
-    //   this.$router.push("/");
-    //   this.$router.go();
-    // }
   },
-  mounted: async function(){
+  mounted: async function () {
     await this.$store.dispatch("appbar/verifySession");
-    this.$store.commit("compra/setArtigos",[])
+    this.$store.commit("compra/setArtigos", []);
     this.$store.dispatch("compra/getArtigosDoCarrinho");
-  }
+  },
 };
 </script>
 

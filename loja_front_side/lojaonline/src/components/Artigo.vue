@@ -1,7 +1,7 @@
 <template>
   <v-hover v-slot="{ hover }">
     <v-card
-       width="250"
+      width="250"
       tile
       elevation="0"
       :ripple="false"
@@ -58,26 +58,29 @@ export default {
   props: ["artigo"],
   methods: {
     imgPath() {
-       if (this.artigo.produtoid <= 30) {
-        return require("../../public/imagens/" + this.artigo.produtoid + "_1.webp");
+      if (this.artigo.produtoid <= 30) {
+        return require("../../public/imagens/" +
+          this.artigo.produtoid +
+          "_1.webp");
       } else {
         //Coluna da bd
-        
-        return require("../../public/imagens/" + this.artigo.imagens.split("||")[0]);
+        return require("../../public/imagens/" +
+          this.artigo.imagens.split("||")[0]);
       }
     },
     imgPath2() {
       if (this.artigo.produtoid <= 30) {
-        return require("../../public/imagens/" + this.artigo.produtoid + "_2.webp");
+        return require("../../public/imagens/" +
+          this.artigo.produtoid +
+          "_2.webp");
       } else {
-        
         //Coluna da bd
-        return require("../../public/imagens/" + this.artigo.imagens.split("||")[1]);
+        return require("../../public/imagens/" +
+          this.artigo.imagens.split("||")[1]);
       }
     },
     goToProduto(id) {
       this.$router.push("/produto/" + id);
-       
     },
   },
   data: () => ({}),

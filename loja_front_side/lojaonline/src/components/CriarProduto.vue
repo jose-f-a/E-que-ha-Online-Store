@@ -151,8 +151,6 @@ export default {
       { categoria: "Eletrodomésticos", valor: "9" },
       { categoria: "Iluminação", valor: "10" },
       { categoria: "Lazer e viagem", valor: "11" },
-      { categoria: "Verão", valor: "12" },
-      { categoria: "Inverno", valor: "13" },
     ],
     descRules: [
       (v) => !!v || "Descrição é necessaria",
@@ -197,7 +195,6 @@ export default {
             console.error(error);
           });
       }
-      //console.log('sadasd')
     },
   },
 };

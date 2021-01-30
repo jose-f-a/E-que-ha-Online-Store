@@ -62,21 +62,17 @@
 <script>
 export default {
   props: ["artigo"],
-  data: () => ({
-    // total: 0.0
-  }),
+  data: () => ({}),
   methods: {
     maisQuantidade() {
       const id = this.artigo.produtoid;
       //Vai ao store editar o artigo em questao
-      //this.quantidade = this.quantidade + 1;
       this.$store.commit("compra/setMaisQuantidade", id);
     },
     menosQuantidade() {
+      //Vai ao store editar o artigo em questao
       const id = this.artigo.produtoid;
       this.$store.commit("compra/setMenosQuantidade", id);
-      //Vai ao store editar o artigo em questao
-      //this.quantidade = this.quantidade - 1;
     },
     imgPath(id, img) {
       if (id <= 30) {
@@ -117,13 +113,6 @@ export default {
   padding-left: 0.3rem;
   margin: 0;
 }
-/* .input-quantidadeC input[type="number"] {
-  -moz-appearance: textfield;
-}
-.input-quantidadeC input::-webkit-outer-spin-button,
-.input-quantidadeC input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-} */
 .butoes {
   display: flex;
   align-items: center;

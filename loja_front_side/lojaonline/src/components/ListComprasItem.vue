@@ -54,13 +54,11 @@ export default {
   watch: {
     compra: function () {
       var total = 0;
-      console.log("Dentro do item");
-      console.log(this.compra.compra.compraid);
 
       for (var i in this.compra.produtos) {
         total = total + parseFloat(this.compra.produtos[i].preco);
       }
-      console.log(Math.ceil(total));
+
       this.total = Math.ceil(total);
       this.data =
         this.compra.compra.criadaem.split("T")[0] +
@@ -70,13 +68,11 @@ export default {
   },
   created: function () {
     var total = 0;
-    console.log("Dentro do item");
-    console.log(this.compra.compra.compraid);
 
     for (var i in this.compra.produtos) {
       total = total + parseFloat(this.compra.produtos[i].preco);
     }
-    console.log(Math.ceil(total));
+
     this.total = Math.ceil(total);
     this.data =
       this.compra.compra.criadaem.split("T")[0] +
