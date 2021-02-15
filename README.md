@@ -19,4 +19,4 @@ Há dois intervinientes no sistema:
 - Expressjs
 - Sequelize
 - JSON Web Token
-- BD em PostgreSQL
+- PostgreSQL
